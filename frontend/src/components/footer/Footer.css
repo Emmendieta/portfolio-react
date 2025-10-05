@@ -1,0 +1,43 @@
+#ftDivLine {
+    height: 5%;
+    width: 75%;
+    border-top: 1px solid rgba(0, 0, 0, 0.411);
+    margin: 0 auto 20px auto;
+}
+
+#ftDivTop {
+    height: 25%;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 15px;
+    margin-bottom: 2px;
+}
+
+#ftDivMiddle {
+    height: 55%;
+    display: flex;
+    justify-content: space-between;
+    margin: 2px 15px;
+}
+
+#ftDivBottom {
+    height: 15%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+#btnProfile, #btnUsers {
+    margin: 0 4px; 
+}
+
+#btnLogin, #btnSignOut {
+    margin-left: 4px;
+}
+
+#copyRights {
+    display: flex;
+    font-size: medium;
+    text-align: center;
+}

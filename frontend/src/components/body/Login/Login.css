@@ -1,0 +1,38 @@
+#logDivBody {
+    display: flex;
+    flex-direction: column;
+    width: 65%;
+    margin: 10%;
+}
+
+#logDivTop,
+#logFormDivBtns {
+    display: flex;
+    justify-content: center;
+}
+
+#logForm {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 5%;
+}
+
+.logFmDiv {
+    color: aliceblue;
+}
+
+#btnGoBack,
+#btnLoginForm {
+    margin: 0 5px 10px 5px;
+}
+
+#inputEmailLogin,
+#inputPasswordLogin {
+    text-align: center;
+}
+
+#inputEmailLogin:hover,
+#inputPasswordLogin:hover {
+    transition: 1.5s;
+    box-shadow: rgb(85, 85, 85) 5px 5px 5px 5px;
+}

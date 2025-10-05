@@ -1,0 +1,39 @@
+* {
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+html, body, #root {
+    height: 100%;
+    margin: 0;
+    color: whitesmoke;
+}
+
+.layout {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+#layoutHeader {
+    height: 80px;
+    width: 100%;
+    background-color:  rgba(33, 37, 41);
+}
+#layoutMain {
+    display: flex;
+    justify-content: center
+    ;
+    flex: 1;
+    overflow-y: auto;
+    background-color: rgba(33, 37, 41);
+}
+
+#layoutFooter {
+    height: 160px;
+    display: flex;
+    flex-direction: column;
+}
