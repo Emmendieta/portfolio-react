@@ -1,0 +1,63 @@
+#updateSection {
+    display: flex;
+    flex-direction: column;
+    width: 65%;
+    margin: 0 auto;
+}
+
+#divUpdateData {
+    width: 100%;
+    margin: 20px;
+    border: 1px;
+    border-radius: 10px;
+    transition: box-shadow 1.5s;
+}
+
+#divUpdateData:hover {
+    margin: 20px;
+    transition: 1.5s;
+    box-shadow: rgb(85, 85, 85) 5px 5px 5px 5px;
+}
+
+#formUpdateData {
+    width: 100%;
+    margin: 15px;
+}
+
+#updateDataformBody {
+    width: 100%;
+    margin: 15px;
+}
+
+.updateDataDivDiv {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.updateDataDivDiv label {
+    width: 150px;
+}
+
+.updateDataDivDiv input {
+    flex: 1;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    margin-right: 45px;
+    text-align: center;
+}
+
+#updateDataformBottom {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#btnGoBack,
+#btnUpdateUserData {
+    margin: 0;
+}
