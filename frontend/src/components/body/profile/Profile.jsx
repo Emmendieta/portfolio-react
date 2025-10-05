@@ -2,36 +2,38 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../context/UserContext";
 import { fetchUserPopulated } from "./logicProfile";
 import './Profile.css';
+import { Link, useLocation } from "react-router-dom";
 
 function Profile() {
-    const [userProfile, setUserProfile] = useState(null);
     const { user } = useContext(UserContext);
-
+    const [userProfile, setUserProfile] = useState(null);
+    const location = useLocation();
+    const updatedPerson = location.state?.updatedPerson;
 
     useEffect(() => {
         const loadUserProfile = async () => {
-            if(!user?._id) {
-                //SWEET ALERT
-                alert("Error getting the Id from the user!");
-                return;
-            };
-            const uid = user._id;
-            const userPopulated = await fetchUserPopulated(uid);
-            setUserProfile(userPopulated?.response);
+            if (user?._id) {
+                const uid = user._id;
+                const userPopulated = await fetchUserPopulated(uid);
+                setUserProfile({
+                    ...userPopulated?.response, 
+                    person: updatedPerson?.response || userPopulated?.response?.person
+                });
+            }
         };
-        loadUserProfile();
-    }, [user]);
+    loadUserProfile();
+}, [user, updatedPerson]);
 
     //Ver de cambiar:
-    if(!userProfile) return <p>Loading profile...</p>
+    if (!userProfile) return <p>Loading profile...</p>
 
-    const {_id, user: username, email, person } = userProfile;
+    const { _id, user: username, email, person } = userProfile;
 
     return (
         <div id="divProfile">
             {/* USER SECTION */}
             <div id="profileDiv">
-                <section id="profileDivSectTop"> 
+                <section id="profileDivSectTop">
                     <h2 id="profileDivH2Title">Profile Data:</h2>
                 </section>
                 <section id="profileDivSectMiddle">
@@ -52,21 +54,21 @@ function Profile() {
                     <h2 id="profileDivH2Title">Personal Data:</h2>
                 </section>
                 <section id="profileDivDivSectMiddle">
-                    <ProfileField label="First Name: " value={person?.firstName} />
-                    <ProfileField label="Last Name: " value={person?.lastName} />
-                    <ProfileField label="DNI: " value={person?.dni} />
-                    <ProfileField label="CUIL: " value={person?.cuil} />
-                    <ProfileField label="Birthday: " value={person?.birthday?.slice(0,10)} />
-                    <ProfileField label="Job Title: " value={person?.jobTitle} />
-                    <ProfileField label="City: " value={person?.city} />
-                    <ProfileField label="Province: " value={person?.province} />
-                    <ProfileField label="Country: " value={person?.country} />
-                    <ProfileField label="About: " value={person?.about} />
-                    <ProfileField label="Images: " value={(person?.thumbnails || []).join(", ")} />                    
+                    <ProfileField label="First Name: " value={person ? person.firstName : "-"} />
+                    <ProfileField label="Last Name: " value={person ? person.lastName : "-"} />
+                    <ProfileField label="DNI: " value={person ? person.dni : "-"} />
+                    <ProfileField label="CUIL: " value={person ? person.cuil : "-"} />
+                    <ProfileField label="Birthday: " value={person ? person.birthday?.slice(0, 10) : "-"} />
+                    <ProfileField label="Job Title: " value={person ? person.jobTitles : "-"} />
+                    <ProfileField label="City: " value={person ? person.city : "-"} />
+                    <ProfileField label="Province: " value={person ? person.province : "-"} />
+                    <ProfileField label="Country: " value={person ? person.country : "-"} />
+                    <ProfileField label="About: " value={person ? person.about : "-"} />
+                    <ProfileField label="Images: " value={person && person.thumbnails? person.thumbnails.join(", ") : "-"} />
                 </section>
                 <section id="profileDivSectBottom">
                     <div className="profileDivDivBottom">
-                        <a className="btn btn-outline-success" id="btnUpdatePersonData" href="/update-person">Update Person Data</a>
+                        <Link className="btn btn-outline-success" id="btnUpdatePersonData" to="/update-person" state={{ person }}>Update Person Data</Link>
                     </div>
                 </section>
             </div>

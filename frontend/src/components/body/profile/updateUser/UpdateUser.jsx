@@ -58,7 +58,7 @@ function UpdateUser(/* { user, updateUserData } */) {
                     <div id="updateDataformBody">
                         <div className="updateDataDivDiv">
                             <label className="updateDataDivh3">Id: </label>
-                            <input type="text" value={user._id} disabled={true} onChange={(e) => setUpdatedUserName(e.target.value)} />
+                            <input type="text" value={user._id} disabled={true} /* onChange={(e) => setUpdatedUserName(e.target.value)} */ />
                         </div>
                         <div className="updateDataDivDiv">
                             <label className="updateDataDivh3">User Name: </label>
