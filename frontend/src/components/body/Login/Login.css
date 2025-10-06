@@ -53,7 +53,7 @@
 }
 
 #loginDiv:hover {
-        transition: 1.5s;
+    transition: 1.5s;
     box-shadow: rgb(85, 85, 85) 5px 5px 5px 5px;
 }
 

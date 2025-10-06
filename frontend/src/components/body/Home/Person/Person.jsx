@@ -1,69 +1,105 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../../context/UserContext";
 import { useLocation } from "react-router-dom";
-import { fetchUserPopulated } from "../../profile/logicProfile";
+import { fetchPerson } from "./Person";
+import { Link } from "react-router-dom";
+import { FaPen } from "react-icons/fa";
+import "./Person.css";
 
 function Person() {
     const { user } = useContext(UserContext);
-    const [userProfile, setUserProfile] = useState(null);
-    const [loading, setLoading] = useState(true); // Estado para manejar la carga de datos
+    const [person, setPerson] = useState(null);
+    const [loading, setLoading] = useState(true);
     const location = useLocation();
 
     useEffect(() => {
-        const loadUserProfile = async () => {
-            if (user?._id) {
-                setLoading(true); //Seteo Loading antes de hacer el fetch
-                try {
-                    const uid = user._id;
-                    const userPopulated = await fetchUserPopulated(uid);
-                    const person = await userPopulated.response.person;
-                    setUserProfile(person);
-                } catch (error) {
-                    //LOOGER:
-                    console.error("Error loading personal data :", error);
-                    //SWEET ALERT:
-                    alert("Error loading personal data: ", error);
-                } finally {
-                    setLoading(false); //Al finaliza, set Loading en false
-                }
+        const loadPerson = async () => {
+            const response = await fetchPerson();
+            if (response?.error) {
+                //SWEET ALERT:
+                alert(response.error.message);
+                setLoading(false);
+                return;
             };
+            const peopleArray = response.response;
+
+            if (!peopleArray || !Array.isArray(peopleArray) || peopleArray.length === 0) {
+                //LOGGER
+                console.error("No person data found!");
+                //SWEET ALERT
+                alert("No person data found!");
+                setLoading(false);
+                return;
+            }
+
+            setPerson(peopleArray[0]);
+            setLoading(false);
         };
-        loadUserProfile();
-    }, [user]);
+
+        loadPerson();
+    }, []);
 
     //VER DE CAMBIAR:
-    if (!userProfile) return <p>Loading personal information...</p>
-
-    if (!userProfile) return <p>No personal information available.</p>;
+    if (loading) return <p>Loading...</p>;
+    if (!person) return <p>No person data available.</p>;
 
     return (
         <div id="divPerson">
             <div id="divPersonTitle">
                 <h3>Personal information:</h3>
+                {user?.role === "admin" && (
+                    <div className="editionControlsPerson">
+                        <Link
+                            to={`/person/edit/${person._id}`}
+                            className="btn btn-outline-primary btn-sm"
+                            id="btnPersonEdit"
+                        >
+                            <FaPen id="faPenPersonEdit" />
+                        </Link>
+                    </div>
+                )}
             </div>
-            <div className="card cardPerson" id="divCard">
-                <div>
-                    <img src={userProfile.thumbnails?.[0] || "/img/imagen-no-disponible.png"}
-                        alt={userProfile._id}
-                        className="personImage"
-                        onError={(event) => event.currentTarget.src = "/img/imagen-no-disponible.png"}
+
+            <div className="personWrapper">
+                <div id="bannerContainer">
+                    <img
+                        src={person.bannerUrl || "/img/imagen-no-disponible.png"}
+                        alt="Banner"
+                        className="bannerImage"
                     />
                 </div>
-                <div className="card-body">
-                    <ProfileField label="First Name: " value={userProfile ? userProfile.firstName : "-"} />
-                    <ProfileField label="Last Name: " value={userProfile ? userProfile.lastName : "-" } />
-                    <ProfileField label="Birthday: " value={userProfile ? userProfile.birthday : "-"} />
-                    <ProfileField label="Job Titles: " value={userProfile ? userProfile.jobTitles: "-"} />
-                    <ProfileField label="Province: " value={userProfile ? userProfile.province: "-"} />
-                    <ProfileField label="Country: " value={userProfile ? userProfile.country: "-"} />
-                    <ProfileField label="About Me: " value={userProfile ? userProfile.about: "-"} />
+
+                <img
+                    src={person.thumbnails?.[0] || "/img/imagen-no-disponible.png"}
+                    alt={person._id}
+                    className="profileImage"
+                    onError={(e) => {
+                        e.currentTarget.src = "/img/imagen-no-disponible.png";
+                    }}
+                />
+
+                <div className="card cardPerson" id="divCard">
+                    <div className="card-body" id="cardBodyPerson">
+                        <div id="cardBodyPersonal">
+                            <ProfileField label="First Name: " value={person.firstName} />
+                            <ProfileField label="Last Name: " value={person.lastName} />
+                            <ProfileField label="Birthday: " value={person.birthday.slice(0, 10)} />
+                            <ProfileField label="Job Titles: " value={person.jobTitles} />
+                            <ProfileField label="Province: " value={person.province} />
+                            <ProfileField label="Country: " value={person.country} />
+                        </div>
+                        <div id="cardBodyAbout">
+                            <h3 className="profileDivH3">About Me: </h3>
+                            <h3 className="profileDivH3">{person.about || "-"}</h3>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    )
+    );
 };
 
-//VER SI LO DEJO EN LA LOGICA:
+//VER SI ESTO LO DEJO COMO GENERAL:
 function ProfileField({ label, value }) {
     return (
         <div className="profileDivDiv">
@@ -71,6 +107,6 @@ function ProfileField({ label, value }) {
             <h3 className="profileDivH3">{value || "-"}</h3>
         </div>
     );
-};
+}
 
 export default Person;
