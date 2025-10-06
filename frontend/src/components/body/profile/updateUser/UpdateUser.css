@@ -1,3 +1,73 @@
+#updateSection {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+#updateSectDiv {
+    width: 45%;
+    border: 1px;
+    border-radius: 10px;
+    transition: box-shadow 1.5s;
+    padding: 15px;
+}
+
+#updateSectDiv:hover {
+    margin: 20px;
+    transition: 1.5s;
+    box-shadow: rgb(85, 85, 85) 5px 5px 5px 5px;
+}
+
+#updateDataDivH2Title {
+    font-size: xx-large;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.updateDataDivDiv {
+    width: 100%;
+    display:  flex;
+    flex-direction: row;
+    align-items: baseline;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.updateDataDivh3 {
+    flex: 1;
+    text-align: center;
+}
+
+.updateDataDivDiv input {
+    flex: 2;
+    text-align: center;
+        border-radius: 15px;
+}
+
+.updateDataDivDivP {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.updateDataDivDivP p {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+#updateDataformBottom {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 25px;
+    margin-bottom: 10px;
+
+}
 /* #updateSection {
     display: flex;
     flex-direction: column;

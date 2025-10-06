@@ -1,31 +1,31 @@
-/* #divProfile {
+#divProfile {
     display: flex;
-    flex-direction: row;
     justify-content: space-evenly;
+    align-items: center;
 }
 
-#profileDivSectTop {
+#profileDiv {
     display: flex;
-    justify-content: center;
-}
+    flex-direction: column;
+    height: 100%;
+    min-height: 35vh;
+    border-radius: 8px;
+    margin-top: 15px;
+    padding: 10px 10px 0 10px;
+    border-left: 1px solid rgba(0, 0, 0, 0.411);
+    border-right: 1px solid rgba(0, 0, 0, 0.411);
+    transition: box-shadow 1.5s;
+} 
 
-#profileDivH2Title {
-    padding-top: 15px;
-}
-
-.profileDivH3 {
-    margin-left: 10px;
-    white-space: pre-wrap; 
-}
-
-#profileDiv,
 #profileDivPerson {
     transition: box-shadow 1.5s;
     margin: 15px;
     border: 1px;
+    padding: 10px;
     border-radius: 10px;
     border-left: 1px solid rgba(0, 0, 0, 0.411);
-    padding-bottom: 15px; 
+    border-right: 1px solid rgba(0, 0, 0, 0.411);
+    padding-bottom: 15px;
 }
 
 #profileDiv:hover,
@@ -34,15 +34,26 @@
     box-shadow: rgb(85, 85, 85) 5px 5px 5px 5px;
 }
 
-.profileDivDiv {
-    display: flex;
-    margin: 15px;
+#profileDivSectTop {
+    text-align: center;
 }
 
-.profileDivDivBottom {
+#profileDivH2Title {
+    font-size: xx-large;
+}
+
+.profileDivDiv {
+    display: flex;
+}
+
+.profileDivH3 {
+    padding: 7.5px 5px;
+    font-size: large;
+}
+
+#profileDivSectBottom {
+    margin-top: 20px;
     display: flex;
     justify-content: flex-end;
-    margin-right: 15px;
-    margin-bottom: 15px;
+    
 }
- */

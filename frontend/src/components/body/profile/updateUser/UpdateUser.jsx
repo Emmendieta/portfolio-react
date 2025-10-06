@@ -50,45 +50,49 @@ function UpdateUser(/* { user, updateUserData } */) {
 
     return (
         <div id="updateSection">
-            <div id="updateDataDivSectTop">
-                <h2 id="updateDataDivH2Title">Update User Data:</h2>
-            </div>
-            <div id="divUpdateData">
-                <form onSubmit={handleSubmit} id="formUpdateData">
-                    <div id="updateDataformBody">
-                        <div className="updateDataDivDiv">
-                            <label className="updateDataDivh3">Id: </label>
-                            <input type="text" value={user._id} disabled={true} /* onChange={(e) => setUpdatedUserName(e.target.value)} */ />
+            <div id="updateSectDiv">
+                <div id="updateDataDivSectTop">
+                    <h2 id="updateDataDivH2Title">Update User Data:</h2>
+                </div>
+                <div id="divUpdateData">
+                    <form onSubmit={handleSubmit} id="formUpdateData">
+                        <div id="updateDataformBody">
+                            <div className="updateDataDivDiv">
+                                <label className="updateDataDivh3">Id: </label>
+                                <input type="text" value={user._id} disabled={true} /* onChange={(e) => setUpdatedUserName(e.target.value)} */ />
+                            </div>
+                            <div className="updateDataDivDiv">
+                                <label className="updateDataDivh3">User Name: </label>
+                                <input type="text" value={updateUserName} disabled={true} onChange={(e) => setUpdatedUserName(e.target.value)} />
+                            </div>
+                            <div className="updateDataDivDiv">
+                                <label className="updateDataDivh3">Email: </label>
+                                <input type="email" value={updateEmail} disabled={true} onChange={(e) => setUpdatedEmail(e.target.value)} />
+                            </div>
+                            <div className="updateDataDivDiv">
+                                <label className="updateDataDivh3">Password: </label>
+                                <input type="password" value={updatePassword} onChange={(e) => setUpdatedPassword(e.target.value)} />
+                            </div>
+                            <div className="updateDataDivDiv">
+                                <label className="updateDataDivh3">Confirm Password: </label>
+                                <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                            </div>
+                            <div className="updateDataDivDivP">
+                                {updatePassword && confirmPassword && updatePassword !== confirmPassword && (
+                                    <p style={{ color: 'red' }}>Passwords do not match</p>
+                                )}
+                            </div>
+                            <div className="updateDataDivDiv">
+                                <label className="updateDataDivh3">Role: </label>
+                                <input type="text" value={updateRole} onChange={(e) => setUpdatedRole(e.target.value)} />
+                            </div>
                         </div>
-                        <div className="updateDataDivDiv">
-                            <label className="updateDataDivh3">User Name: </label>
-                            <input type="text" value={updateUserName} disabled={true} onChange={(e) => setUpdatedUserName(e.target.value)} />
+                        <div id="updateDataformBottom">
+                            <a className="btn btn-outline-success" type="submit" id="btnGoBack" href="/profile">Go Back</a>
+                            <button type="submit" disabled={updatePassword !== confirmPassword} className="btn btn-outline-success" id="btnUpdateUserData">Update User Data</button>
                         </div>
-                        <div className="updateDataDivDiv">
-                            <label className="updateDataDivh3">Email: </label>
-                            <input type="email" value={updateEmail} disabled={true} onChange={(e) => setUpdatedEmail(e.target.value)} />
-                        </div>
-                        <div className="updateDataDivDiv">
-                            <label className="updateDataDivh3">Password: </label>
-                            <input type="password" value={updatePassword} onChange={(e) => setUpdatedPassword(e.target.value)} />
-                        </div>
-                        <div className="updateDataDivDiv">
-                            <label className="updateDataDivh3">Confirm Password: </label>
-                            <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-                            {updatePassword && confirmPassword && updatePassword !== confirmPassword && (
-                                <p style={{ color: 'red' }}>Passwords do not match</p>
-                            )}
-                        </div>
-                        <div  className="updateDataDivDiv">
-                            <label className="updateDataDivh3">Role: </label>
-                            <input type="text" value={updateRole} onChange={(e) => setUpdatedRole(e.target.value)} />
-                        </div>
-                    </div>
-                    <div id="updateDataformBottom">
-                        <a className="btn btn-outline-success" type="submit" id="btnGoBack" href="/profile">Go Back</a>
-                        <button type="submit" disabled={updatePassword !== confirmPassword} className="btn btn-outline-success" id="btnUpdateUserData">Update User Data</button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     );
