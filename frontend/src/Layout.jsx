@@ -5,10 +5,11 @@ import Footer from "./components/footer/Footer";
 
 function Layout() {
     return (
-            <div className="layout">
-                <header id="layoutHeader">
-                    <Header />
-                </header>
+        <div className="layout">
+            <header id="layoutHeader">
+                <Header />
+            </header>
+            <div id="layoutScrollArea">
                 <main id="layoutMain">
                     <Outlet /> {/* Aquí se va a renderizar el contenido del Body según la ruta */}
                 </main>
@@ -16,6 +17,8 @@ function Layout() {
                     <Footer />
                 </footer>
             </div>
+
+        </div>
     );
 };
 

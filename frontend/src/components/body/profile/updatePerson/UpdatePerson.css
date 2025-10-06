@@ -1,11 +1,11 @@
 #updateSection {
-    display: flex;
-    flex-direction: column;
-    min-height: 70vh;
+    height: 100%;
     width: 100%;
+    display: flex;
     justify-content: center;
     align-items: center;
-    padding: 15px;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 #updateSectDiv {
@@ -17,9 +17,8 @@
 }
 
 #updateSectDiv:hover {
-    margin: 20px;
-    transition: 1.5s;
     box-shadow: rgb(85, 85, 85) 5px 5px 5px 5px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 #updateDataDivH2Title {
@@ -58,6 +57,7 @@
 .updateDataDivDivP p {
     text-align: center;
     margin: 0;
+    padding: 0;
 }
 
 #updateDataformBottom {
@@ -65,5 +65,4 @@
     justify-content: space-around;
     margin-top: 25px;
     margin-bottom: 10px;
-
 }
