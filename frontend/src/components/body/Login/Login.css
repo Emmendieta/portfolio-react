@@ -36,3 +36,38 @@
     transition: 1.5s;
     box-shadow: rgb(85, 85, 85) 5px 5px 5px 5px;
 } */
+
+#logDivBody {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+}
+
+#loginDiv {
+    margin: 25px 45px;
+    padding: 35px 25px;
+    border-radius: 15px;
+    transition: 1.5s;
+}
+
+#loginDiv:hover {
+        transition: 1.5s;
+    box-shadow: rgb(85, 85, 85) 5px 5px 5px 5px;
+}
+
+#logDivTop {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.form-control {
+    text-align: center;
+}
+
+#logFormDivBtns {
+    display: flex;
+    justify-content: space-evenly;
+}
