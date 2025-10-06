@@ -10,12 +10,12 @@ export const fetchEducations = async () => {
             console.error("Error in fetchEducations or no data recibed!");
             //SWEET ALERT:
             alert("Error in fechEducations or no data recibed!");
-        }
+        };
 
         return data;
     } catch (error) {
         //LOGGER:
-        console.error("Error fetching person:", error.message);
+        console.error("Error fetching educations:", error.message);
         return { error: { message: error.message } };
     }
 };
@@ -27,7 +27,7 @@ export const fetchDeleteEducation = async (eid) => {
         return response;
     } catch (error) {
         //LOGGER:
-        console.error("Error deleting contact:", error.message);
+        console.error("Error deleting education:", error.message);
         return { error: { message: error.message } };
     }
 }
