@@ -5,11 +5,11 @@ import { handleUpdatePerson } from "./logicUpdatePerson";
 import "../updateUser//UpdateUser.css";
 
 function UpdatePerson() {
-    const { user, setUser } = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const location = useLocation();
     const { person } = location.state || {};
 
-    const [personId, setPersonId] = useState(person?._id || "");
+    const [personId] = useState(person?._id || "");
     const [updateFirstName, setFirstName] = useState(person?.firstName || "");
     const [updateLastName, setLastName] = useState(person?.lastName || "");
     const [updateDNI, setDNI] = useState(person?.dni || "");
@@ -73,7 +73,7 @@ function UpdatePerson() {
             <div id="updateDataDivSectTop">
                 <h2 id="updateDataDivH2Title">Update Personal Data:</h2>
             </div>
-            <div id="diUpdateData">
+            <div id="divUpdateData">
                 <form onSubmit={handleSubmit} id="formUpdateData">
                     <div id="updateDataFormBody">
                         <div className="updateDataDivDiv">
@@ -125,7 +125,7 @@ function UpdatePerson() {
                             <input type="" />
                         </div>                       
                     </div>
-                    <div id="updateDataFormBottom">
+                    <div id="updateDataformBottom">
                         <a className="btn btn-outline-success"  type="submit" id="btnGoBack" href="/profile">Go Back</a>
                         <button type="submit" className="btn btn-outline-success" id="btnUpdatePersonalData">Update Personal Data</button>
                     </div>

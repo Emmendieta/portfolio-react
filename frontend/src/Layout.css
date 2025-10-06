@@ -1,4 +1,4 @@
-* {
+/* * {
     box-sizing: border-box;
     text-decoration: none;
     list-style: none;
@@ -36,4 +36,34 @@ html, body, #root {
     height: 160px;
     display: flex;
     flex-direction: column;
+} */
+
+.layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    color: whitesmoke;
+}
+
+#layoutHeader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: 80px;
+}
+
+#layoutMain {
+    flex-grow: 1;
+    padding: 1rem;
+    background-color: rgba(33, 37, 41);
+}
+
+#layoutFooter {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    padding: 1rem;
+    background-color: rgba(33, 37, 41);
 }

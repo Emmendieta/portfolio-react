@@ -1,48 +1,76 @@
 #navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    margin-left: 15px;
+    margin-right: 15px;
 }
 
-.container-fluid {
+#containerFuild {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbarLeft, .navbarCenter {
+    margin: 10px 10px 10px 15px;
+    align-items: center;
+}
+.navbarRight {
+    margin: 10px 0 10px 10px;
+}
+
+.navbarCenter {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+#btnProfile, #btnUsers, #btnSignout {
+    margin-left: 5px;
+}
+
+#btnProfile, #btnUsers {
+    margin-right: 5px;
+}
+/* .container-fluid {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     height: 60px;
 }
-
-.navbarLeft,
+ */
+/* .navbarLeft,
 .navbarCenter,
 .navbarRight {
     flex: 1;
-    /* margin: 5px 10px 5px 10px; */
     display: flex;
     align-items: center;
-}
+} */
 
-.navbarLeft {
+/* .navbarLeft {
     justify-content: flex-start;
     align-items: center;
-}
+} */
 
-.navbarCenter {
+/* .navbarCenter {
     justify-content: center;
     align-items: center;
-}
+} */
 
-.navbarRight {
+/* .navbarRight {
     justify-content: flex-end;
     align-items: center;
-}
+} */
 
-#hdDivLine {
+/* #hdDivLine {
     width: 75%;
     border-top: 1px solid rgba(0, 0, 0, 0.411);
     margin: 0 auto 20px auto;
-}
+} */
 
-#btnProfile, #btnUsers, #btnSignout {
+/* #btnProfile, #btnUsers, #btnSignout {
     margin-left: 5px;
     margin-left: 5px;
-}
+}  */

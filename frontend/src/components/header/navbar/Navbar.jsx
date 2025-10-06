@@ -26,7 +26,7 @@ function Navbar() {
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark" id="navbar">
-            <div className="container-fluid">
+            <div className="container-fluid" id="containerFuild">
                 <div className="navbarLeft">
                     <HomeIcon />
                 </div>

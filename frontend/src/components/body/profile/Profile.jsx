@@ -19,7 +19,7 @@ function Profile() {
                     ...userPopulated?.response, 
                     person: updatedPerson?.response || userPopulated?.response?.person
                 });
-            }
+            };
         };
     loadUserProfile();
 }, [user, updatedPerson]);

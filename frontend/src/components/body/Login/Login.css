@@ -1,4 +1,4 @@
-#logDivBody {
+/* #logDivBody {
     display: flex;
     flex-direction: column;
     width: 65%;
@@ -35,4 +35,4 @@
 #inputPasswordLogin:hover {
     transition: 1.5s;
     box-shadow: rgb(85, 85, 85) 5px 5px 5px 5px;
-}
+} */
