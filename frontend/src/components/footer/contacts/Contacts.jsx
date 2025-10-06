@@ -57,7 +57,7 @@ function Contacts() {
                     </a>
 
                     {user?.role === "admin" && (
-                        <div className="editionControls">
+                        <div className="editionControlsContacts">
                             <Link to={`/social-medias/edit/${contact._id}`} id="contactEdit" className="btn btn-outline-primary btn-sm" >
                                 <FaPen />
                             </Link>

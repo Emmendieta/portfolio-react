@@ -42,3 +42,54 @@
     text-align: center;
 }
  */
+
+#ftDivLine {
+    height: 5%;
+    width: 75%;
+    border-top: 1px solid rgba(0, 0, 0, 0.411);
+    margin: 0 auto 5px auto;
+}
+
+#ftDivTop {
+    display: flex;
+    justify-content: flex-end;
+    margin: 5px 0 5px;
+}
+
+#ftDivMiddle {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#ftDivMiddle > section {
+    flex: 1
+}
+
+#secContacts {
+    display: flex;
+    flex-direction: column;
+}
+
+#secSignature {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#secSocialMedias {
+    display:  flex;
+    justify-content: flex-end;
+}
+
+#ftDivBottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#ftDivBottom > h1 {
+    font-size: medium;
+    margin: 10px;
+}

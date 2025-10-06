@@ -61,3 +61,44 @@ h5 {
     height: 30px;
     border-radius: 50%;
 } */
+
+#contactList {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+#contactList > li {
+    display: flex;
+    flex-direction: row;
+    margin: 3.5px 0 3.5px 0;
+}
+
+#contactList > li > a {
+    text-decoration: none;
+    text-align: center;
+}
+
+
+.editionControlsContacts {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.socialMediaIcon {
+    margin: 0 2.5px 0 0;
+}
+
+#contactEdit, #contactDelete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin: 0 3px 0 3px;
+}
+

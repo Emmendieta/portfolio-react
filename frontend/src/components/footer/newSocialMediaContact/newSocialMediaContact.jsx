@@ -12,7 +12,7 @@ function NewSocialMediaContact() {
 
     return (
         <Link to="/social-medias/create" className="btn btn-outline-success iconABMPlus-sm" id="addBtnSocialMedia">
-            <IoIosAddCircleOutline />
+            <IoIosAddCircleOutline id="addIcon"/>
         </Link>
     );
 };

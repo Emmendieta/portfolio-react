@@ -15,7 +15,7 @@ function Footer() {
                 <section id="secContacts">
                     <Contacts />
                 </section>
-                <section>
+                <section id="secSignature">
                     <h4>Aca va la firma</h4>
                 </section>
                 <section id="secSocialMedias">
