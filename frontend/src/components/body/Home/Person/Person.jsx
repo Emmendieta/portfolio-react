@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../../context/UserContext";
-import { useLocation } from "react-router-dom";
 import { fetchPerson } from "./Person";
 import { Link } from "react-router-dom";
 import { FaPen } from "react-icons/fa";
@@ -10,7 +9,6 @@ function Person() {
     const { user } = useContext(UserContext);
     const [person, setPerson] = useState(null);
     const [loading, setLoading] = useState(true);
-    const location = useLocation();
 
     useEffect(() => {
         const loadPerson = async () => {
@@ -107,6 +105,6 @@ function ProfileField({ label, value }) {
             <h3 className="profileDivH3">{value || "-"}</h3>
         </div>
     );
-}
+};
 
 export default Person;
