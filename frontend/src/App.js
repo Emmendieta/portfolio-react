@@ -8,6 +8,7 @@ import Profile from "./components/body/profile/Profile";
 import UpdatePerson from "./components/body/profile/updatePerson/UpdatePerson";
 import UpdateUser from "./components/body/profile/updateUser/UpdateUser";
 import EducationForm from "./components/body/Home/Educations/EducationForm/EducationForm";
+import WorksForm from "./components/body/Home/Works/WorksForm/WorksForm";
 
 function AppRoutes() {
   const { loadingUser } = useContext(UserContext);
@@ -26,6 +27,7 @@ function AppRoutes() {
         <Route path="update-user" element={<UpdateUser />}/>
         <Route path="update-person" element={<UpdatePerson />} />
         <Route path="/educations/form/:id" element={<EducationForm />} />
+        <Route path="/works/form/:id" element={<WorksForm />} />
         {/* Aquí más rutas si quieres */}
       </Route>
     </Routes>

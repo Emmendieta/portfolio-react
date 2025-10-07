@@ -1,4 +1,4 @@
-import { deleteData, getData } from "../../../../helpers/crud";
+import { createData, deleteData, getData, getDataById, updateData } from "../../../../helpers/crud";
 
 export const fetchWorks = async () => {
     try {
@@ -17,6 +17,44 @@ export const fetchWorks = async () => {
     } catch (error) {
         //LOGGER:
         console.error("Error fetching works:", error.message);
+        return { error: { message: error.message } };
+    }
+};
+
+export const fetchWorkById = async (wid) => {
+    try {
+
+        const url = "works";
+        const response = await getDataById(url, wid);
+        return response;
+
+    } catch (error) {
+        //LOGGER:
+        console.error("Error fetching id work:", error.message);
+        return { error: { message: error.message } };
+    }
+};
+
+export const fetchCreateEducation = async (data) => {
+    try {
+        const url = "works/";
+        const response = await createData(url, data);
+        return response;
+    } catch (error) {
+        //LOGGER:
+        console.error("Error fetching creating work:", error.message);
+        return { error: { message: error.message } };
+    }
+};
+
+export const fetchUpdateWork = async (wid, data) => {
+    try {
+        const url = `works/${wid}`;
+        const response = await updateData(url, data);
+        return response;
+    } catch (error) {
+        //LOGGER:
+        console.error("Error fetching update work:", error.message);
         return { error: { message: error.message } };
     }
 };

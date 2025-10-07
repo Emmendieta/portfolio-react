@@ -27,6 +27,7 @@ export const fetchEducationById = async (eid) => {
         return response;
         
     } catch (error) {
+        //LOGGER:
         console.error("Error fetching id education:", error.message);
         return { error: { message: error.message } };
     }
@@ -38,6 +39,7 @@ export const fetchCreateEducation = async(data) => {
         const response = await createData(url, data);
         return response;
     } catch (error) {
+        //LOGGER:
         console.error("Error fetching creating education:", error.message);
         return { error: { message: error.message } };
     }
@@ -52,6 +54,7 @@ export const fetchUpdateEducation = async (eid, data) => {
         return response;
 
     } catch (error) {
+        //LOGGER:
         console.error("Error fetching update education:", error.message);
         return { error: { message: error.message } };
     }

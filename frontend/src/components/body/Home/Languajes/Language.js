@@ -1,4 +1,4 @@
-import { deleteData, getData } from "../../../../helpers/crud";
+import { createData, deleteData, getData, getDataById } from "../../../../helpers/crud";
 
 export const fetchLanguages = async () => {
     try {
@@ -18,6 +18,42 @@ export const fetchLanguages = async () => {
     } catch (error) {
         //LOGGER:
         console.error("Error fetching Languages:", error.message);
+        return { error: { message: error.message } };
+    }
+};
+
+export const fetchLanguageById = async (eid) => {
+    try {
+        const url = "languages";
+        const response = await getDataById(url, eid);
+        return response;
+    } catch (error) {
+        //LOGGER:
+        console.error("Error fetching id Language:", error.message);
+        return { error: { message: error.message } };
+    }
+};
+
+export const fetchCreateLanguage = async (data) => {
+    try {
+        const url = "languages/";
+        const response = await createData(url, data);
+        return response;
+    } catch (error) {
+        //LOGGER:
+        console.error("Error fetching creating Language:", error.message);
+        return { error: { message: error.message } };
+    }
+};
+
+export const fetchUpdateLangauge = async (lid, data) => {
+    try {
+        const url = `languages/${lid}`;
+        const response = await createData(url, data);
+        return response;
+    } catch (error) {
+        //LOGGER:
+        console.error("Error fetching update Language:", error.message);
         return { error: { message: error.message } };
     }
 };

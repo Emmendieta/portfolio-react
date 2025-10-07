@@ -1,4 +1,4 @@
-import { deleteData, getData } from "../../../../helpers/crud";
+import { createData, deleteData, getData, getDataById, updateData } from "../../../../helpers/crud";
 
 export const fetchProyects = async () => {
     try {
@@ -17,6 +17,42 @@ export const fetchProyects = async () => {
     } catch (error) {
         //LOGGER:
         console.error("Error fetching Proyects:", error.message);
+        return { error: { message: error.message } };
+    }
+};
+
+export const fetchProyectById = async (pyid) => {
+    try {
+        const url = "proyects";
+        const response = await getDataById(url, pyid);
+        return response;
+    } catch (error) {
+        //LOGGER:
+        console.error("Error fetching id Proyect:", error.message);
+        return { error: { message: error.message } };
+    }
+};
+
+export const fetchCreateProyect = async (data) => {
+    try {
+        const url = "proyects/";
+        const response = await createData(url, data);
+        return response;
+    } catch (error) {
+        //LOGGER:
+        console.error("Error fetching creating Proyect:", error.message);
+        return { error: { message: error.message } };
+    }
+};
+
+export const fetchUpdateProyect = async (pyid, data) => {
+    try {
+        const url = `proyects/${pyid}`;
+        const response = await updateData(url, data);
+        return response;        
+    } catch (error) {
+        //LOGGER:
+        console.error("Error fetching update Proyect:", error.message);
         return { error: { message: error.message } };
     }
 };
