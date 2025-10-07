@@ -51,7 +51,7 @@ function Educations() {
             //SWEET ALERT:
             alert("Internal Error deleting Education: " + error.message);
         }
-    }
+    };
 
     //VER DE CAMBIAR:
     if (loading) return <p>Loading...</p>;

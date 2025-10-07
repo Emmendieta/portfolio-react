@@ -1,30 +1,30 @@
 import { deleteData, getData } from "../../../../helpers/crud";
 
-export const fetchWorks = async () => {
+export const fetchProyects = async () => {
     try {
-        const url = "works/";
+        const url = "proyects/";
         const data = await getData(url);
 
         if(!data) {
             //LOGGER:
-            console.error("Error in fetch Works or no data recibed!");
+            console.error("Error in fetch Proyects or no data recibed!");
             //SWEET ALERT:
-            alert("Error in fetch Works or no data recibed!");
+            alert("Error in fetch Proyects or no data recibed!");
             return;
         };
 
         return data;
     } catch (error) {
         //LOGGER:
-        console.error("Error fetching works:", error.message);
+        console.error("Error fetching Proyects:", error.message);
         return { error: { message: error.message } };
     }
 };
 
-export const fetchDeleteWork = async (wid) => {
+export const fetchDeleteProyect = async (pyid) => {
     try {
-        const url = "works";
-        const response = await deleteData(url, wid);
+        const url = "proyects";
+        const response = await deleteData(url, pyid);
         return response;
     } catch (error) {
         //LOGGER:

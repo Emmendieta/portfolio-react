@@ -22,7 +22,6 @@ function Works() {
             };
 
             const works = worksData.response;
-            console.log(works);
             setWorks(works);
             setLoading(false);
         };

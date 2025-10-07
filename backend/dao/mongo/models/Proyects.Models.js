@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+//FALTARIA DE VER DE PONER IMAGENES:
+
 const proyectSchema = new mongoose.Schema(
     {
         title: {type: String, required: true },

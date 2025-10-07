@@ -71,7 +71,7 @@ class LanguagesController {
     };
 
     verifyLanguageTitle = async (title) => {
-        const verify = await this.lService.readByFilter({ title });
+        const verify = await this.lService.readOneByFilter({ title });
         if (!verify) { return false; }
         else { return true; }
     };
