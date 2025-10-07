@@ -7,6 +7,7 @@ import { useContext } from "react";
 import Profile from "./components/body/profile/Profile";
 import UpdatePerson from "./components/body/profile/updatePerson/UpdatePerson";
 import UpdateUser from "./components/body/profile/updateUser/UpdateUser";
+import EducationForm from "./components/body/Home/Educations/EducationForm/EducationForm";
 
 function AppRoutes() {
   const { loadingUser } = useContext(UserContext);
@@ -24,6 +25,7 @@ function AppRoutes() {
         <Route path="profile" element={<Profile />}/>
         <Route path="update-user" element={<UpdateUser />}/>
         <Route path="update-person" element={<UpdatePerson />} />
+        <Route path="/educations/form/:id" element={<EducationForm />} />
         {/* Aquí más rutas si quieres */}
       </Route>
     </Routes>

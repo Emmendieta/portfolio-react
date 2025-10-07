@@ -1,0 +1,55 @@
+#formEducationBody {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.formEducationDivTop {
+    margin-bottom: 50px;
+    margin-top: 20px;
+}
+
+.formEducationDivTop h3 {
+    font-size: xx-large;
+}
+
+#formEducationBody form {
+    display:  flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 100%;
+    height: 100%;
+}
+
+.formEducationDivMiddle {
+    display:  flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.educationDivDiv {
+    width: 100%;
+    margin: 5px 0 5px 0;
+}
+
+.educationDivH3 {
+    width: 20%;
+    box-sizing: border-box;
+    text-align: end;
+}
+
+.educationDivInput {
+    width: 70%;
+    box-sizing: border-box;
+    text-align: center;
+    border-radius: 15px;
+    margin-right: 60px;
+}
+
+.formEducationDivBottom {
+    display:  flex;
+    justify-content: space-around;
+    width: 100%;
+}

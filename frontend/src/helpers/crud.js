@@ -1,8 +1,8 @@
 const baseHeaders = { "Content-Type": "application/json" };
 const credentials = "include";
 const GET = "GET";
-/* const POST = "POST";*/
-const UPDATE = "PUT"; 
+const POST = "POST";
+const UPDATE = "PUT";
 const DELETE = "DELETE";
 
 export const getData = async (baseUrl) => {
@@ -13,7 +13,7 @@ export const getData = async (baseUrl) => {
             //SWEET ALERT:
             alert("URL is needed!");
             return;
-        }
+        };
 
         const opts = {
             method: GET,
@@ -31,6 +31,35 @@ export const getData = async (baseUrl) => {
         console.error(error.message);
         //SWEET ALERT:
         alert("Error getting data!");
+    }
+};
+
+export const getDataById = async (baseUrl, id) => {
+    try {
+        if (!baseUrl) {
+            //LOGGER:
+            console.error("Error gettin the url to process the data!");
+            //SWEET ALERT:
+            alert("URL is neeeded!");
+            return;
+        };
+
+        const opts = {
+            method: GET,
+            headers: baseHeaders,
+            credentials: credentials
+        };
+
+        const url = `http://localhost:8080/api/${baseUrl}/${id}`;
+        const response = await fetch(url, opts);
+
+        return await response.json();
+
+    } catch (error) {
+        //LOGGER:
+        console.error(error.message);
+        //SWEET ALERT:
+        alert("Error getting data by Id!");
     }
 };
 
@@ -62,6 +91,39 @@ export const getDataPopulate = async (baseUrl, populateFields) => {
     }
 };
 
+export const createData = async (baseUrl, data = {}) => {
+    try {
+        if (!baseUrl) {
+            //SWEET ALERT:
+            alert("Error in creating Data, missing URL o Method!");
+            return;
+        };
+
+        if (Object.keys(data).length === 0) {
+            //SWEET ALERT:
+            alert("No Data to create!");
+            return;
+        };
+
+        const opts = {
+            method: POST,
+            headers: baseHeaders,
+            credentials: credentials,
+            body: JSON.stringify(data)
+        };
+
+        const url = `http://localhost:8080/api/${baseUrl}`;
+        const response = await fetch(url, opts);
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        //LOGGER:
+        console.error(error.message);
+        //SWEET ALERT:
+        alert("Error creating data!")
+    }
+};
+
 export const updateData = async (baseUrl, data = {}) => {
     try {
         if (!baseUrl) {
@@ -84,41 +146,41 @@ export const updateData = async (baseUrl, data = {}) => {
         const response = await fetch(url, opts);
         const result = await response.json();
         return result;
-        } catch (error) {
+    } catch (error) {
+        //LOGGER:
+        console.error(error.message);
+        //SWEET ALERT:
+        alert("Error updating data!")
+    }
+};
+
+export const deleteData = async (baseUrl, id) => {
+    try {
+        if (!baseUrl || !id) {
             //LOGGER:
-            console.error(error.message);
+            console.error("Error getting the url or id to process data!");
             //SWEET ALERT:
-            alert("Error updating data!")
-        }
-    };
+            alert("URL or Id is needed!");;
+            return;
+        };
 
-    export const deleteData = async (baseUrl, id) => {
-        try {
-            if (!baseUrl || !id) {
-                //LOGGER:
-                console.error("Error getting the url or id to process data!");
-                //SWEET ALERT:
-                alert("URL or Id is needed!");;
-                return;
-            };
+        const opts = {
+            method: DELETE,
+            headers: baseHeaders,
+            credentials: credentials
+        };
 
-            const opts = {
-                method: DELETE,
-                headers: baseHeaders,
-                credentials: credentials
-            };
+        const url = `http://localhost:8080/api/${baseUrl}/${id}`;
+        let response = await fetch(url, opts);
+        response = await response.json();
+        return response;
 
-            const url = `http://localhost:8080/api/${baseUrl}/${id}`;
-            let response = await fetch(url, opts);
-            response = await response.json();
-            return response;
-
-        } catch (error) {
-            //LOGGER:
-            console.error(error.message);
-            //SWEET ALERT:
-            alert("Error deleting data!");
-        }
-    };
+    } catch (error) {
+        //LOGGER:
+        console.error(error.message);
+        //SWEET ALERT:
+        alert("Error deleting data!");
+    }
+};
 
 

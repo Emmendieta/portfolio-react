@@ -4,6 +4,7 @@ import { fetchDeleteEducation, fetchEducations } from "./Educations";
 import { FaPen } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import { IoIosAddCircleOutline } from "react-icons/io";
 ;
 
 function Educations() {
@@ -36,7 +37,7 @@ function Educations() {
         try {
             const result = await fetchDeleteEducation(eid);
 
-            if(result.error) {
+            if (result.error) {
                 //SWEET ALERT:
                 alert("Error deleting Education: ", result.error.message);
             } else {
@@ -44,7 +45,7 @@ function Educations() {
                 alert("Education Deleted!");
                 setEducations(prev => prev.filter(education => education._id !== eid));
             }
-            
+
         } catch (error) {
             //LOGGER:
             console.error("Error deleting Education: ", error.message);
@@ -61,31 +62,41 @@ function Educations() {
         <div id="educationsDiv">
             <div id="educationsDivTitle">
                 <h3 id="educationsDivH3Title">Educations:</h3>
+                {user?.role === "admin" && (
+                    <div className="addingControlGeneral">
+                        <Link to="/educations/form/new" className="btn btn-outline-success" id="addBtnEducation">
+                            <IoIosAddCircleOutline id="addIcon" />
+                        </Link>
+                    </div>
+                )}
             </div>
             <ul id="educationsList">
                 {educations.map((education) => (
                     <li key={education._id} data-id={education._id}>
-                        <div>
-                            <a href={education.linkInstitution} target="_blank" rel="noopener noreferrer"></a>
-                            {<img
-                                src={education.iconInstitution || "/img/imagen-no-disponible.png"}
-                                alt={education.institutionName}
-                                className="educationIcon"
-                                onError={(event) => event.currentTarget.src = "/img/imagen-no-disponible.png"}
-                            />}
+                        <div className="educationDivImg">
+                            <a href={education.linkInstitution} target="_blank" rel="noopener noreferrer">
+                                {<img
+                                    src={education.iconInstitution || "/img/imagen-no-disponible.png"}
+                                    alt={education.institutionName}
+                                    className="educationIcon"
+                                    onError={(event) => event.currentTarget.src = "/img/imagen-no-disponible.png"}
+                                />}
+                            </a>
                         </div>
-                        <EducationField label="Institution: " value={education.institutionName} />
-                        <EducationField label="Link Institution: " value={education.linkInstitution} />
-                        <EducationField label="Title: " value={education.title} />
-                        <EducationField label="ink Certificate: " value={education.linkCertificate} />
-                        <EducationField label="Date Started: " value={education.dateStart.slice(0, 10)} />
-                        <EducationField label="Date Ended: " value={education.dateEnd.slice(0, 10)} />
-                        <EducationField label="Type of Education: " value={education.typeEducation} />
-                        <EducationField label="Description: " value={education.description} />
+                        <div className="educationDivBody">
+                            <EducationField label="Institution: " value={education.institutionName} />
+                            <EducationField label="Link Institution: " value={education.linkInstitution} />
+                            <EducationField label="Title: " value={education.title} />
+                            <EducationField label="Link Certificate: " value={education.linkCertificate} />
+                            <EducationField label="Date Started: " value={education.dateStart.slice(0, 10)} />
+                            <EducationField label="Date Ended: " value={education.dateEnd.slice(0, 10)} />
+                            <EducationField label="Type of Education: " value={education.typeEducation} />
+                            <EducationField label="Description: " value={education.description} />
+                        </div>
 
                         {user?.role === "admin" && (
                             <div className="editionsControlsGeneral">
-                                <Link to={`/educations/edit/${education._id}`} id="educationEdit" className="btn btn-outline-primary btn-sm" >
+                                <Link to={`/educations/form/${education._id}`} id="educationEdit" className="btn btn-outline-primary btn-sm" >
                                     <FaPen />
                                 </Link>
                                 <button className="btn btn-outline-danger btn-sm" id="educationDelete" onClick={() => handleDelete(education._id)} >
@@ -96,7 +107,6 @@ function Educations() {
                     </li>
                 ))}
             </ul>
-
         </div>
     )
 };

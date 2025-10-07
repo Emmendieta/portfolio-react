@@ -1,4 +1,4 @@
-import { deleteData, getData } from "../../../../helpers/crud";
+import { createData, deleteData, getData, getDataById, updateData } from "../../../../helpers/crud";
 
 export const fetchEducations = async () => {
     try {
@@ -20,6 +20,43 @@ export const fetchEducations = async () => {
     }
 };
 
+export const fetchEducationById = async (eid) => {
+    try {
+        const url = "educations";
+        const response = await getDataById(url, eid);
+        return response;
+        
+    } catch (error) {
+        console.error("Error fetching id education:", error.message);
+        return { error: { message: error.message } };
+    }
+};
+
+export const fetchCreateEducation = async(data) => {
+    try {
+        const url = "educations/";
+        const response = await createData(url, data);
+        return response;
+    } catch (error) {
+        console.error("Error fetching creating education:", error.message);
+        return { error: { message: error.message } };
+    }
+};
+
+export const fetchUpdateEducation = async (eid, data) => {
+    try {
+        const url = `educations/${eid}`;
+
+        const response = await updateData(url, data);
+
+        return response;
+
+    } catch (error) {
+        console.error("Error fetching update education:", error.message);
+        return { error: { message: error.message } };
+    }
+};
+
 export const fetchDeleteEducation = async (eid) => {
     try {
         const url = 'educations';
@@ -30,4 +67,4 @@ export const fetchDeleteEducation = async (eid) => {
         console.error("Error deleting education:", error.message);
         return { error: { message: error.message } };
     }
-}
+};
