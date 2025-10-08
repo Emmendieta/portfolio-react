@@ -4,6 +4,7 @@ import { fetchDeleteProyect, fetchProyects } from "./logicProyects.js";
 import { Link } from "react-router-dom";
 import { FaPen } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
+import { IoIosAddCircleOutline } from "react-icons/io";
 
 function Proyects() {
     const { user } = useContext(UserContext);
@@ -61,6 +62,13 @@ function Proyects() {
         <div id="proyectsDiv">
             <div id="proyectsDivTitle">
                 <h3 id="proyectsDivH3Title">Proyects:</h3>
+                {user?.role === "admin" && (
+                    <div className="addControlGeneral">
+                        <Link to="/proyects/form/new" className="btn btn-outline-success" id="addBtnproyect">
+                            <IoIosAddCircleOutline id="addIcon" />
+                        </Link>
+                    </div>
+                )}
             </div>
             <ul id="proyectsList">
                 {proyects.map((proyect) => (
@@ -77,7 +85,7 @@ function Proyects() {
 
                         {user?.role === "admin" &&(
                             <div className="editionsControlsGeneral">
-                                <Link to={`/proyects/edit/${proyect._id}`} id="proyectEdit" className="btn btn-outline-primary btn-sm">
+                                <Link to={`/proyects/form/${proyect._id}`} id="proyectEdit" className="btn btn-outline-primary btn-sm">
                                     <FaPen />
                                 </Link>
                                 <button className="btn btn-outline-danger btn-sm" id="proyectDelete" onClick={() => handleDelete(proyect._id)}>

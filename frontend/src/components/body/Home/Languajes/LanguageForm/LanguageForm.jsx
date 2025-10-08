@@ -29,7 +29,7 @@ function LanguagesForm() {
                 setFormData(result.response);
             };
             loadLanguage();
-        }
+        };
     }, [id, isEdit]);
 
     const handleChange = (event) => {
@@ -59,7 +59,7 @@ function LanguagesForm() {
     return (
         <div id="formBodyGeneral">
             <div id="formBodyGeneralTop">
-                <h3>{isEdit ? "Update Langauge:" : "Create Language:"}</h3>
+                <h3>{isEdit ? "Update Language:" : "Create Language:"}</h3>
             </div>
             <form id="formGeneralContent" onSubmit={handleSubmit}>
                 <div id="formGeneralContentBody">

@@ -82,7 +82,7 @@ class ProyectsController {
     };
 
     verifyInfoProyect = async (title, company) => {
-        const verify = await this.pService.readByFilter({ title, company });
+        const verify = await this.pService.readOneByFilter({ title, company });
         if (!verify) { return false; }
         else { return true; };
     };
