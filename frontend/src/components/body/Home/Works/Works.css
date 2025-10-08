@@ -1,0 +1,61 @@
+#worksDiv {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+#worksDivTitle {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+#worksList {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.worksListLi {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    border-radius: 15px;
+    transition: 1.5s;
+    padding: 10px 0 0 15px;
+}
+
+.worksListLi:hover {
+    transition: 1.5s;
+    box-shadow: rgb(85, 85, 85) 5px 5px 5px 5px;
+}
+
+.workIcon {
+    width: 40px;
+    height: 40px;
+}
+
+.workListBodyTop {
+    display: flex;
+    margin-left: 10px;
+}
+
+.workDivDiv {
+    display: flex;
+}
+
+.workDivH3 {
+    font-size: large;
+    margin-right: 10px;
+}
+
+.editionsControlsWork {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}

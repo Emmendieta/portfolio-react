@@ -35,7 +35,7 @@ export const fetchWorkById = async (wid) => {
     }
 };
 
-export const fetchCreateEducation = async (data) => {
+export const fetchCreateWork = async (data) => {
     try {
         const url = "works/";
         const response = await createData(url, data);

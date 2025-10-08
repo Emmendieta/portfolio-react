@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import "./EducationForm.css";
+import "../../FormGeneral.css";
 import { UserContext } from "../../../../../context/UserContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchCreateEducation, fetchEducationById, fetchUpdateEducation } from "../Educations";
@@ -64,12 +64,12 @@ function EducationForm() {
     };
 
     return (
-        <div id="formEducationBody">
-            <div className="formEducationDivTop">
+        <div id="formBodyGeneral">
+            <div id="formBodyGeneralTop">
                 <h3>{isEdit ? "Update Education:" : "Create Education:"}</h3>
             </div>
-            <form onSubmit={handleSubmit}>
-                <div className="formEducationDivMiddle">
+            <form id="formGeneralContent" onSubmit={handleSubmit}>
+                <div id="formGeneralContentBody">
                     <EducationField label="Institution: " value={formData.institutionName} placeholder="Type the Name of the Institution" name="institutionName" type="text" onChange={handleChange} />
                     <EducationField label="Link Institution" value={formData.linkInstitution} placeholder="Type the Link of the Institution" name="linkInstitution" type="text" onChange={handleChange} />
                     <EducationField label="Title: " value={formData.title} placeholder="Type the title or what you studied" name="title" type="text" onChange={handleChange} />
@@ -80,23 +80,22 @@ function EducationForm() {
                     <EducationField label="Description: " value={formData.description} placeholder="Type a description of what you studied" name="description" type="text" onChange={handleChange} />
                     <EducationField label="Institution Icon: " value={formData.iconInstitution} placeholder="Type the Link of the Icon of the Institution" name="iconInstitution" type="text" onChange={handleChange} />
                 </div>
-                <div className="formEducationDivBottom">
+                <div id="formGeneralBottom">
                     <a className="btn btn-outline-success" type="submit" id="btnGoBack" href="/">Go Back</a>
                     <button className="btn btn-outline-success" type="submit">{isEdit ? "Update" : "Create"}</button>
                 </div>
             </form>
         </div>
-
     );
 };
 
 //VER SI ESTO LO DEJO COMO GENERAL:
 function EducationField({ label, value, type, placeholder, name, onChange }) {
     return (
-        <div className="educationDivDiv">
-            <h3 className="educationDivH3">{label}</h3>
-            <input type={type} className="educationDivInput" name={name} value={value || ""} placeholder={placeholder} onChange={onChange} />
-        </div>
+        <div className="divFieldsGeneral">
+            <h3>{label}</h3>
+            <input type={type}  name={name} value={value || ""} placeholder={placeholder} onChange={onChange} />
+        </div> 
     );
 };
 

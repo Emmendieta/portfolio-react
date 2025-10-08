@@ -72,7 +72,7 @@ class WorksController {
     };
 
     verifyWorkJobDateStartCompany = async (jobTitle, dateStart, company) => {
-        const verify = await this.wService.readByFilter({ jobTitle, dateStart, company });
+        const verify = await this.wService.readOneByFilter({ jobTitle, dateStart, company });
         if (!verify) { return false; }
         else return true;
     };

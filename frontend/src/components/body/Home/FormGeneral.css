@@ -1,0 +1,69 @@
+#formBodyGeneral {
+    display:  flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+#formBodyGeneralTop {
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+#formGeneralContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 87%;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    border-radius: 15px;
+    transition: 1.5s;
+}
+
+#formGeneralContent:hover {
+    transition: 1.5s;
+    box-shadow: rgb(85, 85, 85) 5px 5px 5px 5px;
+}
+
+#formGeneralContentBody {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
+
+.divFieldsGeneral {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.divFieldsGeneral h3 {
+    margin-right: 10px;
+    font-size: large;
+    width: 30%;
+    margin-top: 10px;
+}
+
+.divFieldsGeneral input {
+    text-align: center;
+    width: 70%;
+    margin-top: 10px;
+    border-radius: 15px;
+}
+
+.divFieldsGeneral input[type="date"] {
+    width: auto;
+    min-width: 150px;
+    margin: 0 auto; 
+    margin-top: 10px;
+    display: block;
+}
+
+#formGeneralBottom {
+    margin-top: 20px;
+    display:  flex;
+    justify-content: space-around;
+    width: 100%;
+}

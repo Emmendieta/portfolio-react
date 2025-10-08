@@ -5,6 +5,7 @@ import { fetchDeleteWork, fetchWorks } from "./Works";
 import { Link } from "react-router-dom";
 import { FaPen } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
+import { IoIosAddCircleOutline } from "react-icons/io";
 
 function Works() {
     const { user } = useContext(UserContext);
@@ -60,36 +61,53 @@ function Works() {
         <div id="worksDiv">
             <div id="worksDivTitle">
                 <h3 id="worksDivH3Title">Works:</h3>
+                {user?.role === "admin" && (
+                    <div className="addingControlGeneral">
+                        <Link to="/works/form/new" className="btn btn-outline-success" id="addBtnWork">
+                            <IoIosAddCircleOutline id="addIcon" />
+                        </Link>
+                    </div>
+                )}
             </div>
             <ul id="worksList">
                 {works.map((work) => (
-                    <li key={work._id} data-id={work._id}>
-                        <div>
-                            <a href={work.thumbnails?.[0]} target="_blank" rel="noopener noreferrer"></a>
-                            {<img 
-                                src={work.thumbnails?.[0] || "/img/imagen-no-disponbible.png"}
-                                alt={work.company}
-                                className="workIcon"
-                                onError={(event) => event.currentTarget.src ="/img/imagen-no-disponible.png"}
-                            />}
+                    <li className="worksListLi" key={work._id} data-id={work._id}>
+                        <div className="workListTop">
+                            <a href={work.thumbnails?.[0]} target="_blank" rel="noopener noreferrer">
+                                {<img
+                                    src={work.thumbnails?.[0] || "/img/imagen-no-disponbible.png"}
+                                    alt={work.company}
+                                    className="workIcon"
+                                    onError={(event) => event.currentTarget.src = "/img/imagen-no-disponible.png"}
+                                />}
+                            </a>
                         </div>
-                        <WorkField label="Company: " value={work.company} />
-                        <WorkField label="Link Company: " value={work.linkCompany} />
-                        <WorkField label="Job Title: " value={work.jobTitle} />
-                        <WorkField label="Date Started: " value={work.dateStart.slice(0, 10)} />
-                        <WorkField label="Date End: " value={work.dateEnd.slice(0, 10)} />
-                        <WorkField label="Description: " value={work.description} />
-
-                        {user?.role === "admin" &&(
-                            <div className="editionsControlsGeneral">
-                                <Link to={`/works/edit/${work._id}`} id="workEdit" className="btn btn-outline-primary btn-sm" >
-                                    <FaPen />
-                                </Link>
-                                <button className="btn btn-outline-danger btn-sm" id="workDelete" onClick={() => handleDelete(work._id)} >
-                                    <FaRegTrashCan />
-                                </button>
+                        <div className="workListBody">
+                            <div className="workListBodyTop">
+                                <div>
+                                    <WorkField label="Company: " value={work.company} />
+                                    <WorkField label="Link Company: " value={work.linkCompany} />
+                                    <WorkField label="Job Title: " value={work.jobTitle} />
+                                    <WorkField label="Date Started: " value={work.dateStart.slice(0, 10)} />
+                                    <WorkField label="Date End: " value={work.dateEnd.slice(0, 10)} />
+                                </div>
+                                <div className="workListBodyBottom">
+                                    <WorkField label="Description: " value={work.description} />
+                                </div>
                             </div>
-                        )}
+                            <div className="workListBottom">
+                                {user?.role === "admin" && (
+                                    <div className="editionsControlsWork">
+                                        <Link to={`/works/form/${work._id}`} id="workEdit" className="btn btn-outline-primary btn-sm" >
+                                            <FaPen />
+                                        </Link>
+                                        <button className="btn btn-outline-danger btn-sm" id="workDelete" onClick={() => handleDelete(work._id)} >
+                                            <FaRegTrashCan />
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
                     </li>
                 ))}
             </ul>
