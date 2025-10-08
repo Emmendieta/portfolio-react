@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../../context/UserContext";
-import { fetchLanguages } from "./Language";
-import { fetchDeleteEducation } from "../Educations/Educations";
+import { fetchDeleteLanguage, fetchLanguages } from "./Language";
 import { Link } from "react-router-dom";
 import { FaPen } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import "./Language.css";
+import { IoIosAddCircleOutline } from "react-icons/io";
 
 function Language() {
     const { user } = useContext(UserContext);
@@ -35,7 +35,7 @@ function Language() {
         if (!confirmDelete) return;
 
         try {
-            const result = await fetchDeleteEducation(lid);
+            const result = await fetchDeleteLanguage(lid);
 
             if (result.error) {
                 //SWEET ALERT:
@@ -59,28 +59,37 @@ function Language() {
 
     return (
         <div id="langaugesDiv">
-            <div id=" languagesDivTitle">
+            <div id="languagesDivTitle">
                 <h3 id="languagesDivH3Title">Languages:</h3>
+                {user?.role === "admin" && (
+                    <div className="addingControlGeneral">
+                        <Link to="/languages/form/new" className="btn btn-outline-success" id="addBtnLanguage">
+                            <IoIosAddCircleOutline id="addIcon" />
+                        </Link>
+                    </div>
+                )}
             </div>
             <ul id="languageList">
                 {languages.map((language) => (
-                    <li key={language._id} data-id={language._id}>
-                        <div>
-                            <a href={language.thumbnails?.[0]} target="_blank" rel="noopener noreferrer"></a>
-                            {<img
-                                src={language.thumbnails?.[0] || "/img/imagen-no-disponible.png"}
-                                alt={language.title}
-                                className="languageIcon"
-                                onError={(event) => event.currentTarget.src = "/img/imagen-no-disponible.png"}
-                            />}
+                    <li className="languageListLi" key={language._id} data-id={language._id}>
+                        <div className="languageListBodyTop">
+                            <a href={language.thumbnails?.[0]} target="_blank" rel="noopener noreferrer">
+                                {<img
+                                    src={language.thumbnails?.[0] || "/img/imagen-no-disponible.png"}
+                                    alt={language.title}
+                                    className="languageIcon"
+                                    onError={(event) => event.currentTarget.src = "/img/imagen-no-disponible.png"}
+                                />}
+                            </a>
                         </div>
-                        <LanguageField label="Title: " value={language.title}/>
-                        <LanguageField label="Percent: " value={language.percent}/>
-
-                        {user?.role === "admin" &&(
+                        <div className="languageListBodyMiddle">
+                            <LanguageField label="Title: " value={language.title} />
+                            <LanguageField label="Percent: " value={language.percent} />
+                        </div>
+                        {user?.role === "admin" && (
                             <div className="editionsControlsLanguage">
-                                <Link to={`/languages/edit/${language._id}`} id="languageEdit" className="btn btn-outline-primary btn-sm" >
-                                    <FaPen /> 
+                                <Link to={`/languages/form/${language._id}`} id="languageEdit" className="btn btn-outline-primary btn-sm" >
+                                    <FaPen />
                                 </Link>
                                 <button className="btn btn-outline-danger btn-sm" id="languageDelete" onClick={() => handleDelete(language._id)}>
                                     <FaRegTrashCan />
@@ -98,8 +107,7 @@ function Language() {
 function LanguageField({ label, value }) {
     return (
         <div className="languageDivDiv">
-            <h3 className="languageDivH3">{label}</h3>
-            <h3 className="languageDivH3">{value || "-"}</h3>
+            <h3 className="languageDivH3">{label} {value || "-"}</h3>
         </div>
     );
 };

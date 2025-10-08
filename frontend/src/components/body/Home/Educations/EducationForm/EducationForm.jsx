@@ -81,7 +81,7 @@ function EducationForm() {
                     <EducationField label="Institution Icon: " value={formData.iconInstitution} placeholder="Type the Link of the Icon of the Institution" name="iconInstitution" type="text" onChange={handleChange} />
                 </div>
                 <div id="formGeneralBottom">
-                    <a className="btn btn-outline-success" type="submit" id="btnGoBack" href="/">Go Back</a>
+                    <a className="btn btn-outline-success" id="btnGoBack" href="/">Go Back</a>
                     <button className="btn btn-outline-success" type="submit">{isEdit ? "Update" : "Create"}</button>
                 </div>
             </form>

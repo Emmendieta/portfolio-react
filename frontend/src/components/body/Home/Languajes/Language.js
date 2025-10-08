@@ -1,4 +1,4 @@
-import { createData, deleteData, getData, getDataById } from "../../../../helpers/crud";
+import { createData, deleteData, getData, getDataById, updateData } from "../../../../helpers/crud";
 
 export const fetchLanguages = async () => {
     try {
@@ -49,7 +49,7 @@ export const fetchCreateLanguage = async (data) => {
 export const fetchUpdateLangauge = async (lid, data) => {
     try {
         const url = `languages/${lid}`;
-        const response = await createData(url, data);
+        const response = await updateData(url, data);
         return response;
     } catch (error) {
         //LOGGER:

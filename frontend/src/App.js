@@ -9,6 +9,7 @@ import UpdatePerson from "./components/body/profile/updatePerson/UpdatePerson";
 import UpdateUser from "./components/body/profile/updateUser/UpdateUser";
 import EducationForm from "./components/body/Home/Educations/EducationForm/EducationForm";
 import WorksForm from "./components/body/Home/Works/WorksForm/WorksForm";
+import LanguagesForm from "./components/body/Home/Languajes/LanguageForm/LanguageForm";
 
 function AppRoutes() {
   const { loadingUser } = useContext(UserContext);
@@ -28,6 +29,7 @@ function AppRoutes() {
         <Route path="update-person" element={<UpdatePerson />} />
         <Route path="/educations/form/:id" element={<EducationForm />} />
         <Route path="/works/form/:id" element={<WorksForm />} />
+        <Route path="/languages/form/:id" element={<LanguagesForm />} />
         {/* Aquí más rutas si quieres */}
       </Route>
     </Routes>
