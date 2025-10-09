@@ -1,0 +1,61 @@
+#proyectsDiv {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+}
+
+#proyectsDivTitle {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+#proyectsList {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.proyectListLi {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    border-radius: 15px;
+    transition: 1.5s;
+    padding: 10px 0 15px 15px;
+}
+
+.proyectListLi:hover {
+    transition: 1.5s;
+    box-shadow: rgb(85, 85, 85) 5px 5px 5px 5px;
+}
+
+.proyectListLiInfo {
+    display: grid;
+    grid-template-columns: 47% 46% 7%;
+    width: 100%;
+    height: 100%;
+}
+
+#proyectListLiBody , #proyectListLiImages, .editionsControlsProyects {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.editionsControlsProyects {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.proyectDivH3 {
+    font-size: larger;
+}

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { FaPen } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { IoIosAddCircleOutline } from "react-icons/io";
+import "./Proyects.css";
 
 function Proyects() {
     const { user } = useContext(UserContext);
@@ -16,7 +17,7 @@ function Proyects() {
         //HAY QUE HACER UN FETCH CON POPULATE
         const loadProyects = async () => {
             const proyectsData = await fetchProyects();
-            if(proyectsData?.error) {
+            if (proyectsData?.error) {
                 //SWEET ALERT:
                 alert(proyectsData.error.message);
                 setLoading(false);
@@ -55,8 +56,8 @@ function Proyects() {
     };
 
     //VER DE CAMBIAR:
-    if(loading) return <p>Loading...</p>
-    if(!proyects) return <p>No Proyects data available.</p>
+    if (loading) return <p>Loading...</p>
+    if (!proyects) return <p>No Proyects data available.</p>
 
     return (
         <div id="proyectsDiv">
@@ -70,29 +71,35 @@ function Proyects() {
                     </div>
                 )}
             </div>
+            <div><h3>Aca van las categorias</h3></div>
             <ul id="proyectsList">
                 {proyects.map((proyect) => (
-                    <li key={proyect._id} data-id={proyect._id}>
-                        <div><h3>ACA VER SI PONGO ALGO O LAS IMAGENES LAS DEJO ABAJO</h3></div>
-                        <ProyectField label="Title: " value={proyect.title} />
-                        <ProyectField label="Company: " value={proyect.company} />
-                        <ProyectField label="Link Company: " value={proyect.linkCompany} />
-                        <ProyectField label="Link to Proyect: " value={proyect.linkProyect} />
-                        <ProyectField label="Date Started: " value={proyect.dateStart.slice(0, 10)} />
-                        <ProyectField label="Date Ended: " value={proyect.dateEnd.slice(0, 10)}/>
-                        <ProyectField label="Description: " value={proyect.description} />
-                        <ProyectField label="Languages: " value={proyect.languages} />
-
-                        {user?.role === "admin" &&(
-                            <div className="editionsControlsGeneral">
-                                <Link to={`/proyects/form/${proyect._id}`} id="proyectEdit" className="btn btn-outline-primary btn-sm">
-                                    <FaPen />
-                                </Link>
-                                <button className="btn btn-outline-danger btn-sm" id="proyectDelete" onClick={() => handleDelete(proyect._id)}>
-                                    <FaRegTrashCan />
-                                </button>
+                    <li className="proyectListLi" key={proyect._id} data-id={proyect._id}>
+                        <div className="proyectListLiInfo">
+                            <div id="proyectListLiBody">
+                                <ProyectField label="Title: " value={proyect.title} />
+                                <ProyectField label="Company: " value={proyect.company} />
+                                <ProyectField label="Link Company: " value={proyect.linkCompany} />
+                                <ProyectField label="Link to Proyect: " value={proyect.linkProyect} />
+                                <ProyectField label="Date Started: " value={proyect.dateStart.slice(0, 10)} />
+                                <ProyectField label="Date Ended: " value={proyect.dateEnd.slice(0, 10)} />
+                                <ProyectField label="Description: " value={proyect.description} />
+                                <ProyectField label="Languages: " value={proyect.languages} />
                             </div>
-                        )}
+                            <div id="proyectListLiImages">
+                                <div><h3>ACA VER SI PONGO ALGO O LAS IMAGENES LAS DEJO ABAJO</h3></div>
+                            </div>
+                            {user?.role === "admin" && (
+                                <div className="editionsControlsProyects">
+                                    <Link to={`/proyects/form/${proyect._id}`} id="proyectEdit" className="btn btn-outline-primary btn-sm">
+                                        <FaPen />
+                                    </Link>
+                                    <button className="btn btn-outline-danger btn-sm" id="proyectDelete" onClick={() => handleDelete(proyect._id)}>
+                                        <FaRegTrashCan />
+                                    </button>
+                                </div>
+                            )}
+                        </div>
                     </li>
                 ))}
             </ul>
@@ -104,8 +111,7 @@ function Proyects() {
 function ProyectField({ label, value }) {
     return (
         <div className="proyectDivDiv">
-            <h3 className="proyectDivH3">{label}</h3>
-            <h3 className="proyectDivH3">{value || "-"}</h3>
+            <h3 className="proyectDivH3">{label} {value || "-"}</h3>
         </div>
     );
 };
