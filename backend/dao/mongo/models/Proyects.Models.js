@@ -15,7 +15,8 @@ const proyectSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "languages",
             required: true
-        }]
+        }],
+        thumbnails: [{type: String, default: ""}]
     },
     { timestamps: true }
 );

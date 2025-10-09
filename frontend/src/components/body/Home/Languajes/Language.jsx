@@ -157,8 +157,8 @@ function LanguageItem({ language, isAdmin, onDelete }) {
                                 src={language.thumbnails?.[0] || "/img/imagen-no-disponible.png"}
                                 alt={language.title}
                                 style={{
-                                    width: "82%",
-                                    height: "82%",
+                                    width: "84%",
+                                    height: "84%",
                                     borderRadius: "50%",
                                     objectFit: "cover",
                                 }}
