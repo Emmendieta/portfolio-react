@@ -11,6 +11,9 @@ class ProyectsServices {
     readByIdAndPopulate = async (pyid, populateFields = []) => {
         return await this.manager.readByIdAndPopulate(pyid, populateFields);
     };
+    readAllAndPopulate = async (populateFields = []) => {
+        return await this.manager.readAllAndPopulate(populateFields);
+    };
     readOneByFilter = async (filter) => await this.manager.readOneByFilter(filter);
     readByFilter = async (filter) => await this.manager.readByFilter(filter);
     updateById = async (pyid, data) => await this.manager.updateById(pyid, data);

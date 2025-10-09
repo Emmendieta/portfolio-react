@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../../context/UserContext";
-import { fetchDeleteProyect, fetchProyects } from "./logicProyects.js";
+import { fetchDeleteProyect, fetchProyectsPopulated } from "./logicProyects.js";
 import { Link } from "react-router-dom";
 import { FaPen } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
@@ -14,7 +14,7 @@ function Proyects() {
 
     useEffect(() => {
         const loadProyects = async () => {
-            const proyectsData = await fetchProyects();
+            const proyectsData = await fetchProyectsPopulated();
             if (proyectsData?.error) {
                 alert(proyectsData.error.message);
                 setLoading(false);
@@ -34,7 +34,6 @@ function Proyects() {
 
         try {
             const result = await fetchDeleteProyect(pyid);
-
             if (result.error) {
                 alert("Error deleting the Proyect: " + result.error.message);
             } else {
@@ -76,13 +75,15 @@ function Proyects() {
                                 <ProyectField label="Link to Proyect: " value={proyect.linkProyect} />
                                 <ProyectField label="Date Started: " value={proyect.dateStart?.slice(0, 10)} />
                                 <ProyectField label="Date Ended: " value={proyect.dateEnd?.slice(0, 10)} />
-                                <ProyectField label="Description: " value={proyect.description} />
-                                <ProyectField label="Languages: " value={proyect.languages?.join(", ")} />
+                            </div>
+
+                            <div id="proyectListLiBodyNext">
+                                <ProyectLanguages languages={proyect.languages} />
+                                <ProyectField label="Description: " value={proyect.description} isTextArea />
                             </div>
 
                             <div id="proyectListLiImages">
                                 <div id={`carousel-${proyect._id}`} className="carousel slide" data-bs-ride="carousel">
-                                    {/* Indicators */}
                                     <div className="carousel-indicators">
                                         {(proyect.thumbnails.length > 0 ? proyect.thumbnails : ["/img/imagen-no-disponible.png"]).map((_, index) => (
                                             <button
@@ -97,7 +98,6 @@ function Proyects() {
                                         ))}
                                     </div>
 
-                                    {/* Images */}
                                     <div className="carousel-inner">
                                         {(proyect.thumbnails.length > 0 ? proyect.thumbnails : ["/img/imagen-no-disponible.png"]).map((imgSrc, index) => (
                                             <div className={`carousel-item ${index === 0 ? "active" : ""}`} key={index}>
@@ -111,22 +111,11 @@ function Proyects() {
                                         ))}
                                     </div>
 
-                                    {/* Controls */}
-                                    <button
-                                        className="carousel-control-prev"
-                                        type="button"
-                                        data-bs-target={`#carousel-${proyect._id}`}
-                                        data-bs-slide="prev"
-                                    >
+                                    <button className="carousel-control-prev" type="button" data-bs-target={`#carousel-${proyect._id}`} data-bs-slide="prev">
                                         <span className="carousel-control-prev-icon" aria-hidden="true"></span>
                                         <span className="visually-hidden">Previous</span>
                                     </button>
-                                    <button
-                                        className="carousel-control-next"
-                                        type="button"
-                                        data-bs-target={`#carousel-${proyect._id}`}
-                                        data-bs-slide="next"
-                                    >
+                                    <button className="carousel-control-next" type="button" data-bs-target={`#carousel-${proyect._id}`} data-bs-slide="next">
                                         <span className="carousel-control-next-icon" aria-hidden="true"></span>
                                         <span className="visually-hidden">Next</span>
                                     </button>
@@ -135,18 +124,10 @@ function Proyects() {
 
                             {user?.role === "admin" && (
                                 <div className="editionsControlsProyects">
-                                    <Link
-                                        to={`/proyects/form/${proyect._id}`}
-                                        id="proyectEdit"
-                                        className="btn btn-outline-primary btn-sm"
-                                    >
+                                    <Link to={`/proyects/form/${proyect._id}`} id="proyectEdit" className="btn btn-outline-primary btn-sm">
                                         <FaPen />
                                     </Link>
-                                    <button
-                                        className="btn btn-outline-danger btn-sm"
-                                        id="proyectDelete"
-                                        onClick={() => handleDelete(proyect._id)}
-                                    >
+                                    <button className="btn btn-outline-danger btn-sm" id="proyectDelete" onClick={() => handleDelete(proyect._id)}>
                                         <FaRegTrashCan />
                                     </button>
                                 </div>
@@ -157,12 +138,67 @@ function Proyects() {
             </ul>
         </div>
     );
+};
+
+function ProyectField({ label, value, isTextArea = false, id = "" }) {
+    const isAnArray = Array.isArray(value);
+
+    if (isTextArea) {
+        return (
+            <div className="proyectDivDivText" id={id}>
+                <h3 className="proyectDivH3Text">{label}</h3>
+                <textarea className="proyectDivH3TextArea" value={value || "-"} readOnly rows={4} />
+            </div>
+        );
+    }
+
+    if (id && isAnArray) {
+        return (
+            <div className="proyectDivDivLanguages" id={id}>
+                <h3 className="proyectDivH3Languages">{label}</h3>
+                <ul className="proyectLanguagesList">
+                    {value.map((item, index) => (
+                        <li key={index}>{item}</li>
+                    ))}
+                </ul>
+            </div>
+        );
+    }
+
+    return (
+        <div className="proyectDivDiv" id={id}>
+            <h3 className="proyectDivH3">{label} {value || "-"}</h3>
+        </div>
+    );
 }
 
-function ProyectField({ label, value }) {
+// ✅ NUEVO COMPONENTE: muestra icono + título de cada lenguaje
+function ProyectLanguages({ languages }) {
+    if (!Array.isArray(languages) || languages.length === 0) {
+        return (
+            <div className="proyectDivDivLanguages" id="proyectFieldLanguages">
+                <h3 className="proyectDivH3Languages">Languages:</h3>
+                <p>-</p>
+            </div>
+        );
+    }
+
     return (
-        <div className="proyectDivDiv">
-            <h3 className="proyectDivH3">{label} {value || "-"}</h3>
+        <div className="proyectDivDivLanguages" id="proyectFieldLanguages">
+            <h3 className="proyectDivH3Languages">Languages:</h3>
+            <ul className="proyectLanguagesList">
+                {languages.map((lang) => (
+                    <li key={lang._id} className="proyectLanguageItem">
+                        <img
+                            src={lang.icon || "/img/imagen-no-disponible.png"}
+                            alt={lang.title}
+                            className="languageIcon"
+                            onError={(e) => e.currentTarget.src = "/img/imagen-no-disponible.png"}
+                        />
+                        <h3 className="languageTitle">{lang.title}</h3>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 }

@@ -17,6 +17,9 @@ class Repository {
     createOne = async (data) => await this.manager.createOne(new this.Dto(data));
     readAll = async () => await this.manager.readAll();
     readById = async (id) => await this.manager.readById(id);
+    readAllAndPopulate = async (populateFields = []) => {
+        return await this.manager.readAllAndPopulate(populateFields);
+    };
     readByIdAndPopulate = async (id, populateFields = []) => {
         return await this.manager.readByIdAndPopulate(id, populateFields);
     };

@@ -16,6 +16,16 @@ class DaoMongo {
     readAll = async (filter) => await this.model.find(filter);
     readById = async (id) => await this.model.findById(id);
 
+    readAllAndPopulate = async (populateFileds = []) => {
+        let query = this.model.find();
+        if (populateFileds.length > 0) {
+            populateFileds.forEach(field => {
+                query = query.populate(field);
+            });
+            return await query;
+        };
+    };
+
     readByIdAndPopulate = async (id, populateFileds = []) => {
         let query = this.model.findById(id);
         if (populateFileds.length > 0) {
@@ -23,7 +33,7 @@ class DaoMongo {
                 query = query.populate(field);
             });
             return await query;
-        }
+        };
     };
 
     readByFilter = async (filter) => await this.model.find(filter);

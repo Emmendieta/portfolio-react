@@ -39,17 +39,40 @@
 
 .proyectListLiInfo {
     display: grid;
-    grid-template-columns: 47% 46% 7%;
+    /*     grid-template-columns: 47% 46% 7%; */
+    grid-template-columns: 28.5% 28.5% 36% 7%;
     width: 100%;
     height: 100%;
 }
 
-#proyectListLiBody , #proyectListLiImages, .editionsControlsProyects {
+#proyectListLiBody,
+#proyectListLiImages,
+#proyectListLiBodyNext,
+.editionsControlsProyects {
     margin-top: 15px;
     margin-bottom: 15px;
 }
 
-.carousel-item.active img, .carousel-item img{
+#proyectListLiBodyNext {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#proyectListLiBodyNext > .proyectDivDiv {
+    flex: 0 0 30%;
+}
+
+#proyectListLiBodyNext > .proyectDivDivText {
+    flex: 1 1 70%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.carousel-item.active img,
+.carousel-item img {
     display: block;
     margin: 0 auto;
     width: 100%;
@@ -65,7 +88,7 @@
 .carousel-control-prev,
 .carousel-control-next {
     width: auto;
-    padding: 0 10px; 
+    padding: 0 10px;
     top: 50%;
     transform: translateY(-50%);
     opacity: 0.6;
@@ -73,11 +96,13 @@
 }
 
 .carousel-control-prev {
-    left: 200px; /* Más cerca del borde izquierdo de la imagen */
+    left: 110px;
+    /* Más cerca del borde izquierdo de la imagen */
 }
 
 .carousel-control-next {
-    right: 200px; /* Más cerca del borde derecho de la imagen */
+    right: 110px;
+    /* Más cerca del borde derecho de la imagen */
 }
 
 .editionsControlsProyects {
@@ -87,6 +112,54 @@
     align-items: flex-start;
 }
 
-.proyectDivH3 {
+.proyectDivH3,
+.proyectDivH3Text, .proyectDivH3Languages {
+    margin-bottom: 10px;
     font-size: larger;
+}
+
+#proyectListLiBodyNext div textarea {
+    width: 100%;
+    height: 80%;
+    background-color: #212529;
+    text-align: justify;
+    border: none;
+    color: whitesmoke;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#proyectFieldLanguages {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 30%;
+}
+
+.proyectLanguagesList {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+.proyectLanguageItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.languageIcon {
+    width: 45px;
+    height: 45px;
+}
+
+.languageTitle {
+    margin-top: 5px;
+    font-size: medium;
 }

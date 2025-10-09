@@ -29,6 +29,13 @@ class ProyectsController {
         //Falta Buscar por Filtro!
     };
 
+    getAllProyectsPopulated = async (req, res) => {
+        const { populate } = req.query;
+        const populateFields = populate ? populate.split("&") : [];
+        const proyects = await this.pService.readAllAndPopulate(populateFields);
+        if (proyects.length === 0) { return res.json404("No Proyects Found!(C)"); };
+        return res.json200(proyects);
+    };
 
     getProyectByIdPopulated = async (req, res) => {
         const { pyid } = req.params;

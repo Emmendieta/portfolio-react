@@ -9,6 +9,7 @@ class ProyectsRouter extends RouterHelper {
 
     init = () => {
         this.read("/", ["public"], proyectsController.getAllProyects);
+        this.read("/populated", ["public"], proyectsController.getAllProyectsPopulated);
         this.read("/:pyid", ["public"], proyectsController.getProyectById);
         this.read("/:pyid/populated", ["public"], proyectsController.getProyectByIdPopulated);
         this.create("/", ["public"], proyectsController.createProyect);

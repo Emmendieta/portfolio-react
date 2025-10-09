@@ -1,4 +1,4 @@
-import { createData, deleteData, getData, getDataById, updateData } from "../../../../helpers/crud";
+import { createData, deleteData, getAllPopulated, getData, getDataById, updateData } from "../../../../helpers/crud";
 
 export const fetchProyects = async () => {
     try {
@@ -18,6 +18,18 @@ export const fetchProyects = async () => {
         //LOGGER:
         console.error("Error fetching Proyects:", error.message);
         return { error: { message: error.message } };
+    }
+};
+
+export const fetchProyectsPopulated = async () => {
+    try {
+        const url = "proyects";
+        const response = await getAllPopulated(url, ["languages"]);
+        return response;
+    } catch (error) {
+        //LOGGER:
+        console.error("Error fetching Proyects Populated:", error.message);
+        return null;
     }
 };
 

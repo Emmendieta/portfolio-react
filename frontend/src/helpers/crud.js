@@ -65,7 +65,7 @@ export const getDataById = async (baseUrl, id) => {
 
 export const getDataPopulate = async (baseUrl, populateFields) => {
     try {
-        if (!baseUrl || !populateFields) {
+        if (!baseUrl || !populateFields || !populateFields.length === 0) {
             //LOGGER:
             console.error("All fields are needed!");
             //SWEET ALERT:
@@ -80,6 +80,34 @@ export const getDataPopulate = async (baseUrl, populateFields) => {
         };
 
         let populateQuery = Array.isArray(populateFields) ? populateFields.join(",") : populateFields;
+        const url = `http://localhost:8080/api/${baseUrl}/populated?populate=${populateQuery}`;
+        let response = await fetch(url, opts);
+        return await response.json();
+    } catch (error) {
+        //LOGGER:
+        console.error(error.message);
+        //SWEET ALERT:
+        alert("Error getting populated data!");
+    }
+};
+
+export const getAllPopulated = async (baseUrl, populateFields) => {
+    try {
+        if(!baseUrl || !populateFields || populateFields.length === 0) {
+            //LOGGER:
+            console.error("All fields are needed!");
+            //SWEET ALERT:
+            alert("All fields are needed!");
+            return;
+        };
+
+        const opts = {
+            method: GET,
+            headers: baseHeaders,
+            credentials: credentials
+        };
+
+        let populateQuery = Array.isArray(populateFields) ? populateFields.join(","): populateFields;
         const url = `http://localhost:8080/api/${baseUrl}/populated?populate=${populateQuery}`;
         let response = await fetch(url, opts);
         return await response.json();
