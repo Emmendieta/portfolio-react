@@ -1,0 +1,61 @@
+.workListLi {
+    margin: 0;
+    border-radius: 15px;
+    transition: 1.5s;
+    padding: 15px 15px 15px 0;
+}
+
+.workListLi:hover {
+    transition: 1.5s;
+    box-shadow: rgb(85, 85, 85) 5px 5px 5px 5px;
+}
+
+.workCardGrid {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    gap: "10px"
+}
+
+.workListTop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.workIcon {
+    width: 50px;
+    height: 50px;
+}
+
+.workListBody {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.workDivH3 {
+    font-size: larger;
+}
+
+.workListBottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.editionsControlsWork {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#workEdit,
+#workDelete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 32px;
+    width: 32px;
+    margin-bottom: 15px;
+}

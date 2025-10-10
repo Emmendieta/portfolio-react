@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+/* import { useContext, useEffect, useState } from "react";
 import "./WorksList.css";
 import { UserContext } from "../../../../context/UserContext";
 import { fetchDeleteWork, fetchWorks } from "./Works";
@@ -122,6 +122,86 @@ function WorkField({ label, value }) {
         <div className="workDivDiv">
             <h3 className="workDivH3">{label}</h3>
             <h3 className="workDivH3">{value || "-"}</h3>
+        </div>
+    );
+};
+
+export default WorksList; */
+
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../../../../context/UserContext";
+import { fetchDeleteWork, fetchWorks } from "./Works.js";
+import { IoIosAddCircleOutline } from "react-icons/io";
+import WorkCard from "./WorkCard/WorkCard";
+import { Link } from "react-router-dom";
+import "./WorksList.css";
+
+
+function WorksList() {
+    const { user } = useContext(UserContext);
+    const [works, setWorks] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const loadWorks = async () => {
+            const worksData = await fetchWorks();
+            if (worksData?.error) {
+                //SWEET ALERT:
+                alert(worksData.error.message);
+                setLoading(false);
+                return;
+            };
+
+            setWorks(worksData.response);
+            setLoading(false);
+        };
+
+        loadWorks();
+    }, []);
+
+    const handleDelete = async (wid) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete the Work?");
+        if (!confirmDelete) return;
+
+        try {
+            const result = await fetchDeleteWork(wid);
+            if (result.error) {
+                //SWEET ALERT:
+                alert("Error deleting the Work: ", result.error.message);
+            } else {
+                //SWEET ALERT:
+                alert("Work Deleted!");
+                setWorks((prev) => prev.filter((work) => work._id !== wid));
+            }
+        } catch (error) {
+            //LOGGER:
+            console.error("Error deleting Work: ", error.message);
+            //SWEET ALERT:
+            alert("Error deleting Work: ", error.message);
+        }
+    };
+
+    //VER SI LO DEJO:
+    if (loading) return <p>Loading...</p>
+    if (!works) return <p>No Works data available.</p>
+
+    return (
+        <div id="worksDiv">
+            <div id="worksDivTitle">
+                <h3 id="worksDivH3Title">Works:</h3>
+                {user?.role === "admin" && (
+                    <div className="addingControlGeneral">
+                        <Link to="/works/form/new" className="btn btn-outline-success" id="addBtnWork">
+                            <IoIosAddCircleOutline id="addIcon" />
+                        </Link>
+                    </div>
+                )}
+            </div>
+            <ul id="worksList">
+                {works.map((work) => (
+                    <WorkCard key={work._id} work={work} onDelete={handleDelete} />
+                ))}
+            </ul>
         </div>
     );
 };
