@@ -4,6 +4,7 @@ import { fetchDeleteProyect, fetchProyectsPopulated } from "./logicProyects.js";
 import { Link } from "react-router-dom";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import ProyectCard from "./ProyectCard/ProyectCard";
+import "./ProyectsList.css";
 
 function ProyectsList () {
     const { user } = useContext(UserContext);
