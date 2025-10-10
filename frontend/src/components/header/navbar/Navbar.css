@@ -33,3 +33,10 @@
 #btnProfile, #btnUsers {
     margin-right: 5px;
 }
+
+#signatureH4 {
+    font-family: 'Aguafina Script', cursive;
+    font-size: xx-large;
+    margin-bottom: 0;
+    margin-top: 10px;
+}

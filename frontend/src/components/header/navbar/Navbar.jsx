@@ -31,7 +31,7 @@ function Navbar() {
                     <HomeIcon />
                 </div>
                 <div className="navbarCenter">
-                    <h4>ACA VA LA FIRMA</h4>
+                    <h4 id='signatureH4'>Emiliano Manuel Mendieta</h4>
                 </div>
                 <div className="navbarRight">
                     {!loadingUser && (

@@ -27,6 +27,7 @@
 #layoutMain {
     flex: 1;
     padding: 1rem;
+    max-width: 100%;
     background-color: rgba(33, 37, 41);
 }
 
