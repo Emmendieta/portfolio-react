@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import "./Works.css";
+import "./WorksList.css";
 import { UserContext } from "../../../../context/UserContext";
 import { fetchDeleteWork, fetchWorks } from "./Works";
 import { Link } from "react-router-dom";
@@ -7,7 +7,7 @@ import { FaPen } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { IoIosAddCircleOutline } from "react-icons/io";
 
-function Works() {
+function WorksList() {
     const { user } = useContext(UserContext);
     const [works, setWorks] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -126,4 +126,4 @@ function WorkField({ label, value }) {
     );
 };
 
-export default Works;
+export default WorksList;

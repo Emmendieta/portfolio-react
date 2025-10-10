@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import "./Educations.css"; import { UserContext } from "../../../../context/UserContext";
+import "./EducationsList.css"; 
+import { UserContext } from "../../../../context/UserContext";
 import { fetchDeleteEducation, fetchEducations } from "./Educations";
 import { FaPen } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
@@ -7,7 +8,7 @@ import { Link } from "react-router-dom";
 import { IoIosAddCircleOutline } from "react-icons/io";
 ;
 
-function Educations() {
+function EducationsList() {
     const { user } = useContext(UserContext);
     const [educations, setEducations] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -122,4 +123,4 @@ function EducationField({ label, value }) {
 };
 
 
-export default Educations;
+export default EducationsList;

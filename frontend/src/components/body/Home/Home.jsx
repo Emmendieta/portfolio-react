@@ -1,16 +1,16 @@
-import Educations from "./Educations/Educations.jsx";
-import Language from "./Languajes/Language.jsx";
+import EducationsList from "./Educations/EducationsList.jsx";
+import LanguagesList from "./Languajes/LanguageList.jsx";
 import Person from "./Person/Person.jsx";
-import Proyects from "./Proyects/Proyects.jsx";
-import Works from "./Works/Works.jsx";
+import ProyectsList from "./Proyects/ProyectsList.jsx";
+import WorksList from "./Works/WorksList.jsx";
 function Home() {
     return (
         <>
             <Person />
-            <Educations />
-            <Works />
-            <Language />
-            <Proyects />
+            <EducationsList />
+            <WorksList />
+            <LanguagesList />
+            <ProyectsList />
         </>
     );
 };

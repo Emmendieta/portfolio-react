@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../../../context/UserContext";
+import { UserContext } from "../../../../context/UserContext.jsx";
 import { fetchDeleteProyect, fetchProyectsPopulated } from "./logicProyects.js";
 import { Link } from "react-router-dom";
 import { FaPen } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { IoIosAddCircleOutline } from "react-icons/io";
-import "./Proyects.css";
+import "./ProyectsList.css";
 
-function Proyects() {
+function ProyectsList() {
     const { user } = useContext(UserContext);
     const [proyects, setProyects] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -202,4 +202,4 @@ function ProyectLanguages({ languages }) {
     );
 };
 
-export default Proyects;
+export default ProyectsList;

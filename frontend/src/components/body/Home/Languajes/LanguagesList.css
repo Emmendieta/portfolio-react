@@ -1,4 +1,4 @@
-#langaugesDiv {
+/* #langaugesDiv {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -80,4 +80,32 @@
     align-items: center;
     height: 32px;
     width: 32px;
+}
+ */
+
+#langaugesDiv {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    margin-top: 20px;
+}
+
+#languagesDivTitle {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+#languageList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    width: 100%;
 }
