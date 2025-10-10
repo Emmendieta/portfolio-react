@@ -154,7 +154,7 @@ function LanguageItem({ language, isAdmin, onDelete }) {
                             }}
                         >
                             <img
-                                src={language.thumbnails?.[0] || "/img/imagen-no-disponible.png"}
+                                src={language.thumbnails || "/img/imagen-no-disponible.png"}
                                 alt={language.title}
                                 style={{
                                     width: "84%",

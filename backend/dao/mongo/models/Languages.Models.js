@@ -4,7 +4,7 @@ const languageSchema  = new mongoose.Schema(
     {
         title: { type: String, required: true },
         percent: { type: Number, required: true },
-        thumbnails: [{ type: String }]
+        thumbnails: { type: String }
     },
     { timestamps: true }
 );
