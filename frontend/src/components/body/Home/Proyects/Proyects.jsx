@@ -150,7 +150,7 @@ function ProyectField({ label, value, isTextArea = false, id = "" }) {
                 <textarea className="proyectDivH3TextArea" value={value || "-"} readOnly rows={4} />
             </div>
         );
-    }
+    };
 
     if (id && isAnArray) {
         return (
@@ -163,16 +163,15 @@ function ProyectField({ label, value, isTextArea = false, id = "" }) {
                 </ul>
             </div>
         );
-    }
+    };
 
     return (
         <div className="proyectDivDiv" id={id}>
             <h3 className="proyectDivH3">{label} {value || "-"}</h3>
         </div>
     );
-}
+};
 
-// ✅ NUEVO COMPONENTE: muestra icono + título de cada lenguaje
 function ProyectLanguages({ languages }) {
     if (!Array.isArray(languages) || languages.length === 0) {
         return (
@@ -181,7 +180,7 @@ function ProyectLanguages({ languages }) {
                 <p>-</p>
             </div>
         );
-    }
+    };
 
     return (
         <div className="proyectDivDivLanguages" id="proyectFieldLanguages">
@@ -201,6 +200,6 @@ function ProyectLanguages({ languages }) {
             </ul>
         </div>
     );
-}
+};
 
 export default Proyects;

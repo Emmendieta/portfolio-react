@@ -35,7 +35,7 @@
 .proyectListLi:hover {
     transition: 1.5s;
     box-shadow: rgb(85, 85, 85) 5px 5px 5px 5px;
-}
+} 
 
 .proyectListLiInfo {
     display: grid;
@@ -163,3 +163,4 @@
     margin-top: 5px;
     font-size: medium;
 }
+
