@@ -6,12 +6,18 @@
     padding-top: 15px;
     margin-bottom: 20px;
     border-radius: 15px;
-    transition: 1.5s;
+    opacity: 0;
+    transform: translateY(-50px);
+    transition: opacity 1.5s ease, transform 1.5s ease;
+}
+
+.languageListLi.fade-in {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .languageListLi:hover {
     box-shadow: rgb(85, 85, 85) 5px 5px 5px 5px;
-    transition: 1.5s;
 }
 
 .languageListBodyMiddle {
@@ -40,7 +46,7 @@
     justify-content: space-evenly;
     width: 100%;
     transition: all 0.3s ease;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 /* Cuando no hay admin, se oculta el espacio y contenido */

@@ -12,6 +12,7 @@ import "./LanguageCard.css";
 function LanguageCard({ language, onDelete }) {
     const { user } = useContext(UserContext);
     const [progress, setProgress] = useState(0);
+    const [visible, setVisible] = useState(false);
     const ref = useRef(null);
     const animationRef = useRef(null);
 
@@ -20,8 +21,10 @@ function LanguageCard({ language, onDelete }) {
             (entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
+                        setVisible(true);
                         animateProgress(language.percent || 0);
                     } else {
+                        setVisible(false);
                         resetProgress();
                     }
                 });
@@ -30,11 +33,12 @@ function LanguageCard({ language, onDelete }) {
         );
 
         if (ref.current) observer.observe(ref.current);
+
         return () => {
             observer.disconnect();
             if (animationRef.current) clearInterval(animationRef.current);
         };
-    }, []);
+    }, [language.percent]);
 
     const animateProgress = (target) => {
         if (animationRef.current) clearInterval(animationRef.current);
@@ -62,7 +66,11 @@ function LanguageCard({ language, onDelete }) {
     const isAdmin = user?.role === "admin";
 
     return (
-        <li className="languageListLi" ref={ref} data-id={language._id}>
+        <li
+            className={`languageListLi ${visible ? "fade-in" : ""}`}
+            ref={ref}
+            data-id={language._id}
+        >
             <div className="languageListBodyTop">
                 <div style={{ width: 100, height: 100 }}>
                     <CircularProgressbarWithChildren
@@ -126,7 +134,7 @@ function LanguageCard({ language, onDelete }) {
             </div>
         </li>
     );
-};
+}
 
 function LanguageField({ label, value }) {
     return (
@@ -136,6 +144,6 @@ function LanguageField({ label, value }) {
             </h3>
         </div>
     );
-};
+}
 
 export default LanguageCard;

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import "./ProyectCard.css";
 import { UserContext } from "../../../../../context/UserContext";
 import { Link } from "react-router-dom";
@@ -9,9 +9,43 @@ function ProyectCard({ proyect, onDelete }) {
     const { user } = useContext(UserContext);
     const isAdmin = user?.role === "admin";
 
+    const ref = useRef(null);
+    const [visible, setVisible] = useState(false);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setVisible(true);
+                    } else {
+                        setVisible(false);
+                    }
+                });
+            },
+            { threshold: 0.3 }
+        );
+
+        if (ref.current) observer.observe(ref.current);
+
+        return () => observer.disconnect();
+    }, []);
+
     return (
-        <li className="proyectListLi" data-id={proyect._id}>
-            <div className="proyectListLiInfo" style={{ gridTemplateColumns: isAdmin ? "28.5% 28.5% 36% 7%" : "35% 35% 30%" }}>
+        <li
+            ref={ref}
+            className={`proyectListLi ${visible ? "slide-in-left" : ""}`}
+            data-id={proyect._id}
+        >
+            <div
+                className="proyectListLiInfo"
+                style={{
+                    gridTemplateColumns: isAdmin
+                        ? "28.5% 28.5% 36% 7%"
+                        : "35% 35% 30%"
+                }}
+            >
+                {/* ...el resto del contenido sin cambios */}
                 <div id="proyectListLiBody">
                     <ProyectField label="Title: " value={proyect.title} />
                     <ProyectField label="Company: " value={proyect.company} />
@@ -20,12 +54,16 @@ function ProyectCard({ proyect, onDelete }) {
                     <ProyectField label="Date Started: " value={proyect.dateStart?.slice(0, 10)} />
                     <ProyectField label="Date Ended: " value={proyect.dateEnd?.slice(0, 10)} />
                 </div>
+
                 <div id="proyectListBodyNext">
                     <ProyectLanguages languages={proyect.languages} />
                     <ProyectField label="Description: " value={proyect.description} isTextArea />
                 </div>
+
                 <div id="proyectListLiImages">
+                    {/* Carousel */}
                     <div id={`carousel-${proyect._id}`} className="carousel slide" data-bs-ride="carousel">
+                        {/* indicators */}
                         <div className="carousel-indicators">
                             {(proyect.thumbnails.length > 0 ? proyect.thumbnails : ["/img/imagen-no-disponible.png"]).map((_, index) => (
                                 <button
@@ -39,7 +77,6 @@ function ProyectCard({ proyect, onDelete }) {
                                 ></button>
                             ))}
                         </div>
-
                         <div className="carousel-inner">
                             {(proyect.thumbnails.length > 0 ? proyect.thumbnails : ["/img/imagen-no-disponible.png"]).map((imgSrc, index) => (
                                 <div className={`carousel-item ${index === 0 ? "active" : ""}`} key={index}>
@@ -52,7 +89,6 @@ function ProyectCard({ proyect, onDelete }) {
                                 </div>
                             ))}
                         </div>
-
                         <button className="carousel-control-prev" type="button" data-bs-target={`#carousel-${proyect._id}`} data-bs-slide="prev">
                             <span className="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span className="visually-hidden">Previous</span>
@@ -76,10 +112,10 @@ function ProyectCard({ proyect, onDelete }) {
                 )}
             </div>
         </li>
-    )
+    );
+}
 
-};
-
+// Otros componentes no necesitan cambio
 function ProyectField({ label, value, isTextArea = false, id = "" }) {
     if (isTextArea) {
         return (
@@ -95,7 +131,7 @@ function ProyectField({ label, value, isTextArea = false, id = "" }) {
             <h3 className="proyectDivH3">{label}: {value || "-"}</h3>
         </div>
     );
-};
+}
 
 function ProyectLanguages({ languages }) {
     if (!Array.isArray(languages) || languages.length === 0) {
@@ -105,7 +141,7 @@ function ProyectLanguages({ languages }) {
                 <p>-</p>
             </div>
         );
-    };
+    }
 
     return (
         <div className="proyectDivDivLanguages" id="proyectFieldLanguages">
@@ -125,6 +161,6 @@ function ProyectLanguages({ languages }) {
             </ul>
         </div>
     );
-};
+}
 
 export default ProyectCard;

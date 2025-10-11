@@ -1,10 +1,12 @@
 .proyectListLi {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 15px;
-    border-radius: 15px;
-    transition: 1.5s;
-    padding: 10px 0 15px 15px;
+    opacity: 0;
+    transform: translateX(-100px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.proyectListLi.slide-in-left {
+    opacity: 1;
+    transform: translateX(0);
 }
 
 .proyectListLi:hover {

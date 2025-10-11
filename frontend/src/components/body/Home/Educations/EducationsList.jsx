@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import EducationCard from "./EducationCard/EducationCard";
 
-
 function EducationsList() {
     const { user } = useContext(UserContext);
     const [educations, setEducations] = useState([]);
@@ -56,7 +55,7 @@ function EducationsList() {
 
     //VER DE CAMBIAR:
     if (loading) return <p>Loading...</p>;
-    if (!educations) return <p>No Educations data available.</p>;
+    if (educations.length === 0) return <p>No Educations data available.</p>;
 
     return (
         <div id="educationsDiv">
@@ -82,7 +81,5 @@ function EducationsList() {
         </div>
     );
 };
-
-
 
 export default EducationsList;

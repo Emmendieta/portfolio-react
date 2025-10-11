@@ -62,7 +62,7 @@ function WorkField({ label, value }) {
 
 export default WorkCard; */
 
-import { useContext } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import "./WorkCard.css";
 import { UserContext } from "../../../../../context/UserContext";
 import { FaPen } from "react-icons/fa";
@@ -73,8 +73,35 @@ function WorkCard({ work, onDelete }) {
     const { user } = useContext(UserContext);
     const isAdmin = user?.role === "admin";
 
+    const cardRef = useRef(null);
+    const [ visible, setVisible] = useState(false);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    setVisible(entry.isIntersecting);
+                });
+            },
+            { 
+                threshold: 0.1,
+            }
+        );
+
+        const currentRef = cardRef.current;
+        if(currentRef) { observer.observe(currentRef); };
+
+        return () => {
+            if (currentRef) { observer.unobserve(currentRef); };
+        };
+    }, []);
+
     return (
-        <li className="workListLi" data-id={work._id}>
+        <li 
+        className={`workListLi ${visible ? "fade-in" : ""}`} 
+        data-id={work._id}
+        ref={cardRef}
+        >
             <div className="workCardGrid" style={{ gridTemplateColumns: isAdmin ? "10% 83% 7%" : "15% 85%" }} >
 
                 <div className="workListTop">
