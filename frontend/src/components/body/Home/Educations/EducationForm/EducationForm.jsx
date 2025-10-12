@@ -46,6 +46,13 @@ function EducationForm() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        if(formData.typeEducation === "") {
+            //SWEET ALERT:
+            alert("Please select a valid type of Education!");
+            return;
+        };
+        
         let result;
         if (isEdit) {
             result = await fetchUpdateEducation(id, formData);

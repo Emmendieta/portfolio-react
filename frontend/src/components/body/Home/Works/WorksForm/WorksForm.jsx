@@ -75,7 +75,7 @@ function WorksForm() {
                     <WorkField label="Date Started: " value={formData.dateStart.slice(0, 10)} placeholder="Select the date you started to work in the company" name="dateStart" type="date" onChange={handleChange} />
                     <WorkField label="Date Ended: " value={formData.dateEnd.slice(0, 10)} placeholder="Select the date you finish working in the company" name="dateEnd" type="date" onChange={handleChange} />
                     <WorkField label="Finished?: " value={formData.finished} placeholder="Still working in the company?" name="finished" type="checkbox" onChange={handleChange} />
-                    <WorkField label="Imagen: " value={formData.thumbnails} placeholder="Type the links to the images" name="thumbnails" type="text" onChange={handleChange} />
+                    <WorkField label="Image: " value={formData.thumbnails} placeholder="Type the link to the image" name="thumbnails" type="text" onChange={handleChange} />
                     <WorkField label="Description: " value={formData.description} placeholder="Type a description of you functions in the work" name="description" type="text" onChange={handleChange} />
                 </div>
                 <div id="formGeneralBottom">

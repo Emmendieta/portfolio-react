@@ -9,7 +9,7 @@ const worksSchema = new mongoose.Schema(
         linkCompany: { type: String },
         finished: { type: Boolean },
         description: { type: String, required: true },
-        thumbnails: [{ type: String }]
+        thumbnails: { type: String }
     },
     { timestamps: true }    
 );

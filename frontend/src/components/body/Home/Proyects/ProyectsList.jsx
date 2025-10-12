@@ -58,7 +58,7 @@ function ProyectsList () {
                 <h3 id="proyectsDivH3Title">Proyects:</h3>
                 {user?.role === "admin" && (
                     <div className="addControlGeneral">
-                        <Link to="/proyects/from/new" className="btn btn-outline-success"id="addBtnproyect">
+                        <Link to="/proyects/form/new" className="btn btn-outline-success"id="addBtnproyect">
                             <IoIosAddCircleOutline id="addIcon" />
                         </Link>
                     </div>

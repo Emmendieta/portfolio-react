@@ -1,0 +1,59 @@
+.divFiledsGeneralLanguages {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.divFiledsGeneralLanguages h3 {
+    margin-right: 10px;
+    font-size: large;
+    width: 30%;
+    margin-top: 10px;
+}
+
+.divFiledsGeneralLanguages select {
+    width: auto;
+    min-width: 150px;
+    margin: 0 auto;
+    margin-top: 10px;
+    display: block;
+    border-radius: 15px;
+    padding: 5px 10px;
+}
+
+.divFiledsGeneralLanguagesTop {
+    display:  flex;
+    align-items: center;
+    width: 100%;
+}
+
+.divFiledsGeneralLanguagesBottom {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.selectedLanguageItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 15px 7.5px;
+}
+
+.selectedLanguageItemDescription { 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.selectedLanguageItemDescription img {
+    width: 50px;
+    height: 50px;
+}
+
+
+
+
+
