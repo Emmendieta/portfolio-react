@@ -4,6 +4,7 @@ import { UserContext } from "../../../../../context/UserContext";
 import { Link } from "react-router-dom";
 import { FaPen } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
+import GeneralFieldsDark from "../../GeneralFieldsDark/GeneralFieldsDark";
 
 function EducationCard({ education, onDelete }) {
     const { user } = useContext(UserContext);
@@ -16,7 +17,7 @@ function EducationCard({ education, onDelete }) {
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach(entry => {
-                    setVisible(entry.isIntersecting); 
+                    setVisible(entry.isIntersecting);
                 });
             },
             {
@@ -57,16 +58,16 @@ function EducationCard({ education, onDelete }) {
                 </a>
             </div>
             <div className="educationDivBodyTop">
-                <EducationField label="Institution: " value={education.institutionName} />
-                <EducationField label="Link Institution: " value={education.linkInstitution} />
-                <EducationField label="Title: " value={education.title} />
-                <EducationField label="Link Certificate: " value={education.linkCertificate} />
-                <EducationField label="Date Started: " value={education.dateStart.slice(0, 10)} />
-                <EducationField label="Date Ended: " value={education.dateEnd.slice(0, 10)} />
-                <EducationField label="Type of Education: " value={education.typeEducation} />
+                <GeneralFieldsDark label="Institution:" value={education.institutionName} />
+                <GeneralFieldsDark label="Link Institution:" value={education.linkInstitution} />
+                <GeneralFieldsDark label="Title:" value={education.title} />
+                <GeneralFieldsDark label="Link Certificate:" value={education.linkCertificate} />
+                <GeneralFieldsDark label="Date Started:" value={education.dateStart?.slice(0, 10)} />
+                <GeneralFieldsDark label="Date Ended:" value={education.dateEnd?.slice(0, 10)} />
+                <GeneralFieldsDark label="Type of Education:" value={education.typeEducation} />
             </div>
             <div className="educationDivBodyBottom">
-                <EducationField label="Description: " value={education.description} />
+                <GeneralFieldsDark label="Description:" value={education.description} isTextArea />
             </div>
 
             {isAdmin && (
@@ -82,13 +83,5 @@ function EducationCard({ education, onDelete }) {
         </li>
     );
 };
-
-function EducationField({ label, value }) {
-    return (
-        <div className="educationDivDiv">
-            <h3 className="educationDivH3">{label} {value || "-"}</h3>
-        </div>
-    );
-}
 
 export default EducationCard;

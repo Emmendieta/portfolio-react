@@ -4,6 +4,7 @@ import { UserContext } from "../../../../../context/UserContext";
 import { Link } from "react-router-dom";
 import { FaPen } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
+import GeneralFields from "../../GeneralFields/GeneralFields";
 
 function ProyectCard({ proyect, onDelete }) {
     const { user } = useContext(UserContext);
@@ -45,19 +46,18 @@ function ProyectCard({ proyect, onDelete }) {
                         : "35% 35% 30%"
                 }}
             >
-                {/* ...el resto del contenido sin cambios */}
                 <div id="proyectListLiBody">
-                    <ProyectField label="Title: " value={proyect.title} />
-                    <ProyectField label="Company: " value={proyect.company} />
-                    <ProyectField label="Link Company: " value={proyect.linkCompany} />
-                    <ProyectField label="Link to Proyect: " value={proyect.linkProyect} />
-                    <ProyectField label="Date Started: " value={proyect.dateStart?.slice(0, 10)} />
-                    <ProyectField label="Date Ended: " value={proyect.dateEnd?.slice(0, 10)} />
+                    <GeneralFields label="Title: " value={proyect.title} />
+                    <GeneralFields label="Company: " value={proyect.company} />
+                    <GeneralFields label="Link Company: " value={proyect.linkCompany} />
+                    <GeneralFields label="Link to Proyect: " value={proyect.linkProyect} />
+                    <GeneralFields label="Date Started: " value={proyect.dateStart?.slice(0, 10)} />
+                    <GeneralFields label="Date Ended: " value={proyect.dateEnd?.slice(0, 10)} />
                 </div>
 
                 <div id="proyectListBodyNext">
                     <ProyectLanguages languages={proyect.languages} />
-                    <ProyectField label="Description: " value={proyect.description} isTextArea />
+                    <GeneralFields label="Description: " value={proyect.description} isTextArea />
                 </div>
 
                 <div id="proyectListLiImages">
@@ -112,24 +112,6 @@ function ProyectCard({ proyect, onDelete }) {
                 )}
             </div>
         </li>
-    );
-}
-
-// Otros componentes no necesitan cambio
-function ProyectField({ label, value, isTextArea = false, id = "" }) {
-    if (isTextArea) {
-        return (
-            <div className="proyectDivDivText" id={id}>
-                <h3 className="proyectDivH3Text">{label}</h3>
-                <textarea className="proyectDivH3TextArea" value={value || "-"} readOnly rows={9} />
-            </div>
-        );
-    };
-
-    return (
-        <div className="proyectDivDiv" id={id}>
-            <h3 className="proyectDivH3">{label}: {value || "-"}</h3>
-        </div>
     );
 }
 
