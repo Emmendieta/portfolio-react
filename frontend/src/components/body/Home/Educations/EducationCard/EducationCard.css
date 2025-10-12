@@ -3,9 +3,12 @@
     width: 100%;
     align-items: flex-start;
     border-radius: 15px;
-    padding: 15px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    padding-right: 20px;
     margin-bottom: 20px;
     overflow: visible !important;
+    margin-top: 80px;
 
     /* Animación de entrada por scroll */
     opacity: 0;
@@ -19,7 +22,7 @@
 }
 
 .educationCardItem:hover {
-    box-shadow: rgba(85, 85, 85, 0.5) 5px 5px 15px;
+    box-shadow: rgba(163, 163, 163, 0.5) 5px 5px 15px;
 }
 
 .educationDivImg {

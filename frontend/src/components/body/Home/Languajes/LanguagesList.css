@@ -3,7 +3,9 @@
     flex-direction: column;
     width: 100%;
     height: auto;
-    margin-top: 20px;
+    padding: 100px 15px;
+    margin-top: 50px;
+    margin-bottom: 180px;
 }
 
 #languagesDivTitle {
@@ -11,7 +13,7 @@
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
-    margin-bottom: 15px;
+    margin-bottom: 50px;
 }
 
 #languageList {

@@ -2,6 +2,10 @@
     opacity: 0;
     transform: translateX(-100px);
     transition: opacity 1s ease, transform 1s ease;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 80px;
+    margin-top: 80px;
 }
 
 .proyectListLi.slide-in-left {
@@ -12,7 +16,7 @@
 .proyectListLi:hover {
     transition: 1.5s;
     box-shadow: rgb(85, 85, 85) 5px 5px 5px 5px;
-} 
+}
 
 .proyectListLiInfo {
     display: grid;
@@ -35,11 +39,11 @@
     flex-direction: column;
 }
 
-#proyectListLiBodyNext > .proyectDivDiv {
+#proyectListLiBodyNext>.proyectDivDiv {
     flex: 0 0 30%;
 }
 
-#proyectListLiBodyNext > .proyectDivDivText {
+#proyectListLiBodyNext>.proyectDivDivText {
     flex: 1 1 70%;
     display: flex;
     flex-direction: column;
@@ -94,12 +98,13 @@
 .proyectDivH3TextArea {
     width: 100%;
     height: 80%;
-    background-color: #212529;
     text-align: justify;
     border: none;
-    color: whitesmoke;
+    background-color: #E6E4D8;
+    color: rgba(0, 0, 0, 0.719);
     padding-left: 5px;
     padding-right: 5px;
+    resize: none;
 }
 
 #proyectFieldLanguages {
@@ -135,4 +140,9 @@
 .languageTitle {
     margin-top: 5px;
     font-size: medium;
+}
+
+#proyectListBodyNext {
+    margin-top: 15px;
+    margin-bottom: 15px;
 }

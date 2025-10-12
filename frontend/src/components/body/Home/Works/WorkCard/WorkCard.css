@@ -2,7 +2,7 @@
     margin: 0;
     border-radius: 15px;
     transition: 1.5s;
-    padding: 15px 15px 15px 0;
+    padding: 50px 15px 50px 0;
     opacity: 0;
     transform: translateX(50px);
     transition: opacity 1.5s ease, transform 1.5s ease;

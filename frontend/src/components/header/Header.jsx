@@ -4,12 +4,12 @@ import "./Header.css";
 function Header() {
     return (
         <>
-            <header className="bg-dark">
+            <div className="headerDiv">
                 <div>
                     <Navbar />
                 </div>
                 <div id="hdDivLine"></div>
-            </header>
+            </div>
         </>
     );
 };

@@ -1,7 +1,7 @@
 #ftDivLine {
     height: 5%;
     width: 75%;
-    border-top: 1px solid rgba(0, 0, 0, 0.411);
+    border-top: 1px solid rgb(255, 0, 0);
     margin: 0 auto 5px auto;
 }
 

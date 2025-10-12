@@ -53,7 +53,7 @@ function ProyectsList () {
     if(!proyects) return <p>No Proyects data available.</p>
 
     return (
-        <div id="proyectList">
+        <div id="proyectsDiv">
             <div id="proyectsDivTitle">
                 <h3 id="proyectsDivH3Title">Proyects:</h3>
                 {user?.role === "admin" && (

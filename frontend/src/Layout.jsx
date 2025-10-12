@@ -17,7 +17,6 @@ function Layout() {
                     <Footer />
                 </footer>
             </div>
-
         </div>
     );
 };
