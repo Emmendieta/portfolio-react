@@ -14,7 +14,7 @@ const educationSchema = new mongoose.Schema(
         finished: { type: Boolean },
         typeEducation: {
             type: String,
-            enum: ["Primary School", "High School", "University", "Course", "Conference"],
+            enum: ["Primary School", "High School", "University", "Course", "Conference", "Other"],
             required: true
         },
         description: { type: String, required: true }

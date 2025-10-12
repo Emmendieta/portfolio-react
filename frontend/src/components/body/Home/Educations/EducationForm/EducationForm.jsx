@@ -76,7 +76,14 @@ function EducationForm() {
                     <EducationField label="Link Certificate: " value={formData.linkCertificate} placeholder="Type the Link of the Certificate" name="linkCertificate" type="text" onChange={handleChange} />
                     <EducationField label="Date Started: " value={formData.dateStart.slice(0, 10)} placeholder="Select the date you started" name="dateStart" type="date" onChange={handleChange} />
                     <EducationField label="Date Ended: " value={formData.dateEnd.slice(0, 10)} placeholder="Select the date you ended" name="dateEnd" type="date" onChange={handleChange} />
-                    <EducationField label="Type of Education: " value={formData.typeEducation} placeholder="Select the type of Education" name="typeEducation" type="text" onChange={handleChange} />
+                    {/* <EducationField label="Type of Education: " value={formData.typeEducation} placeholder="Select the type of Education" name="typeEducation" type="text" onChange={handleChange} /> */}
+                    <EducationSelectField
+                        label="Type of Education:"
+                        name="typeEducation"
+                        value={formData.typeEducation}
+                        onChange={handleChange}
+                        options={["Primary School", "High School", "University", "Course", "Conference", "Other"]}
+                    />
                     <EducationField label="Description: " value={formData.description} placeholder="Type a description of what you studied" name="description" type="text" onChange={handleChange} />
                     <EducationField label="Institution Icon: " value={formData.iconInstitution} placeholder="Type the Link of the Icon of the Institution" name="iconInstitution" type="text" onChange={handleChange} />
                 </div>
@@ -94,8 +101,22 @@ function EducationField({ label, value, type, placeholder, name, onChange }) {
     return (
         <div className="divFieldsGeneral">
             <h3>{label}</h3>
-            <input type={type}  name={name} value={value || ""} placeholder={placeholder} onChange={onChange} />
-        </div> 
+            <input type={type} name={name} value={value || ""} placeholder={placeholder} onChange={onChange} />
+        </div>
+    );
+};
+
+function EducationSelectField({ label, name, value, options, onChange }) {
+    return (
+        <div className="divFieldsSelectGeneral">
+            <h3>{label}</h3>
+            <select name={name} value={value} onChange={onChange}>
+                <option value="">Selecty type of Education</option>
+                {options.map((option) => (
+                    <option key={option} value={option}>{option}</option>
+                ))}
+            </select>
+        </div>
     );
 };
 
