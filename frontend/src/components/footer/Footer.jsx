@@ -1,10 +1,15 @@
+import { useState } from 'react';
 import Contacts from './contacts/Contacts';
 import './Footer.css';
 import NewSocialMediaContact from './newSocialMediaContact/newSocialMediaContact';
 import SocialMedias from './socialMedias/SocialMedias';
+import { useRefresh } from '../../context/RefreshContext';
 
 
 function Footer() {
+
+    const { refreshKey } = useRefresh();
+
     return (
         <>
             <div id="ftDivLine"></div>
@@ -13,13 +18,13 @@ function Footer() {
             </div>
             <div id="ftDivMiddle">
                 <section id="secContacts">
-                    <Contacts />
+                    <Contacts refreshKey={refreshKey} />
                 </section>
                 <section id="secSignature">
                     <h4 id='signatureH4'>Emiliano Manuel Mendieta</h4>
                 </section>
                 <section id="secSocialMedias">
-                    <SocialMedias />
+                    <SocialMedias refreshKey={refreshKey} />
                 </section>
             </div>
             <div id="ftDivBottom">

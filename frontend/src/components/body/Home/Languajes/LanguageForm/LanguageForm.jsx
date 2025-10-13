@@ -73,7 +73,7 @@ function LanguagesForm() {
                 </div>
             </form>
         </div>
-    )
+    );
 };
 
 //VER SI ESTO LO DEJO COMO GENERAL:

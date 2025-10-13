@@ -11,7 +11,7 @@ function NewSocialMediaContact() {
     if(!user || user.role !== "admin") return null;
 
     return (
-        <Link to="/social-medias/create" className="btn btn-outline-success iconABMPlus-sm" id="addBtnSocialMedia">
+        <Link to="/social-medias/form/new" className="btn btn-outline-success iconABMPlus-sm" id="addBtnSocialMedia">
             <IoIosAddCircleOutline id="addIcon"/>
         </Link>
     );

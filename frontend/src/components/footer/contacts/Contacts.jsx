@@ -5,10 +5,12 @@ import { FaPen } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import "./Contacts.css";
 import { fetchContacts, fetchDeleteContact } from "./logicContacts.js";
+import { useRefresh } from "../../../context/RefreshContext.jsx";
 
 function Contacts() {
     const [contacts, setContacts] = useState([]);
     const { user } = useContext(UserContext);
+    const { refreshKey } = useRefresh();
 
     useEffect(() => {
         const loadContacts = async () => {
@@ -16,7 +18,7 @@ function Contacts() {
             setContacts(contactsData);
         };
         loadContacts();
-    }, []);
+    }, [refreshKey]);
 
     const handleDelete = async (sid) => {
         //SWEET ALERT:
@@ -58,7 +60,7 @@ function Contacts() {
 
                     {user?.role === "admin" && (
                         <div className="editionControlsContacts">
-                            <Link to={`/social-medias/edit/${contact._id}`} id="contactEdit" className="btn btn-outline-primary btn-sm" >
+                            <Link to={`/social-medias/form/${contact._id}`} id="contactEdit" className="btn btn-outline-primary btn-sm" >
                                 <FaPen />
                             </Link>
                             <button className="btn btn-outline-danger btn-sm" id="contactDelete" onClick={() => handleDelete(contact._id)} >

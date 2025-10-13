@@ -42,7 +42,7 @@ class SocialMediasController {
         if (!data) { return res.json400("No Data to update!(C)"); };
         const socialMedia = await this.verifySocialMediaFun(sid);
         if (socialMedia === null) { return res.json404("No Social Media Found!(C)"); };
-        const verifyTitle = await this.verifySocialMediaTitle(data.title);
+        const verifyTitle = await this.verifySocialMediaTitle(data.title, sid);
         if (verifyTitle === 1) { return res.json400("Social Media alredy Exist!(C)"); }
         else {
             const socialMediaUpdated = await this.sMService.updateById(sid, data);
@@ -66,9 +66,10 @@ class SocialMediasController {
         else { return verify; };
     };
 
-    verifySocialMediaTitle = async (title) => {
-        const verifyTitle = await this.sMService.readByFilter({ title });
+    verifySocialMediaTitle = async (title, sid = null) => {
+        const verifyTitle = await this.sMService.readOneByFilter({ title });
         if (!verifyTitle || verifyTitle.length === 0) { return 0; }
+        if(sid && verifyTitle._id.toString() === sid.toString()) { return 0; }
         else { return 1; };
     };
 };

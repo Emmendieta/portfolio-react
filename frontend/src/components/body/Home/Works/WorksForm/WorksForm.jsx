@@ -34,7 +34,7 @@ function WorksForm() {
                 setFormData(result.response);
             };
             loadWork();
-        }
+        };
     }, [id, isEdit]);
 
     const handleChange = (event) => {

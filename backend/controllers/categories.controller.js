@@ -37,23 +37,27 @@ class CategoriesController {
 
     updateCategoryById = async (req, res) => {
         const { cid } = req.params;
-        if (cid.length !== 24) { return res.json400("Invalid Category ID!(C)"); };
+        if (cid.length !== 24) return res.json400("Invalid Category ID!(C)");
+
         const data = req.body;
-        if(!data) { return res.json400("No data to update!(C)"); };
-        if(data.title.length === 0) { return res.json400("The Title of the Category can't be null!(C)"); };
-        const category = await this.verifyCategoryFun(cid);
-        if (category === null) { return res.json404("Category Not Found!(C)"); };
-        if (data.title) {
-            const verifyCategoryTitle = await this.verifyCategoryTitle(data.title);
-            if (verifyCategoryTitle === 1) { return res.json400("The Title of the Category alredy Exist!(C)"); }
-            else {
-                const categoryUpdated = await this.cService.updateById(cid, data);
-                return res.json200(categoryUpdated);
-            };
-        } else {
-            const categoryUpdated = await this.cService.updateById(cid, data);
-            return res.json200(categoryUpdated);
+        if (!data) return res.json400("No data to update!(C)");
+        if (data.title && data.title.length === 0) {
+            return res.json400("The Title of the Category can't be null!(C)");
         };
+
+        const category = await this.verifyCategoryFun(cid);
+        if (category === null) return res.json404("Category Not Found!(C)");
+
+        // Verificamos si el título ya existe y si no es de la misma categoría
+        if (data.title) {
+            const verifyCategoryTitle = await this.verifyCategoryTitle(data.title, cid);
+            if (verifyCategoryTitle === 1) {
+                return res.json400("The Title of the Category already exists!(C)");
+            };
+        };
+
+        const categoryUpdated = await this.cService.updateById(cid, data);
+        return res.json200(categoryUpdated);
     };
 
     deleteCategoryById = async (req, res) => {
@@ -67,16 +71,19 @@ class CategoriesController {
     };
 
     verifyCategoryFun = async (cid) => {
-        if(!isValidObjectId(cid)) { return res.json400("Invalid Category Id!(C)"); };
+        if (!isValidObjectId(cid)) { return res.json400("Invalid Category Id!(C)"); };
         const verify = await this.cService.readById(cid);
         if (!verify) { return null }
         else { return verify; }
     };
 
-    verifyCategoryTitle = async (title) => {
-        const verifyTitle = await this.cService.readByFilter({ title });
-        if (verifyTitle) { return 1; }
-        else { return 0; };
+    verifyCategoryTitle = async (title, cid = null) => {
+        const existingCategory = await this.cService.readOneByFilter({ title });
+        if (!existingCategory) return 0;
+        if (cid && existingCategory._id.toString() === cid.toString()) {
+            return 0;
+        };
+        return 1;
     };
 };
 

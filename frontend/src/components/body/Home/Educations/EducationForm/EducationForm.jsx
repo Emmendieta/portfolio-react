@@ -118,7 +118,7 @@ function EducationSelectField({ label, name, value, options, onChange }) {
         <div className="divFieldsSelectGeneral">
             <h3>{label}</h3>
             <select name={name} value={value} onChange={onChange}>
-                <option value="">Selecty type of Education</option>
+                <option value="">Select type of Education</option>
                 {options.map((option) => (
                     <option key={option} value={option}>{option}</option>
                 ))}

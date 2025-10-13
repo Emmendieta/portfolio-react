@@ -5,10 +5,12 @@ import { Link } from "react-router-dom";
 import { FaPen } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import "./SocialMedias.css";
+import { useRefresh } from "../../../context/RefreshContext";
 
 function SocialMedias() {
     const [socialMedias, setSocialMedias] = useState([]);
     const { user } = useContext(UserContext);
+    const { refreshKey } = useRefresh();
 
     useEffect(() => {
         const loadSocialMedias = async () => {
@@ -16,7 +18,7 @@ function SocialMedias() {
             setSocialMedias(socialMediasData);
         };
         loadSocialMedias();
-    }, []);
+    }, [refreshKey]);
 
     const handleDelte = async (sid) => {
         //SWEET ALERT:
@@ -59,7 +61,7 @@ function SocialMedias() {
 
                     {user?.role === "admin" && (
                         <div className="editionControls">
-                            <Link to={`/social-medias/edit/${socialMedia._id}`} id="socialMediaEdit" className="btn btn-outline-primary btn-sm" >
+                            <Link to={`/social-medias/form/${socialMedia._id}`} id="socialMediaEdit" className="btn btn-outline-primary btn-sm" >
                                 <FaPen />
                             </Link>
                             <button className="btn btn-outline-danger btn-sm" id="socialMediaDelete" onClick={() => handleDelte(socialMedia._id)} >

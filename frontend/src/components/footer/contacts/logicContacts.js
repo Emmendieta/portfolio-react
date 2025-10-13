@@ -6,7 +6,7 @@ export const fetchContacts = async () => {
         const data = await getData(url);
 
         if (data?.response) {
-            const onlyContacts = data.response.filter(item => item.type === "contact");
+            const onlyContacts = data.response.filter(item => item.type === "Contact");
             return onlyContacts;
         }
     } catch (error) {

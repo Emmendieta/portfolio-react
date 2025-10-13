@@ -84,5 +84,4 @@ function WorkCard({ work, onDelete }) {
     );
 };
 
-
 export default WorkCard;
