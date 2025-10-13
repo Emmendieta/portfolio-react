@@ -46,9 +46,8 @@ function UpdatePerson() {
         const data = {
             firstName: updateFirstName,
             lastName: updateLastName,
-            //VER PARA DESPUES DE ACTUALIZAR EL DNI Y CUIL
-            /*             dni: updateDNI,
-                        cuil: updateCUIL, */
+            dni: updateDNI,
+            cuil: updateCUIL,
             birthday: updateBirthday,
             jobTitles: updateJobTitles,
             about: updateAbout,
@@ -91,11 +90,11 @@ function UpdatePerson() {
                             </div>
                             <div className="updateDataDivDiv">
                                 <label className="updateDataDivh3">DNI: </label>
-                                <input type="number" value={updateDNI} disabled={true} onChange={(e) => setDNI(e.target.value)} />
+                                <input type="number" value={updateDNI} onChange={(e) => setDNI(e.target.value)} />
                             </div>
                             <div className="updateDataDivDiv">
                                 <label className="updateDataDivh3">CUIL: </label>
-                                <input type="number" value={updateCUIL} disabled={true} onChange={(e) => setCUIL(e.target.value)} />
+                                <input type="number" value={updateCUIL} onChange={(e) => setCUIL(e.target.value)} />
                             </div>
                             <div className="updateDataDivDiv">
                                 <label className="updateDataDivh3">Birthday: </label>

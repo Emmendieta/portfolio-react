@@ -51,7 +51,7 @@ function SocialMedias() {
                 <li key={socialMedia._id} data-id={socialMedia._id}>
                     <a href={socialMedia.linkSocial} target="_blank" rel="noopener noreferrer" title={socialMedia.title}>
                         { <img 
-                            src={socialMedia.thumbnails?.[0] || "/img/imagen-no-disponible.png"}
+                            src={socialMedia.thumbnails || "/img/imagen-no-disponible.png"}
                             alt={socialMedia.title}
                             className="socialMediaIcon"
                             onError={(event) => event.currentTarget.src = "/img/imagen-no-disponible.png"}

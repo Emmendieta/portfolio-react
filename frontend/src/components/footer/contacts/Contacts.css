@@ -24,8 +24,10 @@
     align-items: center;
 }
 
-.socialMediaIcon {
-    margin: 0 2.5px 0 0;
+.socialMediaContactIcon {
+    margin: 0 2.5px 5px 0;
+    max-width: 35px;
+    max-height: 35px;
 }
 
 #contactEdit, #contactDelete {

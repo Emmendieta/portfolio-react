@@ -50,9 +50,9 @@ function Contacts() {
                 <li key={contact._id} data-id={contact._id}>
                     <a href={contact.linkSocial} target="_blank" rel="noopener noreferrer" title={contact.title}>
                     { <img
-                            src={contact.thumbnails?.[0] || "/img/imagen-no-disponible.png"}
+                            src={contact.thumbnails || "/img/imagen-no-disponible.png"}
                             alt={contact.title}
-                            className="socialMediaIcon"
+                            className="socialMediaContactIcon"
                             onError={(event) => event.currentTarget.src = "/img/imagen-no-disponible.png"}
                         />}
                         <h5>{contact.title}</h5>

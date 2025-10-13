@@ -11,6 +11,8 @@ class EducationsController {
         if (!data || !data.institutionName || !data.title || !data.dateStart || !data.typeEducation || !data.description) {
             res.json400("Missing Information!(C)");
         };
+        const verifyEducation = await this.verifyEducationTitleTypeAndName(data.title, data.typeEducation, data.institutionName);
+        if (verifyEducation === 1) { return res.json400("Error: Alredy exist an Education with the same Name of the Institucion, de Type of Education and the Title!(C)"); };
         const education = await this.eService.createOne(data);
         if (!education) { return res.json400("Couldn't create the Education!(C)"); };
         res.json201(education);;
@@ -60,6 +62,13 @@ class EducationsController {
         const verify = await this.eService.readById(eid);
         if (!verify) { return null }
         else { return verify; };
+    };
+
+    verifyEducationTitleTypeAndName = async (title, typeEducation, institutionName, eid = null) => {
+        const exitingEducation = await this.eService.readOneByFilter({ title, typeEducation, institutionName });
+        if(!exitingEducation) { return 0; };
+        if (eid && exitingEducation._id.toString() === eid.toString()) { return 0; }
+        return 1;
     };
 };
 
