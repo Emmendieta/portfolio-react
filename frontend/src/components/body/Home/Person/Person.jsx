@@ -48,7 +48,8 @@ function Person() {
                 {user?.role === "admin" && (
                     <div className="editionControlsPerson">
                         <Link
-                            to={`/person/edit/${person._id}`}
+                            to="/update-person"
+                            state={{ person }}
                             className="btn btn-outline-primary btn-sm"
                             id="btnPersonEdit"
                         >

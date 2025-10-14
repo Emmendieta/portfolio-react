@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../../../context/UserContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchCreateLanguage, fetchLanguageById, fetchUpdateLangauge } from "../Language";
-
+import "../../FormGeneral.css";
 
 //Falta Validar si el usuario es Admin:
 function LanguagesForm() {
@@ -14,14 +14,15 @@ function LanguagesForm() {
     const [formData, setFormData] = useState({
         title: "",
         percent: 0,
-        thumbnails: ""
+        thumbnails: "",
+        type: ""
     });
 
     useEffect(() => {
         if (isEdit) {
             const loadLanguage = async () => {
                 const result = await fetchLanguageById(id);
-                if(result?.error) {
+                if (result?.error) {
                     //SWEET ALERT:
                     alert("Error loadign Language by Id");
                     return;
@@ -39,6 +40,13 @@ function LanguagesForm() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        if (!formData.type) {
+            //SWEET ALERT:
+            alert("Please select a valid Type of Language!");
+            return;
+        };
+
         let result;
         if (isEdit) {
             result = await fetchUpdateLangauge(id, formData);
@@ -46,7 +54,7 @@ function LanguagesForm() {
             result = await fetchCreateLanguage(formData);
         };
 
-        if(result?.error) {
+        if (result?.error) {
             //SWEET ALERT:
             alert("Error saving Language");
         } else {
@@ -65,21 +73,39 @@ function LanguagesForm() {
                 <div id="formGeneralContentBody">
                     <LanguageField label="Name: " value={formData.title} placeholder="Type here the name of the Language" name="title" type="text" onChange={handleChange} />
                     <LanguageField label="Percent: " value={formData.percent} placeholder="Type the percent of knowledge" name="percent" type="number" onChange={handleChange} />
+
+                    {/* 👉 Tipo (Hard / Soft) */}
+                    <div className="divFieldsSelectGeneral">
+                        <h3>Type:</h3>
+                        <select
+                            name="type"
+                            value={formData.type}
+                            onChange={handleChange}
+                            className="div"
+                        >
+                            <option value="">Select type of Language</option>
+                            <option value="Hard">Hard</option>
+                            <option value="Soft">Soft</option>
+                        </select>
+                    </div>
+
                     <LanguageField label="Image: " value={formData.thumbnails} placeholder="Type here the Link of the Image" name="thumbnails" type="text" onChange={handleChange} />
                 </div>
 
                 {formData.thumbnails && (
                     <div className="iconPreviewContanier">
                         <h4>Preview of The Image:</h4>
-                        <img 
+                        <img
                             src={formData.thumbnails}
                             alt="Language Image"
                             onError={(event) => event.currentTarget.src = "/img/imagen-no-disponible.png"}
                             className="previewImage"
                         />
                     </div>
-                    
+
                 )}
+
+
                 <div id="formGeneralBottom">
                     <a className="btn btn-outline-success" id="btnGoBack" href="/">Go Back</a>
                     <button className="btn btn-outline-success" type="submit">{isEdit ? "Update" : "Create"}</button>

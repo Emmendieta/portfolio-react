@@ -46,30 +46,82 @@ function LanguagesList() {
     if (loading) return <p>Loading...</p>;
     if (!languages || languages.length === 0) return <p>No Languages data available.</p>;
 
+    const hardSkills = languages.filter(lang => lang.type === "Hard");
+    const softSkills = languages.filter(lang => lang.type === "Soft");
+
     return (
         <div id="langaugesDiv">
             <div id="languagesDivTitle">
-                <h3 id="languagesDivH3Title">Languages:</h3>
-                { user?.role === "admin" && (
-                <div className="addingControlGeneral">
-                    <Link to="/languages/form/new" className="btn btn-outline-success" id="addBtnLanguage">
-                        <IoIosAddCircleOutline id="addIcon" />
-                    </Link>
-                </div>
+                <h3 id="languagesDivH3Title">Languages/Skills:</h3>
+                {user?.role === "admin" && (
+                    <div className="addingControlGeneral">
+                        <Link to="/languages/form/new" className="btn btn-outline-success" id="addBtnLanguage">
+                            <IoIosAddCircleOutline id="addIcon" />
+                        </Link>
+                    </div>
                 )}
             </div>
+            <div id="languageDivContainer">
+                {/* 🧠 Hard Skills */}
+                {hardSkills.length > 0 && (
+                    <div className="languageCategory">
+                        <h4 className="languageCategoryTitle">Hard Skills:</h4>
+                        <ul className="languageList">
+                            {hardSkills.map(language => (
+                                <LanguageCard
+                                    key={language._id}
+                                    language={language}
+                                    onDelete={handleDelete}
+                                />
+                            ))}
+                        </ul>
+                    </div>
+                )}
 
-            <ul id="languageList">
-                {languages.map((language) => (
-                    <LanguageCard
-                        key={language._id}
-                        language={language}
-                        onDelete={handleDelete}
-                    />
-                ))}
-            </ul>
+                {/* 💬 Soft Skills */}
+                {softSkills.length > 0 && (
+                    <div className="languageCategory">
+                        <h4 className="languageCategoryTitle">Soft Skills:</h4>
+                        <ul className="languageList">
+                            {softSkills.map(language => (
+                                <LanguageCard
+                                    key={language._id}
+                                    language={language}
+                                    onDelete={handleDelete}
+                                />
+                            ))}
+                        </ul>
+                    </div>
+                )}
+            </div>
         </div>
     );
-}
+
+
+    /*     return (
+            <div id="langaugesDiv">
+                <div id="languagesDivTitle">
+                    <h3 id="languagesDivH3Title">Languages:</h3>
+                    {user?.role === "admin" && (
+                        <div className="addingControlGeneral">
+                            <Link to="/languages/form/new" className="btn btn-outline-success" id="addBtnLanguage">
+                                <IoIosAddCircleOutline id="addIcon" />
+                            </Link>
+                        </div>
+                    )}
+                </div>
+    
+                <ul id="languageList">
+                    {languages.map((language) => (
+                        <LanguageCard
+                            key={language._id}
+                            language={language}
+                            onDelete={handleDelete}
+                        />
+                    ))}
+                </ul>
+            </div>
+        ); */
+};
 
 export default LanguagesList;
