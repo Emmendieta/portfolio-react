@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./ThumbnailsMananger.css";
 
-function ThumbnailsMananger({ thumbnails, setThumbnails }) {
+function ThumbnailsMananger({ thumbnails, setThumbnails, title }) {
     const [inputUrl, setInputUrl] = useState("");
 
     const isValidUrl = (url) => {
@@ -29,7 +29,7 @@ function ThumbnailsMananger({ thumbnails, setThumbnails }) {
 
     return (
         <div className="thumbnailsManager">
-            <h3>Thumbnails (Images URLs):</h3>
+            <h3>{title}</h3>
             <div className="thumbnailsInputContainer">
                 <input
                     type="text"

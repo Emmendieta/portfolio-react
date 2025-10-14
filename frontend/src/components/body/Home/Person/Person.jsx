@@ -61,7 +61,7 @@ function Person() {
             <div className="personWrapper">
                 <div id="bannerContainer">
                     <img
-                        src={person.bannerUrl || person.thumbnails?.[1] || "/img/imagen-no-disponible.png"}
+                        src={person.banners?.[0] || "/img/imagen-no-disponible.png"}
                         alt="Banner"
                         className="bannerImage"
                     />

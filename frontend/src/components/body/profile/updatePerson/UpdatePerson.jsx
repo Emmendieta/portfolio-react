@@ -3,6 +3,7 @@ import { UserContext } from "../../../../context/UserContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import { handleUpdatePerson } from "./logicUpdatePerson";
 import "./UpdatePerson.css";
+import ThumbnailsManagerPerson from "./ThumbnailsManager/ThumbnailsManagerPerson";
 
 function UpdatePerson() {
     const { user } = useContext(UserContext);
@@ -20,25 +21,17 @@ function UpdatePerson() {
     const [updateProvince, setProvince] = useState(person?.province || "");
     const [updateCountry, setCountry] = useState(person?.country || "");
     const [updateAbout, setAbout] = useState(person?.about || "");
-    //FALTA LA OPCION PARA ACTUALIZAR LAS IMAGENES!
+    const [profileImages, setProfileImages] = useState(person?.thumbnails || []);
+    const [bannerImages, setBannerImages] = useState(person?.banners || []);
+
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!user) {
-            //LOGGER:
-            console.error("User not Found!");
-            //SWEET ALERT:
-            alert("User not Found!");
+        if (!user || !person) {
+            alert("User or person data not found!");
             navigate("/profile");
-        };
-        if (!person) {
-            //LOGGER:
-            console.error("Person not Found!");
-            //SWEET ALERT:
-            alert("Person not Found!");
-            navigate("/profile");
-        };
-    }, [person, navigate]);
+        }
+    }, [person, user, navigate]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -54,17 +47,18 @@ function UpdatePerson() {
             city: updateCity,
             province: updateProvince,
             country: updateCountry,
-            thumbnails: []
+            thumbnails: profileImages,
+            banners: bannerImages
         };
 
         const updatedPerson = await handleUpdatePerson({
-            pid: person._id,
+            pid: personId,
             data
         });
 
-        if (UpdatePerson) {
+        if (updatedPerson) {
             navigate("/profile", { state: { updatedPerson } });
-        };
+        }
     };
 
     return (
@@ -120,13 +114,27 @@ function UpdatePerson() {
                                 <label className="updateDataDivh3">Country: </label>
                                 <input type="text" value={updateCountry} onChange={(e) => setCountry(e.target.value)} />
                             </div>
-                            <div className="updateDataDivDiv">
-                                <label className="updateDataDivh3">Images: </label>
-                                <input type="" />
+                            <div id="thumbnailsManageProfile">
+                                {/* Imagenes */}
+                                <ThumbnailsManagerPerson
+                                    thumbnails={profileImages}
+                                    setThumbnails={setProfileImages}
+                                    title="Profile Images"
+                                />
                             </div>
+
+                            <div id="thumbnailsManageBanner">
+                                <ThumbnailsManagerPerson
+                                    thumbnails={bannerImages}
+                                    setThumbnails={setBannerImages}
+                                    title="Banner Images"
+                                />
+                            </div>
+
                         </div>
+
                         <div id="updateDataformBottom">
-                            <a className="btn btn-outline-success" type="submit" id="btnGoBack" href="/profile">Go Back</a>
+                            <a className="btn btn-outline-success" href="/profile">Go Back</a>
                             <button type="submit" className="btn btn-outline-success" id="btnUpdatePersonalData">Update Personal Data</button>
                         </div>
                     </form>
@@ -134,6 +142,6 @@ function UpdatePerson() {
             </div>
         </div>
     );
-};
+}
 
 export default UpdatePerson;

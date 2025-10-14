@@ -9,7 +9,7 @@
 }
 
 #updateSectDiv {
-    width: 45%;
+    width: 60%;
     border: 1px;
     border-radius: 10px;
     transition: box-shadow 1.5s;
@@ -65,4 +65,12 @@
     justify-content: space-around;
     margin-top: 25px;
     margin-bottom: 10px;
+}
+
+#thumbnailsManageProfile {
+    width: 100%;
+}
+
+#thumbnailsManageBanner {
+    width: 100%;
 }

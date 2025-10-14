@@ -17,6 +17,7 @@ class PeopleDTO {
         this.province = data.province;
         this.country = data.country;
         this.thumbnails = data.thumbnails;
+        this.banners = data.banners;
         this.user = data.user || ["user"];
         if (PERSISTENCE !== "mongo") {
             this.createdAt = new Date();
