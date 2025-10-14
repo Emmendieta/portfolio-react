@@ -12,6 +12,7 @@ import WorksForm from "./components/body/Home/Works/WorksForm/WorksForm";
 import LanguagesForm from "./components/body/Home/Languajes/LanguageForm/LanguageForm";
 import ProyectForm from "./components/body/Home/Proyects/ProyectForm/ProyectForm";
 import SocialmediasForm from "./components/footer/SocialMediaContactForm/SocialMediaContactForm";
+import CategoriesForm from "./components/body/Home/Categories/CategoriesForm/CategoriesForm";
 
 function AppRoutes() {
   const { loadingUser } = useContext(UserContext);
@@ -34,6 +35,7 @@ function AppRoutes() {
         <Route path="/languages/form/:id" element={<LanguagesForm />} />
         <Route path="/proyects/form/:id" element={<ProyectForm />} />
         <Route path="/social-medias/form/:id" element={<SocialmediasForm />} />
+        <Route path="/categories/form/:id" element={<CategoriesForm />} />
         {/* Aquí más rutas si quieres */}
       </Route>
     </Routes>

@@ -1,0 +1,25 @@
+#categoriesDiv {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+#categoriesDivTitle {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 90%;
+}
+
+#categoriesDiContainer {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    border: 1px solid rgb(94, 92, 92);
+    background-color: rgba(128, 128, 128, 0.171);
+    border-radius: 20px;
+    margin-top: 20px;
+    box-shadow: rgba(85, 85, 85, 0.37) 5px 5px 5px 5px;
+
+}

@@ -28,12 +28,12 @@ function EducationCard({ education, onDelete }) {
         const currentRef = cardRef.current;
         if (currentRef) {
             observer.observe(currentRef);
-        }
+        };
 
         return () => {
             if (currentRef) {
                 observer.unobserve(currentRef);
-            }
+            };
         };
     }, []);
 

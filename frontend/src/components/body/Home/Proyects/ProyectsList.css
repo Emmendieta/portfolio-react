@@ -28,3 +28,11 @@
     margin-top: 20px;
     background-color: #E6E4D8;
 }
+
+#proyectsCategoriesDiv {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}

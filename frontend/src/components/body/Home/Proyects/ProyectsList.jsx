@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import ProyectCard from "./ProyectCard/ProyectCard";
 import "./ProyectsList.css";
+import CategoriesList from "../Categories/CategoriesList.jsx";
 
 function ProyectsList () {
     const { user } = useContext(UserContext);
@@ -64,7 +65,9 @@ function ProyectsList () {
                     </div>
                 )}
             </div>
-            <div><h3>Aca van las Categorias</h3></div>
+            <div id="proyectsCategoriesDiv">
+                <CategoriesList />
+            </div>
 
             <ul id="proyectList">
                 {proyects.map(proyect => (

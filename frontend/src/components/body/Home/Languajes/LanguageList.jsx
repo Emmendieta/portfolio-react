@@ -15,10 +15,11 @@ function LanguagesList() {
         const loadLanguages = async () => {
             const languagesData = await fetchLanguages();
             if (languagesData?.error) {
+                //SWEET ALERT:
                 alert(languagesData.error.message);
                 setLoading(false);
                 return;
-            }
+            };
             setLanguages(languagesData.response || []);
             setLoading(false);
         };
@@ -32,13 +33,17 @@ function LanguagesList() {
         try {
             const result = await fetchDeleteLanguage(lid);
             if (result.error) {
+                //SWEET ALERT:
                 alert("Error deleting the Language: " + result.error.message);
             } else {
+                //SWEET ALERT:
                 alert("Language Deleted!");
                 setLanguages(prev => prev.filter(language => language._id !== lid));
             }
         } catch (error) {
+            //LOGGER:
             console.error("Error deleting Language: ", error.message);
+            //SWEET ALERT:
             alert("Error deleting Language: " + error.message);
         }
     };
@@ -52,10 +57,10 @@ function LanguagesList() {
     return (
         <div id="langaugesDiv">
             <div id="languagesDivTitle">
-                <h3 id="languagesDivH3Title">Languages/Skills:</h3>
+                <h3 id="languagesDivH3Title">Skills:</h3>
                 {user?.role === "admin" && (
                     <div className="addingControlGeneral">
-                        <Link to="/languages/form/new" className="btn btn-outline-success" id="addBtnLanguage">
+                        <Link to="/languages/form/nw" className="btn btn-outline-success" id="addBtnLanguage">
                             <IoIosAddCircleOutline id="addIcon" />
                         </Link>
                     </div>
@@ -96,32 +101,6 @@ function LanguagesList() {
             </div>
         </div>
     );
-
-
-    /*     return (
-            <div id="langaugesDiv">
-                <div id="languagesDivTitle">
-                    <h3 id="languagesDivH3Title">Languages:</h3>
-                    {user?.role === "admin" && (
-                        <div className="addingControlGeneral">
-                            <Link to="/languages/form/new" className="btn btn-outline-success" id="addBtnLanguage">
-                                <IoIosAddCircleOutline id="addIcon" />
-                            </Link>
-                        </div>
-                    )}
-                </div>
-    
-                <ul id="languageList">
-                    {languages.map((language) => (
-                        <LanguageCard
-                            key={language._id}
-                            language={language}
-                            onDelete={handleDelete}
-                        />
-                    ))}
-                </ul>
-            </div>
-        ); */
 };
 
 export default LanguagesList;
