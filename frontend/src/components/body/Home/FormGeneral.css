@@ -72,6 +72,7 @@
     display: flex;
     justify-content: space-around;
     width: 100%;
+    margin-bottom: 30px;
 }
 
 .divFieldsSelectGeneral {
@@ -90,4 +91,23 @@
     border-radius: 15px;
     text-align: center;
     color: rgb(107, 69, 143);
+}
+
+.iconPreviewContanier {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.previewImage {
+    width: 80px;
+    height: 80px;
+    max-width: 80px;
+    max-height: 80px;
+    margin-top: 30px;
+    margin-bottom: 5px;
 }

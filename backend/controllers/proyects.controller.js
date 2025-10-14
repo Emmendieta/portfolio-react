@@ -10,7 +10,7 @@ class ProyectsController {
         const data = req.body;
         if (!data || !data.title || !data.company || !data.description || !data.languages) { return res.json400("Missing Information!(C)"); };
         const verifyProyect = await this.verifyInfoProyect(data.title, data.company);
-        if (verifyProyect === true) { return res.json400("Proyect with the same Title and Company alredy Exist!(C)"); }
+        if (verifyProyect === 1) { return res.json400("Proyect with the same Title and Company alredy Exist!(C)"); }
         else {
             const proyect = await this.pService.createOne(data);
             return res.json201(proyect);
@@ -59,8 +59,8 @@ class ProyectsController {
         if (proyect === false) { return res.json400("Invalid Proyect Id"); };
         if (proyect === null) { return res.json404("Proyect Not Found!(C)"); };
         if (data.title && data.company) {
-            const verifyProyect = await this.verifyInfoProyect(data.title, data.company);
-            if (verifyProyect === true) { return res.json400("Proyect with the same Title and Company alredy Exist!(C)"); }
+            const verifyProyect = await this.verifyInfoProyect(data.title, data.company, pyid);
+            if (verifyProyect === 1) { return res.json400("Proyect with the same Title and Company alredy Exist!(C)"); }
             else {
                 const proyectUpdated = await this.pService.updateById(pyid, data);
                 return res.json200(proyectUpdated);
@@ -88,10 +88,11 @@ class ProyectsController {
         else { return verify; };
     };
 
-    verifyInfoProyect = async (title, company) => {
+    verifyInfoProyect = async (title, company, pyid = null) => {
         const verify = await this.pService.readOneByFilter({ title, company });
-        if (!verify) { return false; }
-        else { return true; };
+        if (!verify) { return 0; };
+        if (pyid && verify._id.toString() === pyid.toString()) { return 0; }
+        else { return 1; };
     };
 };
 

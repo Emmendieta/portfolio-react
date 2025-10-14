@@ -65,8 +65,21 @@ function LanguagesForm() {
                 <div id="formGeneralContentBody">
                     <LanguageField label="Name: " value={formData.title} placeholder="Type here the name of the Language" name="title" type="text" onChange={handleChange} />
                     <LanguageField label="Percent: " value={formData.percent} placeholder="Type the percent of knowledge" name="percent" type="number" onChange={handleChange} />
-                    <LanguageField label="Images: " value={formData.thumbnails} placeholder="Type here the Link of the Image" name="thumbnails" type="text" onChange={handleChange} />
+                    <LanguageField label="Image: " value={formData.thumbnails} placeholder="Type here the Link of the Image" name="thumbnails" type="text" onChange={handleChange} />
                 </div>
+
+                {formData.thumbnails && (
+                    <div className="iconPreviewContanier">
+                        <h4>Preview of The Image:</h4>
+                        <img 
+                            src={formData.thumbnails}
+                            alt="Language Image"
+                            onError={(event) => event.currentTarget.src = "/img/imagen-no-disponible.png"}
+                            className="previewImage"
+                        />
+                    </div>
+                    
+                )}
                 <div id="formGeneralBottom">
                     <a className="btn btn-outline-success" id="btnGoBack" href="/">Go Back</a>
                     <button className="btn btn-outline-success" type="submit">{isEdit ? "Update" : "Create"}</button>

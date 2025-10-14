@@ -1,0 +1,62 @@
+.thumbnailsManager {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.thumbnailsManager h3 {
+    margin-bottom: 25px;
+}
+
+.thumbnailsInputContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.thumbnailsInputContainer input {
+    border-radius: 15px;
+    width: 70%;
+    height: auto;
+    text-align: center;
+}
+
+#btnAddImagePryect {
+    margin-left: 20px;
+    height: auto;
+}
+
+.thumbnailsPreviewContainer {
+    display: grid;
+    grid-template-columns: repeat(5, 150px);
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.thumbnailPreviewItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 150px;
+}
+
+#imgProyect {
+    width: 150px;
+    height: 150px;
+    max-width: 150px;
+    max-height: 150px;
+    margin-top: 40px;
+    margin-bottom: 30px;
+}
+
+#btnRemoveImgProyect {
+    margin-bottom: 30px;
+}

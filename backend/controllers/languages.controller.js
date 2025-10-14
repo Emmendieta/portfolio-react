@@ -10,7 +10,7 @@ class LanguagesController {
         const data = req.body;
         if (!data || !data.title || !data.percent) { return res.json400("Missing Information!(C)"); };
         const verifyLanguage = await this.verifyLanguageTitle(data.title);
-        if (verifyLanguage) { return res.json400("Language Alredy Exist!(C)"); }
+        if (verifyLanguage === 1) { return res.json400("Language Alredy Exist!(C)"); }
         else {
             const language = await this.lService.createOne(data);
             res.json201(language);
@@ -43,8 +43,8 @@ class LanguagesController {
         const language = await this.verifyLanguageFun(lid);
         if (language === null) { return res.json404("Lenguage Not Found!(C)"); };
         if (data.title) {
-            const verifyLanguage = await this.verifyLanguageTitle(data.title);
-            if (verifyLanguage) { return res.json400("Language Alredy Exist!(C)"); }
+            const verifyLanguage = await this.verifyLanguageTitle(data.title, lid);
+            if (verifyLanguage === 1) { return res.json400("Language Alredy Exist!(C)"); }
             const languageUpdated = await this.lService.updateById(lid, data);
             return res.json200(languageUpdated);
         } else {
@@ -70,10 +70,11 @@ class LanguagesController {
         else { return verify; };
     };
 
-    verifyLanguageTitle = async (title) => {
+    verifyLanguageTitle = async (title, lid = null) => {
         const verify = await this.lService.readOneByFilter({ title });
-        if (!verify) { return false; }
-        else { return true; }
+        if (!verify) { return 0; };
+        if (lid && verify._id.toString() === lid.toString()) { return 0; }
+        return 1;
     };
 };
 

@@ -77,6 +77,18 @@ function WorksForm() {
                     <WorkField label="Finished?: " value={formData.finished} placeholder="Still working in the company?" name="finished" type="checkbox" onChange={handleChange} />
                     <WorkField label="Image: " value={formData.thumbnails} placeholder="Type the link to the image" name="thumbnails" type="text" onChange={handleChange} />
                     <WorkField label="Description: " value={formData.description} placeholder="Type a description of you functions in the work" name="description" type="text" onChange={handleChange} />
+
+                    {formData.thumbnails && (
+                        <div className="iconPreviewContanier">
+                            <h4>Preview of Image:</h4>
+                            <img 
+                                src={formData.thumbnails}
+                                alt="Image Work"
+                                onError={(event) => event.currentTarget.src = "/img/imagen-no-disponible.png"}
+                                className="previewImage"
+                            />
+                        </div>
+                    )}
                 </div>
                 <div id="formGeneralBottom">
                     <a className="btn btn-outline-success" id="btnGoBack" href="/">Go Back</a>

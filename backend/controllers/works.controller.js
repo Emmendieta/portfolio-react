@@ -10,7 +10,7 @@ class WorksController {
         const data = req.body;
         if (!data || !data.jobTitle || !data.dateStart || !data.company || !data.description) { return res.json400("Missing information!(C)"); };
         const verifyWork = await this.verifyWorkJobDateStartCompany(data.jobTitle, data.dateStart, data.company);
-        if (verifyWork) { return res.json400("Work with the same Job Title, Start Date and Company alredy Exist!(C)"); }
+        if (verifyWork === 1) { return res.json400("Work with the same Job Title, Start Date and Company alredy Exist!(C)"); }
         else {
             const workUpdated = await this.wService.createOne(data);
             return res.json200(workUpdated);
@@ -43,8 +43,8 @@ class WorksController {
         if (work === false) { return res.json400("Invalid Work ID!(C)"); };
         if (work === null) { return res.json404("Not Work Found!(C)"); };
         if (data.jobTitle && data.dateStart && data.company) {
-            const verifyWork = await this.verifyWorkJobDateStartCompany(data.jobTitle, data.dateStart, data.company);
-            if (verifyWork) { return res.json400("Work with the same Job Title, Start Date and Company alredy Exist!(C)"); }
+            const verifyWork = await this.verifyWorkJobDateStartCompany(data.jobTitle, data.dateStart, data.company, wid);
+            if (verifyWork === 1) { return res.json400("Work with the same Job Title, Start Date and Company alredy Exist!(C)"); }
             else {
                 const workUpdated = await this.wService.updateById(wid, data);
                 return res.json200(workUpdated);
@@ -71,10 +71,11 @@ class WorksController {
         else return verify;
     };
 
-    verifyWorkJobDateStartCompany = async (jobTitle, dateStart, company) => {
+    verifyWorkJobDateStartCompany = async (jobTitle, dateStart, company, wid = null) => {
         const verify = await this.wService.readOneByFilter({ jobTitle, dateStart, company });
-        if (!verify) { return false; }
-        else return true;
+        if (!verify) { return 0; }
+        if (wid && verify._id.toString() === wid.toString()) { return 0; }
+        else return 1;
     };
 };
 
