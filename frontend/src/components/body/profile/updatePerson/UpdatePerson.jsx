@@ -62,10 +62,10 @@ function UpdatePerson() {
     };
 
     return (
-        <div id="updateSection">
-            <div id="updateSectDiv">
+        <div id="updateSectionPerson">
+            <div id="updateSectDivPerson">
                 <div id="updateDataDivSectTop">
-                    <h2 id="updateDataDivH2Title">Update Personal Data:</h2>
+                    <h2 id="updateDataDivH2TitlePerson">Update Personal Data:</h2>
                 </div>
                 <div id="divUpdateData">
                     <form onSubmit={handleSubmit} id="formUpdateData">

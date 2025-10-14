@@ -14,10 +14,10 @@
     border-radius: 10px;
     transition: box-shadow 1.5s;
     padding: 15px;
+    margin: 20px;
 }
 
 #updateSectDiv:hover {
-    margin: 20px;
     transition: 1.5s;
     box-shadow: rgb(85, 85, 85) 5px 5px 5px 5px;
 }
@@ -30,7 +30,7 @@
 
 .updateDataDivDiv {
     width: 100%;
-    display:  flex;
+    display: flex;
     flex-direction: row;
     align-items: baseline;
     margin-top: 5px;
@@ -45,7 +45,7 @@
 .updateDataDivDiv input {
     flex: 2;
     text-align: center;
-        border-radius: 15px;
+    border-radius: 15px;
 }
 
 .updateDataDivDivP {

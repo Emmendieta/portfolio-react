@@ -16,13 +16,13 @@ function Profile() {
                 const uid = user._id;
                 const userPopulated = await fetchUserPopulated(uid);
                 setUserProfile({
-                    ...userPopulated?.response, 
+                    ...userPopulated?.response,
                     person: updatedPerson?.response || userPopulated?.response?.person
                 });
             };
         };
-    loadUserProfile();
-}, [user, updatedPerson]);
+        loadUserProfile();
+    }, [user, updatedPerson]);
 
     //Ver de cambiar:
     if (!userProfile) return <p>Loading profile...</p>
@@ -64,7 +64,43 @@ function Profile() {
                     <ProfileField label="Province: " value={person ? person.province : "-"} />
                     <ProfileField label="Country: " value={person ? person.country : "-"} />
                     <ProfileField label="About: " value={person ? person.about : "-"} />
-                    <ProfileField label="Images: " value={person && person.thumbnails? person.thumbnails.join(", ") : "-"} />
+                    {/* <ProfileField label="Images: " value={person && person.thumbnails? person.thumbnails.join(", ") : "-"} /> */}
+                    <div className="profileImagesContainer">
+                        {person && person.thumbnails && person.thumbnails.length > 0 && (
+                            <div className="profileImagesSection">
+                                <h4>Profile Images:</h4>
+                                <div className="imageGrid">
+                                    {person.thumbnails.map((url, idx) => (
+                                        <img
+                                            key={idx}
+                                            src={url}
+                                            alt={`Thumbnail ${idx + 1}`}
+                                            className="profileThumbnailImg"
+                                            onError={(e) => (e.currentTarget.src = "/img/imagen-no-disponible.png")}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {person && person.banners && person.banners.length > 0 && (
+                            <div className="profileImagesSection">
+                                <h4>Banner Images:</h4>
+                                <div className="imageGrid">
+                                    {person.banners.map((url, idx) => (
+                                        <img
+                                            key={idx}
+                                            src={url}
+                                            alt={`Banner ${idx + 1}`}
+                                            className="profileThumbnailImg"
+                                            onError={(e) => (e.currentTarget.src = "/img/imagen-no-disponible.png")}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                    </div>
                 </section>
                 <section id="profileDivSectBottom">
                     <div className="profileDivDivBottom">
