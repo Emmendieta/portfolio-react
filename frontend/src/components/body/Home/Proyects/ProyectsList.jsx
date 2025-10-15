@@ -16,7 +16,6 @@ function ProyectsList() {
     useEffect(() => {
         const loadProyects = async () => {
             const proyectsData = await fetchProyectsPopulated();
-            console.log(proyectsData);
             if (proyectsData?.error) {
                 //SWEET ALERT:
                 alert(proyectsData.error.message);

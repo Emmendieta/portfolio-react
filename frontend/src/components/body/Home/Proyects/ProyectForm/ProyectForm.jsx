@@ -5,6 +5,8 @@ import { fetchLanguages } from "../../Languajes/Language";
 import { fetchCreateProyect, fetchProyectById, fetchUpdateProyect } from "../logicProyects";
 import LanguageSelect from "../../Languajes/LanguageSelect/LanguageSelect";
 import ThumbnailsMananger from "./ThumbnailsMananger/ThumbnailsMananger";
+import { fetchCategories } from "../../Categories/Categories";
+import CategorySelect from "../../Categories/CategorySelect/CategorySelect";
 
 function ProyectForm() {
     const { user } = useContext(UserContext);
@@ -25,11 +27,13 @@ function ProyectForm() {
 
     const [allLanguages, setAllLanguages] = useState([]);
     const [selectedLanguages, setSelectedLanguages] = useState([]);
+    const [allCategories, setAllCategories] = useState([]);
+    const [selectedCategories, setSelectedCategories] = useState([]);
     const [thumbnails, setThumbnails] = useState([]);
 
     useEffect(() => {
         const loadInitialData = async () => {
-            // 1. Traer todos los lenguajes
+            // 1.1 Traer todos los lenguajes
             const langResult = await fetchLanguages();
             if (langResult?.error) {
                 //SWEET ALERT:
@@ -38,6 +42,18 @@ function ProyectForm() {
             };
             const allLangs = langResult.response;
             setAllLanguages(allLangs);
+
+            //1.2
+
+            const catResult = await fetchCategories();
+            if (catResult?.error) {
+                //SWEET ALERT:
+                alert("Error fetching Categories");
+                return;
+            };
+
+            const allCats = catResult.response;
+            setAllCategories(allCats);
 
             // 2. Si estás editando, traé el proyecto
             if (isEdit) {
@@ -48,18 +64,33 @@ function ProyectForm() {
                     return;
                 };
 
-                const { languages, thumbnails, ...rest } = projResult.response;
+                const { languages, categories, thumbnails, ...rest } = projResult.response;
                 setFormData(rest);
                 setThumbnails(thumbnails || []);
 
                 // 3. Filtrar los objetos de lenguajes seleccionados
                 const selectedLangObjects = allLangs.filter(lang => languages.includes(lang._id));
                 setSelectedLanguages(selectedLangObjects);
+
+                const selectedCatObjects = allCats.filter(cat => categories.includes(cat._id));
+                setSelectedCategories(selectedCatObjects);
+            } else {
+                //4 Si es nueva, se incluye autamitcamente "ALL" por defecto:
+                const allCategory = allCats.find(cat => cat.title === "All");
+                if (allCategory) setSelectedCategories([allCategory]);
             };
         };
 
         loadInitialData();
     }, [id, isEdit]);
+
+    //verifico que All siempre este:
+    useEffect(() => {
+        const allCategory = allCategories.find(cat => cat.title === "All");
+        if (allCategory && !selectedCategories.some(cat => cat._id === allCategory._id)) {
+            setSelectedCategories(prev => [allCategory, ...prev]);
+        };
+    }, [allCategories, selectedCategories]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -70,9 +101,11 @@ function ProyectForm() {
         event.preventDefault();
 
         const languageIds = selectedLanguages.map(lang => lang._id);
+        const categoryIds = selectedCategories.map(cat => cat._id);
         const dataToSend = {
             ...formData,
             languages: languageIds,
+            categories: categoryIds,
             thumbnails
         };
 
@@ -107,6 +140,13 @@ function ProyectForm() {
                         allLanguages={allLanguages}
                         selectedLanguages={selectedLanguages}
                         setSelectedLanguages={setSelectedLanguages}
+                    />
+
+                    {/* Categories */}
+                    <CategorySelect
+                        allCategories={allCategories}
+                        selectedCategories={selectedCategories}
+                        setSelectedCategories={setSelectedCategories}
                     />
 
                     <ThumbnailsMananger
