@@ -19,3 +19,9 @@
     padding: 5px;
     resize: none;
 }
+
+.fieldLabelDark a {
+    text-decoration: none;
+    color: whitesmoke;
+    cursor: pointer;
+}
