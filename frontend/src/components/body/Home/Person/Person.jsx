@@ -4,14 +4,19 @@ import { fetchPerson } from "./Person";
 import { Link } from "react-router-dom";
 import { FaPen } from "react-icons/fa";
 import "./Person.css";
+import { useLoading } from "../../../../context/LoadingContext";
+import "../../../GlobalLoader.css";
 
 function Person() {
     const { user } = useContext(UserContext);
     const [person, setPerson] = useState(null);
     const [loading, setLoading] = useState(true);
+    const { startLoading, stopLoading } = useLoading();
 
     useEffect(() => {
         const loadPerson = async () => {
+
+            startLoading(); 
             const response = await fetchPerson();
             if (response?.error) {
                 //SWEET ALERT:
@@ -32,13 +37,14 @@ function Person() {
 
             setPerson(peopleArray[0]);
             setLoading(false);
+
+            stopLoading();
         };
 
         loadPerson();
     }, []);
 
     //VER DE CAMBIAR:
-    if (loading) return <p>Loading...</p>;
     if (!person) return <p>No person data available.</p>;
 
     return (

@@ -5,30 +5,37 @@ import { Link } from "react-router-dom";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import CategoryCard from "./CategoryCard/CategoryCard";
 import "./CategoriesList.css";
+import "../../../GlobalLoader.css";
+import { useLoading } from "../../../../context/LoadingContext";
 
-function CategoriesList({ onCategorySelect, selectedCategory  }) {
+function CategoriesList({ onCategorySelect, selectedCategory }) {
     const { user } = useContext(UserContext);
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { startLoading, stopLoading } = useLoading();
 
     useEffect(() => {
         const loadCategories = async () => {
+
+            startLoading();
+
             const categoriesData = await fetchCategories();
             if (categoriesData?.error) {
                 //SWEET ALERT:
-                alert(categoriesData.error.message); 
+                alert(categoriesData.error.message);
                 setLoading(false);
                 return;
             }
             setCategories(categoriesData.response || []);
             setLoading(false);
+            stopLoading();
         };
         loadCategories();
     }, []);
-    
+
 
     const handleCategoryClick = (categoryId) => {
-        if(selectedCategory === categoryId) {
+        if (selectedCategory === categoryId) {
             onCategorySelect(null);
         } else {
             onCategorySelect(categoryId);
@@ -56,7 +63,6 @@ function CategoriesList({ onCategorySelect, selectedCategory  }) {
         }
     };
 
-    if (loading) return <p>Loading...</p>;
     if (!categories || categories.length === 0) return <p>No Categories data available</p>;
 
     return (
@@ -78,7 +84,7 @@ function CategoriesList({ onCategorySelect, selectedCategory  }) {
                         key={category._id}
                         category={category}
                         onDelete={handleDelete}
-                        onClick= {()=> handleCategoryClick(category._id)}
+                        onClick={() => handleCategoryClick(category._id)}
                         isSelected={category._id === selectedCategory}
                     />
                 ))}

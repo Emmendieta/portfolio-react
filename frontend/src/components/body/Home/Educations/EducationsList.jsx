@@ -5,14 +5,20 @@ import { fetchDeleteEducation, fetchEducations } from "./Educations";
 import { Link } from "react-router-dom";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import EducationCard from "./EducationCard/EducationCard";
+import { useLoading } from "../../../../context/LoadingContext";
+import "../../../GlobalLoader.css";
 
 function EducationsList() {
     const { user } = useContext(UserContext);
     const [educations, setEducations] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { startLoading, stopLoading } = useLoading();
 
     useEffect(() => {
         const loadEducations = async () => {
+
+            startLoading();
+
             const educationsData = await fetchEducations();
             if (educationsData?.error) {
                 //SWEET ALERT:
@@ -24,6 +30,9 @@ function EducationsList() {
             const educations = educationsData.response;
             setEducations(educations);
             setLoading(false);
+
+            stopLoading();
+
         };
         loadEducations();
     }, []);
@@ -54,7 +63,6 @@ function EducationsList() {
     };
 
     //VER DE CAMBIAR:
-    if (loading) return <p>Loading...</p>;
     if (educations.length === 0) return <p>No Educations data available.</p>;
 
     return (

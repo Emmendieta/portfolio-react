@@ -5,15 +5,21 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import WorkCard from "./WorkCard/WorkCard";
 import { Link } from "react-router-dom";
 import "./WorksList.css";
+import { useLoading } from "../../../../context/LoadingContext.jsx";
+import "../../../GlobalLoader.css";
 
 
 function WorksList() {
     const { user } = useContext(UserContext);
     const [works, setWorks] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { startLoading, stopLoading } = useLoading();
 
     useEffect(() => {
         const loadWorks = async () => {
+
+            startLoading(); 
+
             const worksData = await fetchWorks();
             if (worksData?.error) {
                 //SWEET ALERT:
@@ -24,6 +30,8 @@ function WorksList() {
 
             setWorks(worksData.response);
             setLoading(false);
+
+            stopLoading();
         };
 
         loadWorks();
@@ -52,7 +60,6 @@ function WorksList() {
     };
 
     //VER SI LO DEJO:
-    if (loading) return <p>Loading...</p>
     if (!works) return <p>No Works data available.</p>
 
     return (

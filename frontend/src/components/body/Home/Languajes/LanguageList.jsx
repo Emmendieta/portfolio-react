@@ -5,14 +5,21 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import LanguageCard from "./LanguageCard/LanguageCard";
 import { UserContext } from "../../../../context/UserContext";
 import "./LanguagesList.css";
+import { useLoading } from "../../../../context/LoadingContext";
+import "../../../GlobalLoader.css";
 
 function LanguagesList() {
     const { user } = useContext(UserContext);
     const [languages, setLanguages] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { startLoading, stopLoading } = useLoading();
 
     useEffect(() => {
         const loadLanguages = async () => {
+
+            startLoading();
+
+
             const languagesData = await fetchLanguages();
             if (languagesData?.error) {
                 //SWEET ALERT:
@@ -22,6 +29,9 @@ function LanguagesList() {
             };
             setLanguages(languagesData.response || []);
             setLoading(false);
+
+            stopLoading();
+
         };
         loadLanguages();
     }, []);
@@ -48,7 +58,6 @@ function LanguagesList() {
         }
     };
 
-    if (loading) return <p>Loading...</p>;
     if (!languages || languages.length === 0) return <p>No Languages data available.</p>;
 
     const hardSkills = languages.filter(lang => lang.type === "Hard");

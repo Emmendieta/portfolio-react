@@ -6,15 +6,22 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import ProyectCard from "./ProyectCard/ProyectCard";
 import "./ProyectsList.css";
 import CategoriesList from "../Categories/CategoriesList.jsx";
+import { useLoading } from "../../../../context/LoadingContext.jsx";
+import "../../../GlobalLoader.css";
 
 function ProyectsList() {
     const { user } = useContext(UserContext);
     const [proyects, setProyects] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedCategory, setSelectedCategory] = useState(null);
+    const { startLoading, stopLoading } = useLoading();
 
     useEffect(() => {
         const loadProyects = async () => {
+
+            startLoading();
+
+
             const proyectsData = await fetchProyectsPopulated();
             if (proyectsData?.error) {
                 //SWEET ALERT:
@@ -25,6 +32,9 @@ function ProyectsList() {
 
             setProyects(proyectsData.response);
             setLoading(false);
+
+            stopLoading();
+
         };
         loadProyects();
     }, []);
@@ -53,7 +63,6 @@ function ProyectsList() {
     };
 
     //VER SI LO CAMBIO:
-    if (loading) return <p>Loading...</p>
     if (!proyects) return <p>No Proyects data available.</p>
 
     return (
@@ -69,8 +78,8 @@ function ProyectsList() {
                 )}
             </div>
             <div id="proyectsCategoriesDiv">
-                <CategoriesList 
-                    onCategorySelect={setSelectedCategory} 
+                <CategoriesList
+                    onCategorySelect={setSelectedCategory}
                     selectedCategory={selectedCategory}
                 />
             </div>
