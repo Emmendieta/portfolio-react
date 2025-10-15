@@ -7,15 +7,17 @@ import ProyectCard from "./ProyectCard/ProyectCard";
 import "./ProyectsList.css";
 import CategoriesList from "../Categories/CategoriesList.jsx";
 
-function ProyectsList () {
+function ProyectsList() {
     const { user } = useContext(UserContext);
-    const [ proyects, setProyects ] = useState([]);
+    const [proyects, setProyects] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [selectedCategory, setSelectedCategory] = useState(null);
 
     useEffect(() => {
         const loadProyects = async () => {
             const proyectsData = await fetchProyectsPopulated();
-            if(proyectsData?.error) {
+            console.log(proyectsData);
+            if (proyectsData?.error) {
                 //SWEET ALERT:
                 alert(proyectsData.error.message);
                 setLoading(false);
@@ -27,6 +29,8 @@ function ProyectsList () {
         };
         loadProyects();
     }, []);
+
+    const filteredProyects = selectedCategory ? proyects.filter(proyect => proyect.categories.some(category => category._id === selectedCategory)) : proyects;
 
     const handleDelete = async (pyid) => {
         const confirmDelete = window.confirm("Are you sure you want to delete the Proyect?");
@@ -50,8 +54,8 @@ function ProyectsList () {
     };
 
     //VER SI LO CAMBIO:
-    if(loading) return <p>Loading...</p>
-    if(!proyects) return <p>No Proyects data available.</p>
+    if (loading) return <p>Loading...</p>
+    if (!proyects) return <p>No Proyects data available.</p>
 
     return (
         <div id="proyectsDiv">
@@ -59,22 +63,25 @@ function ProyectsList () {
                 <h3 id="proyectsDivH3Title">Proyects:</h3>
                 {user?.role === "admin" && (
                     <div className="addControlGeneral">
-                        <Link to="/proyects/form/new" className="btn btn-outline-success"id="addBtnproyect">
+                        <Link to="/proyects/form/new" className="btn btn-outline-success" id="addBtnproyect">
                             <IoIosAddCircleOutline id="addIcon" />
                         </Link>
                     </div>
                 )}
             </div>
             <div id="proyectsCategoriesDiv">
-                <CategoriesList />
+                <CategoriesList 
+                    onCategorySelect={setSelectedCategory} 
+                    selectedCategory={selectedCategory}
+                />
             </div>
 
             <ul id="proyectList">
-                {proyects.map(proyect => (
+                {filteredProyects.map(proyect => (
                     <ProyectCard
-                        key = {proyect._id}
-                        proyect = {proyect}
-                        onDelete= {handleDelete}
+                        key={proyect._id}
+                        proyect={proyect}
+                        onDelete={handleDelete}
                     />
                 ))}
             </ul>

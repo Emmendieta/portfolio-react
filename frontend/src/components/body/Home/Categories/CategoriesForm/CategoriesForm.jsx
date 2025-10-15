@@ -12,8 +12,7 @@ function CategoriesForm() {
     const isEdit = id && id !== "new";
     const [formData, setFormData] = useState({
         "title": "",
-        "thumbnails": "",
-        "type": ""
+        "thumbnails": ""
     });
 
     useEffect(() => {
@@ -61,7 +60,6 @@ function CategoriesForm() {
             <form id="formGeneralContent" onSubmit={handleSubmit}>
                 <div id="formGeneralContentBody">
                     <CategoryField label= "Name: " value={formData.title} placeholder="Type Here the Name of the Category" name="title" type="text" onChange={handleChange} />
-                    <CategoryField label= "Type: " value={formData.type} placeholder="Type Here the Type of the Category" name="type" type="text" onChange={handleChange} />
                     <CategoryField label= "Image: " value={formData.thumbnails} placeholder="Type Here the Url of the Category" name="thumbnails" type="text" onChange={handleChange} />
                 </div>
 

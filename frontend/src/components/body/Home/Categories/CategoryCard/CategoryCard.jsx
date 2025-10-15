@@ -5,7 +5,7 @@ import { FaPen } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import "./CategoryCard.css";
 
-function CategoryCard({ category, onDelete }) {
+function CategoryCard({ category, onDelete, onClick, isSelected }) {
     const { user } = useContext(UserContext);
     const isAdmin = user?.role === "admin";
 
@@ -25,7 +25,7 @@ function CategoryCard({ category, onDelete }) {
         );
 
         const currentRef = cardRef.current;
-        if(currentRef) {
+        if (currentRef) {
             observer.observe(currentRef);
         };
 
@@ -37,26 +37,28 @@ function CategoryCard({ category, onDelete }) {
     }, []);
 
     return (
-        <li 
+        <li
             key={category._id}
             ref={cardRef}
-            className={`categoryCardItem ${visible ? "fade-in" : ""}`}
+            className={`categoryCardItem ${visible ? "fade-in" : ""} ${isSelected ? "selected" : ""}`}
             id="categoryLi"
+            onClick={() => onClick(category._id)}
         >
-            <div className="categoryDivvImg">
-                <a href={category.thumbnails} target="_blank" rel="noopener noreferrer">
-                    <img 
-                        src={category.thumbnails || "/img/imagen-no-disponible.png"}
-                        alt={category.title}
-                        className="categoryIcon"
-                        onError={(event) => event.currentTarget.src = "/img/imagen-no-disponible.png"}
-                    />
-                </a>
+            <div className={`categoryDivvImg ${isSelected ? "selected": ""}`}
+                onClick={() => onClick(category._id)}
+            >
+                <img
+                    src={category.thumbnails || "/img/imagen-no-disponible.png"}
+                    alt={category.title}
+                    className="categoryIcon"
+                    onError={(event) => event.currentTarget.src = "/img/imagen-no-disponible.png"}
+                />
+                <h3>{category.title}</h3>
             </div>
-            { isAdmin && (
+            {isAdmin && (
                 <div className="editionsControlsGeneral">
                     <Link to={`/categories/form/${category._id}`} id="categoryEdit" className="btn btn-outline-primary btn-sm" >
-                        <FaPen /> 
+                        <FaPen />
                     </Link>
                     <button className="btn btn-outline-danger btn-sm" id="categoryDelete" onClick={() => onDelete(category._id)}>
                         <FaRegTrashCan />

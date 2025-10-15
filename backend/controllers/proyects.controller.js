@@ -31,7 +31,7 @@ class ProyectsController {
 
     getAllProyectsPopulated = async (req, res) => {
         const { populate } = req.query;
-        const populateFields = populate ? populate.split("&") : [];
+        const populateFields = populate ? populate.split(",") : [];
         const proyects = await this.pService.readAllAndPopulate(populateFields);
         if (proyects.length === 0) { return res.json404("No Proyects Found!(C)"); };
         return res.json200(proyects);

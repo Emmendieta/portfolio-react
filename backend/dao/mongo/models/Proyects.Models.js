@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
 
-//FALTARIA DE VER DE PONER IMAGENES:
-
 const proyectSchema = new mongoose.Schema(
     {
         title: {type: String, required: true },
@@ -14,6 +12,11 @@ const proyectSchema = new mongoose.Schema(
         languages: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "languages",
+            required: true
+        }],
+        categories: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "categories",
             required: true
         }],
         thumbnails: [{type: String, default: ""}]

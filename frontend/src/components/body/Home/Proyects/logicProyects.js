@@ -1,3 +1,4 @@
+
 import { createData, deleteData, getAllPopulated, getData, getDataById, updateData } from "../../../../helpers/crud";
 
 export const fetchProyects = async () => {
@@ -24,7 +25,7 @@ export const fetchProyects = async () => {
 export const fetchProyectsPopulated = async () => {
     try {
         const url = "proyects";
-        const response = await getAllPopulated(url, ["languages"]);
+        const response = await getAllPopulated(url, ["languages","categories"]);
         return response;
     } catch (error) {
         //LOGGER:

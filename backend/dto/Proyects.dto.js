@@ -14,6 +14,7 @@ class ProyectsDTO {
         this.linkCompany = data.linkCompany;
         this.description = data.description;
         this.languages = data.languages || [""];
+        this.categories = data.categories || [""],
         this.thumbnails = data.thumbnails || [""];
         if (PERSISTENCE !== "mongo") {
             this.createdAt = new Date();

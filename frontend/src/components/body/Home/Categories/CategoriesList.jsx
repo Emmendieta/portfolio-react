@@ -6,7 +6,7 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import CategoryCard from "./CategoryCard/CategoryCard";
 import "./CategoriesList.css";
 
-function CategoriesList() {
+function CategoriesList({ onCategorySelect, selectedCategory  }) {
     const { user } = useContext(UserContext);
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -25,6 +25,15 @@ function CategoriesList() {
         };
         loadCategories();
     }, []);
+    
+
+    const handleCategoryClick = (categoryId) => {
+        if(selectedCategory === categoryId) {
+            onCategorySelect(null);
+        } else {
+            onCategorySelect(categoryId);
+        }
+    };
 
     const handleDelete = async (cid) => {
         const confirmDelete = window.confirm("Are you sure you want to delete the Category?");
@@ -69,6 +78,8 @@ function CategoriesList() {
                         key={category._id}
                         category={category}
                         onDelete={handleDelete}
+                        onClick= {()=> handleCategoryClick(category._id)}
+                        isSelected={category._id === selectedCategory}
                     />
                 ))}
             </ul>
