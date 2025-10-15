@@ -19,6 +19,7 @@
 .categoryIcon {
     width: 80px;
     height: 80px;
+    color: rgba(255, 255, 255, 0.034);
 }
 
 .editionsControlsGeneral {

@@ -38,7 +38,7 @@ export const fetchCategoryById = async (cid) => {
 export const fetchCreateCategory = async (data) => {
     try {
         const url = "categories";
-        const response = await createData(data);
+        const response = await createData(url, data);
         return response;
 
     } catch (error) {
@@ -51,7 +51,7 @@ export const fetchCreateCategory = async (data) => {
 export const fetchUpdateCategory = async (cid, data) => {
     try {
         const url = `categories/${cid}`;
-        const response = await updateData(cid, data);
+        const response = await updateData(url, data);
         return response;
 
     } catch (error) {

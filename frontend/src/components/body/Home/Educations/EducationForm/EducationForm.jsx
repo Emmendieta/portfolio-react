@@ -37,7 +37,7 @@ function EducationForm() {
                 setFormData(result.response);
             };
             loadEducation();
-        }
+        };
     }, [id, isEdit]);
 
     const handleChange = (event) => {

@@ -15,7 +15,8 @@ function CategoriesList() {
         const loadCategories = async () => {
             const categoriesData = await fetchCategories();
             if (categoriesData?.error) {
-                alert(categoriesData.error.message); // Puedes usar SweetAlert acá
+                //SWEET ALERT:
+                alert(categoriesData.error.message); 
                 setLoading(false);
                 return;
             }
@@ -32,13 +33,16 @@ function CategoriesList() {
         try {
             const result = await fetchDeleteCategory(cid);
             if (result?.error) {
+                //SWEET ALERT:
                 alert("Error deleting Category: " + result.error.message);
             } else {
+                //SWEET ALERT:
                 alert("Category Deleted!");
                 setCategories(prev => prev.filter(category => category._id !== cid));
             }
         } catch (error) {
             console.error("Error deleting Category: ", error.message);
+            //SWEET ALERT:
             alert("Error deleting Category: " + error.message);
         }
     };

@@ -7,6 +7,7 @@ class CategoriesDTO {
             this._id = crypto.randomBytes(12).toString("hex");
         };
         this.title = data.title;
+        this.type = data.type;
         this.thumbnails = data.thumbnails;
         if (PERSISTENCE !== "mongo") {
             this.createdAt = new Date();
