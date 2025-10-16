@@ -86,6 +86,7 @@ function EducationForm() {
                     <EducationField label="Date Started: " value={formData.dateStart.slice(0, 10)} placeholder="Select the date you started" name="dateStart" type="date" onChange={handleChange} />
                     <EducationField label="Date Ended: " value={formData.dateEnd.slice(0, 10)} placeholder="Select the date you ended" name="dateEnd" type="date" onChange={handleChange} />
                     <EducationField label="Finished" value={formData.finished} name="finished" type="checkbox" onChange={handleChange}  />
+                    <EducationField label="Description: " value={formData.description} placeholder="Type a description of what you studied" name="description" type="text" onChange={handleChange} />
                     <EducationSelectField
                         label="Type of Education:"
                         name="typeEducation"
@@ -93,7 +94,6 @@ function EducationForm() {
                         onChange={handleChange}
                         options={["Primary School", "High School", "University", "Course", "Conference", "Other"]}
                     />
-                    <EducationField label="Description: " value={formData.description} placeholder="Type a description of what you studied" name="description" type="text" onChange={handleChange} />
                     <EducationField label="Institution Icon: " value={formData.iconInstitution} placeholder="Type the Link of the Icon of the Institution" name="iconInstitution" type="text" onChange={handleChange} />
 
                     {formData.iconInstitution && (

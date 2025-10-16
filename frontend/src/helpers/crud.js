@@ -4,6 +4,8 @@ const GET = "GET";
 const POST = "POST";
 const UPDATE = "PUT";
 const DELETE = "DELETE";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 
 export const getData = async (baseUrl) => {
     try {
@@ -20,8 +22,12 @@ export const getData = async (baseUrl) => {
             headers: baseHeaders,
             credentials: credentials
         };
+        console.log("URL backend", BACKEND_URL);
+        //const url = `http://localhost:8080/api/${baseUrl}`;
 
-        const url = `http://localhost:8080/api/${baseUrl}`;
+        const url = `${BACKEND_URL}/${baseUrl}`;
+        console.log(url)
+
         const response = await fetch(url, opts);
 
         return await response.json();
@@ -50,7 +56,9 @@ export const getDataById = async (baseUrl, id) => {
             credentials: credentials
         };
 
-        const url = `http://localhost:8080/api/${baseUrl}/${id}`;
+        //const url = `http://localhost:8080/api/${baseUrl}/${id}`;
+        const url = `${BACKEND_URL}/${baseUrl}/${id}`;
+
         const response = await fetch(url, opts);
 
         return await response.json();
@@ -80,7 +88,8 @@ export const getDataPopulate = async (baseUrl, populateFields) => {
         };
 
         let populateQuery = Array.isArray(populateFields) ? populateFields.join(",") : populateFields;
-        const url = `http://localhost:8080/api/${baseUrl}/populated?populate=${populateQuery}`;
+        //const url = `http://localhost:8080/api/${baseUrl}/populated?populate=${populateQuery}`;
+        const url = `${BACKEND_URL}/${baseUrl}/populated?populate=${populateQuery}`;
         let response = await fetch(url, opts);
         return await response.json();
     } catch (error) {
@@ -93,7 +102,7 @@ export const getDataPopulate = async (baseUrl, populateFields) => {
 
 export const getAllPopulated = async (baseUrl, populateFields) => {
     try {
-        if(!baseUrl || !populateFields || populateFields.length === 0) {
+        if (!baseUrl || !populateFields || populateFields.length === 0) {
             //LOGGER:
             console.error("All fields are needed!");
             //SWEET ALERT:
@@ -107,8 +116,10 @@ export const getAllPopulated = async (baseUrl, populateFields) => {
             credentials: credentials
         };
 
-        let populateQuery = Array.isArray(populateFields) ? populateFields.join(","): populateFields;
-        const url = `http://localhost:8080/api/${baseUrl}/populated?populate=${populateQuery}`;
+        let populateQuery = Array.isArray(populateFields) ? populateFields.join(",") : populateFields;
+        //const url = `http://localhost:8080/api/${baseUrl}/populated?populate=${populateQuery}`;
+        const url = `${BACKEND_URL}/${baseUrl}/populated?populate=${populateQuery}`;
+
         let response = await fetch(url, opts);
         return await response.json();
     } catch (error) {
@@ -140,7 +151,8 @@ export const createData = async (baseUrl, data = {}) => {
             body: JSON.stringify(data)
         };
 
-        const url = `http://localhost:8080/api/${baseUrl}`;
+        //const url = `http://localhost:8080/api/${baseUrl}`;
+        const url = `${BACKEND_URL}/${baseUrl}`;
         const response = await fetch(url, opts);
         const result = await response.json();
         return result;
@@ -170,7 +182,9 @@ export const updateData = async (baseUrl, data = {}) => {
             credentials: credentials,
             body: JSON.stringify(data)
         };
-        const url = `http://localhost:8080/api/${baseUrl}`;
+        
+        //const url = `http://localhost:8080/api/${baseUrl}`;
+        const url = `${BACKEND_URL}/${baseUrl}`;
         const response = await fetch(url, opts);
         const result = await response.json();
         return result;
@@ -197,8 +211,9 @@ export const deleteData = async (baseUrl, id) => {
             headers: baseHeaders,
             credentials: credentials
         };
-
-        const url = `http://localhost:8080/api/${baseUrl}/${id}`;
+        
+        //const url = `http://localhost:8080/api/${baseUrl}/${id}`;
+        const url = `${BACKEND_URL}/${baseUrl}/${id}`;
         let response = await fetch(url, opts);
         response = await response.json();
         return response;

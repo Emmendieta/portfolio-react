@@ -1,3 +1,5 @@
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 const getCurrentUser = async () => {
     const opts = {
         method: "POST",
@@ -5,7 +7,8 @@ const getCurrentUser = async () => {
         credentials: "include"
     };
     try {
-        const url = "http://localhost:8080/api/auth/current";
+        const url = `${BACKEND_URL}/auth/current`;
+        //const url = "http://localhost:8080/api/auth/current";
         const response = await fetch(url, opts);
         const data = await response.json();
 
@@ -28,7 +31,9 @@ const loginUser = async (email, password) => {
         body: JSON.stringify(data)
     };
     try {
-        const url = "http://localhost:8080/api/auth/login";
+        
+        const url = `${BACKEND_URL}/auth/login`;
+        //const url = "http://localhost:8080/api/auth/login";
         const response = await fetch(url, opts);
         const data = await response.json();
 
@@ -49,7 +54,10 @@ const signOutUser = async () => {
         credentials: "include"
     };
     try {
-        const url = "http://localhost:8080/api/auth/signout";
+
+        
+        const url = `${BACKEND_URL}/auth/signout`;
+        //const url = "http://localhost:8080/api/auth/signout";
         const response = await fetch(url, opts);
         const res = await response.json();
         return res;        

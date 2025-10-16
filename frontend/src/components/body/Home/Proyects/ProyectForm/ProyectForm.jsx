@@ -134,6 +134,7 @@ function ProyectForm() {
                     <ProyectField label="Link Proyect" name="linkProyect" value={formData.linkProyect} type="text" placeholder="Link Proyect" onChange={handleChange} />
                     <ProyectField label="Date Started" name="dateStart" value={formData.dateStart?.slice(0, 10)} type="date" placeholder="Start Date" onChange={handleChange} />
                     <ProyectField label="Date Ended" name="dateEnd" value={formData.dateEnd?.slice(0, 10)} type="date" placeholder="End Date" onChange={handleChange} />
+                    <ProyectField label="Description" name="description" value={formData.description} type="text" placeholder="Description" onChange={handleChange} />
 
                     {/* Lenguajes */}
                     <LanguageSelect
@@ -154,7 +155,6 @@ function ProyectForm() {
                         setThumbnails={setThumbnails}
                     />
 
-                    <ProyectField label="Description" name="description" value={formData.description} type="text" placeholder="Description" onChange={handleChange} />
                 </div>
 
                 <div id="formGeneralBottom">
