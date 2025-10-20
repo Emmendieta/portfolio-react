@@ -43,7 +43,8 @@ const ready = async () => {
 
 const allowedOrigins = [
     "http://localhost:3000",                            // desarrollo local
-    "https://frontend-production-2871.up.railway.app",  // frontend en Railway
+    "https://frontend-production-2871.up.railway.app",
+    "frontend-production-2871.up.railway.app",  // frontend en Railway
 ];
 
 APP.use(cors({
