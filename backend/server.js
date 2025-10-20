@@ -32,13 +32,32 @@ const ready = async () => {
 };
 
 /* ----------------- Middlewares --------------------- */
-APP.use(cors({
+/* APP.use(cors({
     origin: [
         "http://localhost:3000",
         "https://portfolio-react-production-6460.up.railway.app",
         "https://frontend-production-2871.up.railway.app/"
     ],
     credentials: true
+})); */
+
+const allowedOrigins = [
+    "http://localhost:3000",                            // desarrollo local
+    "https://frontend-production-2871.up.railway.app",  // frontend en Railway
+];
+
+APP.use(cors({
+    origin: function (origin, callback) {
+        // Permitir requests sin 'origin' (como Postman o curl)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        } else {
+            console.log(`❌ Bloqueado por CORS: ${origin}`);
+            return callback(new Error("Not allowed by CORS"));
+        }
+    },
+    credentials: true,
 }));
 APP.use(compression());
 APP.use(cookieParser(env.SECRET));
