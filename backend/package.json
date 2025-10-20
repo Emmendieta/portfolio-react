@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "serve -s dist",
+    "start": "nodemon server.js",
+    "start3": "serve -s dist",
     "start2": "node --watch server.js",
     "dev": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
