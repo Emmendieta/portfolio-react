@@ -47,19 +47,27 @@ const allowedOrigins = [
     "frontend-production-2871.up.railway.app",  // frontend en Railway
 ];
 
-APP.use(cors({
-    origin: function (origin, callback) {
-        // Permitir requests sin 'origin' (como Postman o curl)
-        if (!origin) return callback(null, true);
-        if (allowedOrigins.includes(origin)) {
-            return callback(null, true);
-        } else {
-            console.log(`❌ Bloqueado por CORS: ${origin}`);
-            return callback(new Error("Not allowed by CORS"));
-        }
-    },
-    credentials: true,
-}));
+APP.use((req, res, next) => {
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+        res.header("Access-Control-Allow-Origin", origin);
+    }
+
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    );
+
+    // Responder automáticamente a las preflight requests
+    if (req.method === "OPTIONS") {
+        return res.sendStatus(204);
+    }
+
+    next();
+});
+
 APP.use(compression());
 APP.use(cookieParser(env.SECRET));
 APP.use(express.json());
