@@ -18,20 +18,28 @@ function WorksList() {
     useEffect(() => {
         const loadWorks = async () => {
 
-            startLoading(); 
+            try {
+                startLoading();
 
-            const worksData = await fetchWorks();
-            if (worksData?.error) {
-                //SWEET ALERT:
-                alert(worksData.error.message);
+                const worksData = await fetchWorks();
+                if (worksData?.error) {
+                    //SWEET ALERT:
+                    alert(worksData.error.message);
+                    setLoading(false);
+                    return;
+                };
+
+                setWorks(worksData.response);
+
+            } catch (error) {
+                console.error("Error loading Works:", error);
+                alert("Error loading Works: " + error.message);
+            } finally {
                 setLoading(false);
-                return;
-            };
+                stopLoading();
+            }
 
-            setWorks(worksData.response);
-            setLoading(false);
 
-            stopLoading();
         };
 
         loadWorks();

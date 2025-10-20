@@ -19,22 +19,24 @@ function ProyectsList() {
     useEffect(() => {
         const loadProyects = async () => {
 
-            startLoading();
+            try {
+                startLoading();
+                const proyectsData = await fetchProyectsPopulated();
+                if (proyectsData?.error) {
+                    //SWEET ALERT:
+                    alert(proyectsData.error.message);
+                    setLoading(false);
+                    return;
+                };
 
-
-            const proyectsData = await fetchProyectsPopulated();
-            if (proyectsData?.error) {
-                //SWEET ALERT:
-                alert(proyectsData.error.message);
+                setProyects(proyectsData.response);
+            } catch (error) {
+                console.error("Error loading Proyects:", error);
+                alert("Error loading Proyects: " + error.message);
+            } finally {
                 setLoading(false);
-                return;
-            };
-
-            setProyects(proyectsData.response);
-            setLoading(false);
-
-            stopLoading();
-
+                stopLoading();
+            }
         };
         loadProyects();
     }, []);

@@ -17,22 +17,27 @@ function EducationsList() {
     useEffect(() => {
         const loadEducations = async () => {
 
-            startLoading();
+            try {
+                startLoading();
 
-            const educationsData = await fetchEducations();
-            if (educationsData?.error) {
-                //SWEET ALERT:
-                alert(educationsData.error.message);
+                const educationsData = await fetchEducations();
+                if (educationsData?.error) {
+                    //SWEET ALERT:
+                    alert(educationsData.error.message);
+                    setLoading(false);
+                    return;
+                };
+
+                const educations = educationsData.response;
+                setEducations(educations);
+
+            } catch (error) {
+                console.error("Error loading Educations:", error);
+                alert("Error loading Educations: " + error.message);
+            } finally {
                 setLoading(false);
-                return;
-            };
-
-            const educations = educationsData.response;
-            setEducations(educations);
-            setLoading(false);
-
-            stopLoading();
-
+                stopLoading();
+            }
         };
         loadEducations();
     }, []);

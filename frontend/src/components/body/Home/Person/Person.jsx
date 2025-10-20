@@ -16,29 +16,35 @@ function Person() {
     useEffect(() => {
         const loadPerson = async () => {
 
-            startLoading(); 
-            const response = await fetchPerson();
-            if (response?.error) {
-                //SWEET ALERT:
-                alert(response.error.message);
-                setLoading(false);
-                return;
-            };
-            const peopleArray = response.response;
+            try {
+                startLoading();
+                const response = await fetchPerson();
+                if (response?.error) {
+                    //SWEET ALERT:
+                    alert(response.error.message);
+                    setLoading(false);
+                    return;
+                };
+                const peopleArray = response.response;
 
-            if (!peopleArray || !Array.isArray(peopleArray) || peopleArray.length === 0) {
-                //LOGGER
-                console.error("No person data found!");
-                //SWEET ALERT
-                alert("No person data found!");
+                if (!peopleArray || !Array.isArray(peopleArray) || peopleArray.length === 0) {
+                    //LOGGER
+                    console.error("No person data found!");
+                    //SWEET ALERT
+                    alert("No person data found!");
+                    setLoading(false);
+                    return;
+                }
+
+                setPerson(peopleArray[0]);
+
+            } catch (error) {
+                console.error("Error loading Person:", error);
+                alert("Error loading Person: " + error.message);
+            } finally {
                 setLoading(false);
-                return;
+                stopLoading();
             }
-
-            setPerson(peopleArray[0]);
-            setLoading(false);
-
-            stopLoading();
         };
 
         loadPerson();

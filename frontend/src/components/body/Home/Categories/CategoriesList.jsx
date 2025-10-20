@@ -17,18 +17,25 @@ function CategoriesList({ onCategorySelect, selectedCategory }) {
     useEffect(() => {
         const loadCategories = async () => {
 
-            startLoading();
+            try {
+                startLoading();
 
-            const categoriesData = await fetchCategories();
-            if (categoriesData?.error) {
-                //SWEET ALERT:
-                alert(categoriesData.error.message);
+                const categoriesData = await fetchCategories();
+                if (categoriesData?.error) {
+                    //SWEET ALERT:
+                    alert(categoriesData.error.message);
+                    setLoading(false);
+                    return;
+                }
+                setCategories(categoriesData.response || []);
+
+            } catch (error) {
+                console.error("Error loading categories:", error);
+                alert("Error loading categories: " + error.message);
+            } finally {
                 setLoading(false);
-                return;
+                stopLoading();
             }
-            setCategories(categoriesData.response || []);
-            setLoading(false);
-            stopLoading();
         };
         loadCategories();
     }, []);

@@ -17,21 +17,25 @@ function LanguagesList() {
     useEffect(() => {
         const loadLanguages = async () => {
 
-            startLoading();
+            try {
+                startLoading();
+                const languagesData = await fetchLanguages();
+                if (languagesData?.error) {
+                    //SWEET ALERT:
+                    alert(languagesData.error.message);
+                    setLoading(false);
+                    return;
+                };
+                setLanguages(languagesData.response || []);
 
-
-            const languagesData = await fetchLanguages();
-            if (languagesData?.error) {
-                //SWEET ALERT:
-                alert(languagesData.error.message);
+            } catch (error) {
+                console.error("Error loading Languages:", error);
+                alert("Error loading Languages: " + error.message);
+            } finally {
                 setLoading(false);
-                return;
-            };
-            setLanguages(languagesData.response || []);
-            setLoading(false);
 
-            stopLoading();
-
+                stopLoading();
+            }
         };
         loadLanguages();
     }, []);
