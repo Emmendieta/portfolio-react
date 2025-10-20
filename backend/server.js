@@ -36,6 +36,7 @@ APP.use(cors({
     origin: [
         "http://localhost:3000",
         "https://portfolio-react-production-6460.up.railway.app",
+        "https://frontend-production-2871.up.railway.app/"
     ],
     credentials: true
 }));
