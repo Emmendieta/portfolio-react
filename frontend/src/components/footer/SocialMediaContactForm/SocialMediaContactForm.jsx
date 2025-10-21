@@ -21,6 +21,10 @@ function SocialmediasForm() {
     });
 
     useEffect(() => {
+        if (!user) {
+            navigate("/forbidden");
+            return;
+        };
         if (isEdit) {
             const loadSocialMediaContact = async () => {
                 const result = await fetchSocialMediaById(id);
@@ -32,7 +36,7 @@ function SocialmediasForm() {
             };
             loadSocialMediaContact();
         };
-    }, [id, isEdit]);
+    }, [id, isEdit, user, navigate, errorSweet]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;

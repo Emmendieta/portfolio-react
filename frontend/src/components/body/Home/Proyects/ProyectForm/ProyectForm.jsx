@@ -34,6 +34,10 @@ function ProyectForm() {
     const [thumbnails, setThumbnails] = useState([]);
 
     useEffect(() => {
+        if (!user) {
+            navigate("/forbidden");
+            return;
+        };
         const loadInitialData = async () => {
             // 1.1 Traer todos los lenguajes
             const langResult = await fetchLanguages();
@@ -81,7 +85,7 @@ function ProyectForm() {
         };
 
         loadInitialData();
-    }, [id, isEdit]);
+    }, [id, isEdit, user, navigate, errorSweet]);
 
     //verifico que All siempre este:
     useEffect(() => {

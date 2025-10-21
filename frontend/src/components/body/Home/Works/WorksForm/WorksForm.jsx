@@ -25,6 +25,10 @@ function WorksForm() {
     });
 
     useEffect(() => {
+        if (!user) {
+            navigate("/forbidden");
+            return;
+        };
         if (isEdit) {
             const loadWork = async () => {
                 const result = await fetchWorkById(id);

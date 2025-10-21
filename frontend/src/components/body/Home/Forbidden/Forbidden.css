@@ -1,0 +1,20 @@
+.divForbidden {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    background-color: white;
+    padding-bottom: 40px;
+}
+
+.h1Forbidden {
+    margin-top: 50px;
+    margin-bottom: 30px;
+    color: rgba(0, 0, 0, 0.726);
+}
+
+.imgForbidden {
+    width: 35%;
+}

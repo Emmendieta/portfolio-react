@@ -21,6 +21,10 @@ function LanguagesForm() {
     });
 
     useEffect(() => {
+        if (!user) {
+            navigate("/forbidden");
+            return;
+        };
         if (isEdit) {
             const loadLanguage = async () => {
                 const result = await fetchLanguageById(id);

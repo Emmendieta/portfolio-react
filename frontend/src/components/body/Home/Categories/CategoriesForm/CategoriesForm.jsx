@@ -18,6 +18,10 @@ function CategoriesForm() {
     });
 
     useEffect(() => {
+        if (!user) {
+            navigate("/forbidden");
+            return;
+        };
         if (isEdit) {
             const loadCategory = async () => {
                 const result = await fetchCategoryById(id);

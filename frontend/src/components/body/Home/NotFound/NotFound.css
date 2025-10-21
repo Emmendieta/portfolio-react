@@ -1,0 +1,19 @@
+.divError {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    background-color: antiquewhite;
+}
+
+.h1Error {
+    margin-top: 50px;
+    color: black;
+}
+
+.imgError {
+    width: 35%;
+}
+

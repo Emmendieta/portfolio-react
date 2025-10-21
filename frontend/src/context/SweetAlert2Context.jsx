@@ -72,8 +72,7 @@ export const ConfirmProvider = ({ children }) => {
             },
         });
 
-
-    return (
+        return (
         <confirmContext.Provider value={{ confirmSweet, successSweet, errorSweet, infoSweet }}>
             {children}
         </confirmContext.Provider>

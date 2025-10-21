@@ -29,6 +29,10 @@ function UpdatePerson() {
     const navigate = useNavigate();
 
     useEffect(() => {
+        if (!user) {
+            navigate("/forbidden");
+            return;
+        };
         const checkUserPerson = async () => {
             if (!user || !person) {
                 await errorSweet("User or person data not found!");

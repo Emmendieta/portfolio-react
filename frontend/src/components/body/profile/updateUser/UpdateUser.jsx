@@ -18,6 +18,10 @@ function UpdateUser(/* { user, updateUserData } */) {
     useEffect(() => {
         const checkUser = async () => {
             if (!user) {
+            navigate("/forbidden");
+            return;
+        };
+            if (!user) {
                 //LOGGER:
                 console.error("User not found!");
                 await errorSweet("User not Found");

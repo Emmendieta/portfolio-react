@@ -28,6 +28,10 @@ function EducationForm() {
     });
 
     useEffect(() => {
+        if (!user) {
+            navigate("/forbidden");
+            return;
+        };
         if (isEdit) {
             const loadEducation = async () => {
                 const result = await fetchEducationById(id);

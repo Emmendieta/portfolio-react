@@ -2,15 +2,20 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../context/UserContext";
 import { fetchUserPopulated } from "./logicProfile";
 import './Profile.css';
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 function Profile() {
     const { user } = useContext(UserContext);
     const [userProfile, setUserProfile] = useState(null);
     const location = useLocation();
+    const navigate = useNavigate();
     const updatedPerson = location.state?.updatedPerson;
 
     useEffect(() => {
+        if (!user) {
+            navigate("/forbidden");
+            return;
+        };
         const loadUserProfile = async () => {
             if (user?._id) {
                 const uid = user._id;

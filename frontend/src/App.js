@@ -13,6 +13,8 @@ import LanguagesForm from "./components/body/Home/Languajes/LanguageForm/Languag
 import ProyectForm from "./components/body/Home/Proyects/ProyectForm/ProyectForm";
 import SocialmediasForm from "./components/footer/SocialMediaContactForm/SocialMediaContactForm";
 import CategoriesForm from "./components/body/Home/Categories/CategoriesForm/CategoriesForm";
+import NotFound from "./components/body/Home/NotFound/NotFound";
+import Forbidden from "./components/body/Home/Forbidden/Forbidden";
 
 function AppRoutes() {
   const { loadingUser } = useContext(UserContext);
@@ -36,7 +38,8 @@ function AppRoutes() {
         <Route path="/proyects/form/:id" element={<ProyectForm />} />
         <Route path="/social-medias/form/:id" element={<SocialmediasForm />} />
         <Route path="/categories/form/:id" element={<CategoriesForm />} />
-        {/* Aquí más rutas si quieres */}
+        <Route path="/forbidden" element={<Forbidden />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );
