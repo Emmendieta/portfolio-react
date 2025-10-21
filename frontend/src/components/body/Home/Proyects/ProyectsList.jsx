@@ -8,6 +8,7 @@ import "./ProyectsList.css";
 import CategoriesList from "../Categories/CategoriesList.jsx";
 import { useLoading } from "../../../../context/LoadingContext.jsx";
 import "../../../GlobalLoader.css";
+import { useConfirmSweet } from "../../../../context/SweetAlert2Context.jsx";
 
 function ProyectsList() {
     const { user } = useContext(UserContext);
@@ -15,6 +16,7 @@ function ProyectsList() {
     const [loading, setLoading] = useState(true);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const { startLoading, stopLoading } = useLoading();
+    const { confirmSweet, successSweet, errorSweet } = useConfirmSweet();
 
     useEffect(() => {
         const loadProyects = async () => {
@@ -23,8 +25,7 @@ function ProyectsList() {
                 startLoading();
                 const proyectsData = await fetchProyectsPopulated();
                 if (proyectsData?.error) {
-                    //SWEET ALERT:
-                    alert(proyectsData.error.message);
+                    await errorSweet(proyectsData.error.message);
                     setLoading(false);
                     return;
                 };
@@ -32,7 +33,7 @@ function ProyectsList() {
                 setProyects(proyectsData.response);
             } catch (error) {
                 console.error("Error loading Proyects:", error);
-                alert("Error loading Proyects: " + error.message);
+                await errorSweet("Error loading Proyects: " + error.message);
             } finally {
                 setLoading(false);
                 stopLoading();
@@ -44,23 +45,25 @@ function ProyectsList() {
     const filteredProyects = selectedCategory ? proyects.filter(proyect => proyect.categories.some(category => category._id === selectedCategory)) : proyects;
 
     const handleDelete = async (pyid) => {
-        const confirmDelete = window.confirm("Are you sure you want to delete the Proyect?");
+        const confirmDelete = await confirmSweet({
+            title: "Delete Proyect:",
+            text: "Are you sure you want to delete the Proyect?",
+            confirmButtonText: "Yes",
+            cancelButtonText: "No",
+        });
         if (!confirmDelete) return;
         try {
             const result = await fetchDeleteProyect(pyid);
             if (result.error) {
-                //SWEET ALERT:
-                alert("Error deleting the Proyect", result.error.message);
+                await errorSweet("Error deleting the Proyect", result.error.message);
             } else {
-                //SWEET ALERT:
-                alert("Proyect Deleted!");
+                await successSweet("Proyect Deleted!");
                 setProyects(prev => prev.filter(proyect => proyect._id !== pyid));
             }
         } catch (error) {
             //LOGGER:
             console.error("Error deleting Proyect: ", error.message);
-            //SWEET ALERT:
-            alert("Error deleting Proyect: " + error.message);
+            await errorSweet("Error deleting Proyect: " + error.message);
         }
     };
 

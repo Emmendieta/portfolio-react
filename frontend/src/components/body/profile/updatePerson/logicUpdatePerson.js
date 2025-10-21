@@ -1,6 +1,6 @@
 import { updateData } from "../../../../helpers/crud";
 
-export const handleUpdatePerson = async ({ pid, data }) => {
+export const handleUpdatePerson = async ({ pid, data, successSweet, errorSweet }) => {
     try {
         const url = `people/${pid}`;
         const response = await updateData(url, data);
@@ -8,19 +8,16 @@ export const handleUpdatePerson = async ({ pid, data }) => {
         if(response.error) {
             //LOGGER:
             console.error(response.error);
-            //SWEET ALERT:
-            alert("Error updating person data!");
+            await errorSweet("Error updating person data!");
             return null;
         } else {
-            // SWEET ALERT:
-            alert("Personal data updated successfully!");
+            await successSweet("Personal data updated successfully!");
             return response;
         }
     } catch (error) {
         //LOGGER:
         console.error("Update failed:", error);
-        //SWEET ALERT:
-        alert("An error occurred while updating person data!");
+        await errorSweet("An error occurred while updating person data!");
         return null;
     }
 };

@@ -3,12 +3,14 @@ import { UserContext } from "../../../../../context/UserContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchCreateLanguage, fetchLanguageById, fetchUpdateLangauge } from "../Language";
 import "../../FormGeneral.css";
+import { useConfirmSweet } from "../../../../../context/SweetAlert2Context";
 
 //Falta Validar si el usuario es Admin:
 function LanguagesForm() {
     const { user } = useContext(UserContext);
     const { id } = useParams();
     const navigate = useNavigate();
+    const { successSweet, errorSweet } = useConfirmSweet();
 
     const isEdit = id && id !== "new";
     const [formData, setFormData] = useState({
@@ -23,8 +25,7 @@ function LanguagesForm() {
             const loadLanguage = async () => {
                 const result = await fetchLanguageById(id);
                 if (result?.error) {
-                    //SWEET ALERT:
-                    alert("Error loadign Language by Id");
+                    await errorSweet("Error loadign Language by Id");
                     return;
                 };
                 setFormData(result.response);
@@ -42,8 +43,7 @@ function LanguagesForm() {
         event.preventDefault();
 
         if (!formData.type) {
-            //SWEET ALERT:
-            alert("Please select a valid Type of Language!");
+            await errorSweet("Please select a valid Type of Language!");
             return;
         };
 
@@ -55,11 +55,9 @@ function LanguagesForm() {
         };
 
         if (result?.error) {
-            //SWEET ALERT:
-            alert("Error saving Language");
+            await errorSweet("Error saving Language");
         } else {
-            //SWEET ALERT:
-            alert("Language saved!");
+            await successSweet("Language saved!");
             navigate("/");
         }
     };

@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../../context/UserContext";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useConfirmSweet } from "../../../../context/SweetAlert2Context";
 import { handleUpdatePerson } from "./logicUpdatePerson";
 import "./UpdatePerson.css";
 import ThumbnailsManagerPerson from "./ThumbnailsManager/ThumbnailsManagerPerson";
@@ -9,6 +10,7 @@ function UpdatePerson() {
     const { user } = useContext(UserContext);
     const location = useLocation();
     const { person } = location.state || {};
+    const { successSweet, errorSweet } = useConfirmSweet();
 
     const [personId] = useState(person?._id || "");
     const [updateFirstName, setFirstName] = useState(person?.firstName || "");
@@ -23,15 +25,18 @@ function UpdatePerson() {
     const [updateAbout, setAbout] = useState(person?.about || "");
     const [profileImages, setProfileImages] = useState(person?.thumbnails || []);
     const [bannerImages, setBannerImages] = useState(person?.banners || []);
-
+    
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!user || !person) {
-            alert("User or person data not found!");
-            navigate("/profile");
-        }
-    }, [person, user, navigate]);
+        const checkUserPerson = async () => {
+            if (!user || !person) {
+                await errorSweet("User or person data not found!");
+                navigate("/profile");
+            };
+        };
+        checkUserPerson();
+    }, [person, user, navigate, errorSweet]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -53,7 +58,9 @@ function UpdatePerson() {
 
         const updatedPerson = await handleUpdatePerson({
             pid: personId,
-            data
+            data,
+            successSweet,
+            errorSweet,
         });
 
         if (updatedPerson) {

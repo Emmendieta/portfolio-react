@@ -1,8 +1,10 @@
 import { useState } from "react";
 import "./ThumbnailsMananger.css";
+import { useConfirmSweet } from "../../../../../../context/SweetAlert2Context";
 
 function ThumbnailsMananger({ thumbnails, setThumbnails, title }) {
     const [inputUrl, setInputUrl] = useState("");
+    const { errorSweet } = useConfirmSweet();
 
     const isValidUrl = (url) => {
         try {
@@ -13,13 +15,13 @@ function ThumbnailsMananger({ thumbnails, setThumbnails, title }) {
         }
     };
 
-    const handleAddThumbnail = () => {
+    const handleAddThumbnail = async () => {
         const trimmedUrl = inputUrl.trim();
         if (trimmedUrl && isValidUrl(trimmedUrl) && !thumbnails.includes(trimmedUrl)) {
             setThumbnails([...thumbnails, trimmedUrl]);
             setInputUrl("");
         } else {
-            alert("Invalid or duplicate URL!");
+            await errorSweet("Invalid or duplicate URL!");
         }
     };
 

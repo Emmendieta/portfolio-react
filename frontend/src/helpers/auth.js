@@ -60,6 +60,7 @@ const signOutUser = async () => {
         //const url = "http://localhost:8080/api/auth/signout";
         const response = await fetch(url, opts);
         const res = await response.json();
+        
         return res;        
     } catch (error) {
         //LOGGER:

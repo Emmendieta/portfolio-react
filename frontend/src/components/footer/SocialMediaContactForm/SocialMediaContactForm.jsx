@@ -3,12 +3,14 @@ import { UserContext } from "../../../context/UserContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchCreateSocialMediaContact, fetchSocialMediaById, fetchUpdateSocialMediaContact } from "../socialMedias/logicSocialMedias";
 import { useRefresh } from "../../../context/RefreshContext";
+import { useConfirmSweet } from "../../../context/SweetAlert2Context";
 
 function SocialmediasForm() {
     const { triggerRefresh } = useRefresh();
     const { user } = useContext(UserContext);
     const { id } = useParams();
     const navigate = useNavigate();
+    const { successSweet, errorSweet } = useConfirmSweet();
 
     const isEdit = id && id !== "new";
     const [formData, setFormData] = useState({
@@ -23,8 +25,7 @@ function SocialmediasForm() {
             const loadSocialMediaContact = async () => {
                 const result = await fetchSocialMediaById(id);
                 if (result?.error) {
-                    //SWEET ALERT:
-                    alert("Error loading Social Media/Contact by Id!");
+                    await errorSweet("Error loading Social Media/Contact by Id!");
                     return;
                 };
                 setFormData(result.response);
@@ -42,8 +43,7 @@ function SocialmediasForm() {
         event.preventDefault();
 
         if(formData.type === "") {
-            //SWEET ALERT:
-            alert("Please select a valid Type of Social Media - Contact!");
+            await errorSweet("Please select a valid Type of Social Media - Contact!");
             return;
         };
 
@@ -55,11 +55,9 @@ function SocialmediasForm() {
         };
 
         if (result?.error) {
-            //SWEET ALERT:
-            alert("Error saving Social Media/Contact");
+            await errorSweet("Error saving Social Media/Contact");
         } else {
-            //SWEET ALERT:
-            alert("Social Media/Contact saved!");
+            await successSweet("Social Media/Contact saved!");
             triggerRefresh();
             navigate("/");
         };

@@ -6,11 +6,13 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import "./Contacts.css";
 import { fetchContacts, fetchDeleteContact } from "./logicContacts.js";
 import { useRefresh } from "../../../context/RefreshContext.jsx";
+import { useConfirmSweet } from "../../../context/SweetAlert2Context.jsx";
 
 function Contacts() {
     const [contacts, setContacts] = useState([]);
     const { user } = useContext(UserContext);
     const { refreshKey } = useRefresh();
+    const { confirmSweet, successSweet, errorSweet } = useConfirmSweet();
 
     useEffect(() => {
         const loadContacts = async () => {
@@ -21,26 +23,27 @@ function Contacts() {
     }, [refreshKey]);
 
     const handleDelete = async (sid) => {
-        //SWEET ALERT:
-        const confirmDelete = window.confirm("Are you sure you want to delete the Contact?");
+        const confirmDelete = await confirmSweet({
+            title: "Delete Contact:",
+            text: "Are you sure you want to delete the Contact?",
+            confirmButtonText: "Yes",
+            cancelButtonText: "No",
+        });
         if (!confirmDelete) return;
 
         try {
             const result = await fetchDeleteContact(sid);
 
-            if(result.error) {
-                //SWEET ALERT:
-                alert("Error deleting Contact: ", result.error.message);
+            if (result.error) {
+                await errorSweet("Error deleting Contact: ", result.error.message);
             } else {
-                //SWEET ALERT:
-                alert("Contact Deleted!");
+                await successSweet("Contact Deleted!");
                 setContacts(prev => prev.filter(contact => contact._id !== sid));
             }
         } catch (error) {
             //LOGGER:
             console.error("Error deleting Contact: ", error.message);
-            //SWEET ALERT:
-            alert("Internal Error deleting Contact: " + error.message);
+            await errorSweet("Internal Error deleting Contact: " + error.message);
         }
     };
 
@@ -49,7 +52,7 @@ function Contacts() {
             {contacts.map((contact) => (
                 <li key={contact._id} data-id={contact._id}>
                     <a href={contact.linkSocial} target="_blank" rel="noopener noreferrer" title={contact.title}>
-                    { <img
+                        {<img
                             src={contact.thumbnails || "/img/imagen-no-disponible.png"}
                             alt={contact.title}
                             className="socialMediaContactIcon"

@@ -22,11 +22,9 @@ export const getData = async (baseUrl) => {
             headers: baseHeaders,
             credentials: credentials
         };
-        console.log("URL backend", BACKEND_URL);
         //const url = `http://localhost:8080/api/${baseUrl}`;
 
         const url = `${BACKEND_URL}/${baseUrl}`;
-        console.log(url)
 
         const response = await fetch(url, opts);
 

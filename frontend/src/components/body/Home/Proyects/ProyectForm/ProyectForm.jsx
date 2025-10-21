@@ -7,11 +7,13 @@ import LanguageSelect from "../../Languajes/LanguageSelect/LanguageSelect";
 import ThumbnailsMananger from "./ThumbnailsMananger/ThumbnailsMananger";
 import { fetchCategories } from "../../Categories/Categories";
 import CategorySelect from "../../Categories/CategorySelect/CategorySelect";
+import { useConfirmSweet } from "../../../../../context/SweetAlert2Context";
 
 function ProyectForm() {
     const { user } = useContext(UserContext);
     const { id } = useParams();
     const navigate = useNavigate();
+    const { successSweet, errorSweet } = useConfirmSweet();
 
     const isEdit = id && id !== "new";
 
@@ -36,8 +38,7 @@ function ProyectForm() {
             // 1.1 Traer todos los lenguajes
             const langResult = await fetchLanguages();
             if (langResult?.error) {
-                //SWEET ALERT:
-                alert("Error fetching Languages");
+                await errorSweet("Error fetching Languages");
                 return;
             };
             const allLangs = langResult.response;
@@ -47,8 +48,7 @@ function ProyectForm() {
 
             const catResult = await fetchCategories();
             if (catResult?.error) {
-                //SWEET ALERT:
-                alert("Error fetching Categories");
+                await errorSweet("Error fetching Categories");
                 return;
             };
 
@@ -59,8 +59,7 @@ function ProyectForm() {
             if (isEdit) {
                 const projResult = await fetchProyectById(id);
                 if (projResult?.error) {
-                    //SWEET ALERT:
-                    alert("Error loading Proyect by Id!");
+                    await errorSweet("Error loading Proyect by Id!");
                     return;
                 };
 
@@ -112,11 +111,9 @@ function ProyectForm() {
         const result = isEdit ? await fetchUpdateProyect(id, dataToSend) : await fetchCreateProyect(dataToSend);
 
         if (result?.error) {
-            //SWEET ALERT:
-            alert("Error saving Proyect!");
+            await errorSweet("Error saving Proyect!");
         } else {
-            //SWEET ALERT:
-            alert("Proyect saved!");
+            await successSweet("Proyect saved!");
             navigate("/");
         };
     };

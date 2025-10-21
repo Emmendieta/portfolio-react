@@ -3,40 +3,38 @@ import "./Login.css";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../../context/UserContext";
 import { getCurrentUser, loginUser } from "../../../helpers/auth.js";
-
+import { useConfirmSweet } from "../../../context/SweetAlert2Context.jsx";
 
 function Login() {
     const { setUser } = useContext(UserContext);
-    const navigate = useNavigate(); //Para redireccionar luego de hacer login
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const { successSweet, errorSweet } = useConfirmSweet();
 
     const handleLogin = async (event) => {
         event.preventDefault();
         try {
             if (!email || !password) {
-                alert("You must complete all fields!");
+                await errorSweet("You must complete all fields!");
                 return;
             };
 
             const { user, error, message } = await loginUser(email, password);
 
             if (error || !user) {
-                //SWEET Alert
-                alert(message || "Login Failed!");
+                await errorSweet(message || "Login Failed or invalid credentials!");
                 return;
             };
 
             const { user: freshUser } = await getCurrentUser();
             setUser(freshUser);
-
-            //SWEET ALERT:
-            alert("Login Success!");
+            await successSweet("Login Success!");
             navigate("/");
 
         } catch (error) {
             console.error(error.message);
-            alert("Ooooppsss! An error has occurred. Error: " + error.message);
+            await errorSweet("Ooooppsss! An error has occurred. Error: " + error.message);
         }
     }
     const handleKeyPress = (event) => {

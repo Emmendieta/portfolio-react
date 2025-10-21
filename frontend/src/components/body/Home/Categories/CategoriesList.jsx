@@ -7,12 +7,14 @@ import CategoryCard from "./CategoryCard/CategoryCard";
 import "./CategoriesList.css";
 import "../../../GlobalLoader.css";
 import { useLoading } from "../../../../context/LoadingContext";
+import { useConfirmSweet } from "../../../../context/SweetAlert2Context";
 
 function CategoriesList({ onCategorySelect, selectedCategory }) {
     const { user } = useContext(UserContext);
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const { startLoading, stopLoading } = useLoading();
+    const { confirmSweet, successSweet, errorSweet } = useConfirmSweet();
 
     useEffect(() => {
         const loadCategories = async () => {
@@ -23,15 +25,15 @@ function CategoriesList({ onCategorySelect, selectedCategory }) {
                 const categoriesData = await fetchCategories();
                 if (categoriesData?.error) {
                     //SWEET ALERT:
-                    alert(categoriesData.error.message);
+                    await errorSweet(categoriesData.error.message);
                     setLoading(false);
                     return;
                 }
                 setCategories(categoriesData.response || []);
 
             } catch (error) {
+                await errorSweet("Error loading categories: " + error.message);
                 console.error("Error loading categories:", error);
-                alert("Error loading categories: " + error.message);
             } finally {
                 setLoading(false);
                 stopLoading();
@@ -50,23 +52,32 @@ function CategoriesList({ onCategorySelect, selectedCategory }) {
     };
 
     const handleDelete = async (cid) => {
-        const confirmDelete = window.confirm("Are you sure you want to delete the Category?");
+        const categoryToDelete = categories.find(cat => cat._id === cid);
+
+        if (categoryToDelete?.title === "All") {
+            await errorSweet("Error: This Category must be all time!");
+            return;
+        };
+        const confirmDelete = await confirmSweet({
+            title: "Delete Category:",
+            text: "Are you sure you want to delete the Category?",
+            confirmButtonText: "Yes",
+            cancelButtonText: "No"
+        });
         if (!confirmDelete) return;
 
         try {
             const result = await fetchDeleteCategory(cid);
             if (result?.error) {
-                //SWEET ALERT:
-                alert("Error deleting Category: " + result.error.message);
+                await errorSweet("Error deleting Category: " + result.error.message);
+                console.error("Error deleting Category: ", result.error.message);
             } else {
-                //SWEET ALERT:
-                alert("Category Deleted!");
+                await successSweet("Category Deleted!");
                 setCategories(prev => prev.filter(category => category._id !== cid));
             }
         } catch (error) {
+            errorSweet("Error deleting Category: " + error.message);
             console.error("Error deleting Category: ", error.message);
-            //SWEET ALERT:
-            alert("Error deleting Category: " + error.message);
         }
     };
 

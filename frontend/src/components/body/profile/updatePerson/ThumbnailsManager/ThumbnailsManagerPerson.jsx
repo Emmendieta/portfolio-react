@@ -1,8 +1,10 @@
 import { useState } from "react";
 import "./ThumbnailsManagerPerson.css";
+import { useConfirmSweet } from "../../../../../context/SweetAlert2Context";
 
 function ThumbnailsManagerPerson({ thumbnails, setThumbnails, title = "Images" }) {
     const [inputUrl, setInputUrl] = useState("");
+    const { errorSweet } = useConfirmSweet();
 
     const isValidUrl = (url) => {
         try {
@@ -13,14 +15,13 @@ function ThumbnailsManagerPerson({ thumbnails, setThumbnails, title = "Images" }
         }
     };
 
-    const handleAddThumbnail = () => {
+    const handleAddThumbnail = async () => {
         const trimmedUrl = inputUrl.trim();
         if (trimmedUrl && isValidUrl(trimmedUrl) && !thumbnails.includes(trimmedUrl)) {
             setThumbnails([...thumbnails, trimmedUrl]);
             setInputUrl("");
         } else {
-            //SWEET ALERT:
-            alert("Invalid or duplicate URL!")
+            await errorSweet("Invalid or duplicate URL!")
         }
     };
 
@@ -61,7 +62,7 @@ function ThumbnailsManagerPerson({ thumbnails, setThumbnails, title = "Images" }
                                 <button type="button" className="btn btn-outline-primary" onClick={() => handleSetAsMain(url)} > Set as Main</button>
                             )}
 
-                            { index === 0 && (
+                            {index === 0 && (
                                 <span className="badge bg-success mt-2">Main Image</span>
                             )}
                         </div>

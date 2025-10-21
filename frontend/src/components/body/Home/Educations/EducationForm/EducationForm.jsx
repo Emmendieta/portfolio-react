@@ -3,6 +3,7 @@ import "../../FormGeneral.css";
 import { UserContext } from "../../../../../context/UserContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchCreateEducation, fetchEducationById, fetchUpdateEducation } from "../Educations";
+import { useConfirmSweet } from "../../../../../context/SweetAlert2Context";
 
 //FALTA QUE SE VALIDE SI EL USUARIO ES ADMIN!!!!
 
@@ -10,6 +11,7 @@ function EducationForm() {
     const { user } = useContext(UserContext);
     const { id } = useParams();
     const navigate = useNavigate();
+    const { successSweet, errorSweet } = useConfirmSweet();
 
     const isEdit = id && id !== "new";
     const [formData, setFormData] = useState({
@@ -30,8 +32,7 @@ function EducationForm() {
             const loadEducation = async () => {
                 const result = await fetchEducationById(id);
                 if (result?.error) {
-                    //SWEET ALERT:
-                    alert("Error loading Education by Id");
+                    await errorSweet("Error loading Education by Id");
                     return;
                 };
                 setFormData(result.response);
@@ -50,8 +51,7 @@ function EducationForm() {
         event.preventDefault();
 
         if (formData.typeEducation === "") {
-            //SWEET ALERT:
-            alert("Please select a valid type of Education!");
+            await errorSweet("Please select a valid type of Education!");
             return;
         };
 
@@ -63,11 +63,9 @@ function EducationForm() {
         };
 
         if (result?.error) {
-            //SWEET ALERT:
-            alert("Error saving Education");
+            errorSweet("Error saving Education");
         } else {
-            //SWEET ALERT:
-            alert("Education saved!");
+            await successSweet("Education saved!");
             navigate("/");
         };
     };
@@ -85,7 +83,7 @@ function EducationForm() {
                     <EducationField label="Link Certificate: " value={formData.linkCertificate} placeholder="Type the Link of the Certificate" name="linkCertificate" type="text" onChange={handleChange} />
                     <EducationField label="Date Started: " value={formData.dateStart.slice(0, 10)} placeholder="Select the date you started" name="dateStart" type="date" onChange={handleChange} />
                     <EducationField label="Date Ended: " value={formData.dateEnd.slice(0, 10)} placeholder="Select the date you ended" name="dateEnd" type="date" onChange={handleChange} />
-                    <EducationField label="Finished" value={formData.finished} name="finished" type="checkbox" onChange={handleChange}  />
+                    <EducationField label="Finished" value={formData.finished} name="finished" type="checkbox" onChange={handleChange} />
                     <EducationField label="Description: " value={formData.description} placeholder="Type a description of what you studied" name="description" type="text" onChange={handleChange} />
                     <EducationSelectField
                         label="Type of Education:"

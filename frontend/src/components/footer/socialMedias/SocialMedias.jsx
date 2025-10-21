@@ -6,11 +6,13 @@ import { FaPen } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import "./SocialMedias.css";
 import { useRefresh } from "../../../context/RefreshContext";
+import { useConfirmSweet } from "../../../context/SweetAlert2Context";
 
 function SocialMedias() {
     const [socialMedias, setSocialMedias] = useState([]);
     const { user } = useContext(UserContext);
     const { refreshKey } = useRefresh();
+    const { confirmSweet, successSweet, errorSweet } = useConfirmSweet();
 
     useEffect(() => {
         const loadSocialMedias = async () => {
@@ -21,27 +23,28 @@ function SocialMedias() {
     }, [refreshKey]);
 
     const handleDelte = async (sid) => {
-        //SWEET ALERT:
-        const confirmDelete = window.confirm("Are you sure you want to delete the Social Medias?");
+        const confirmDelete = await confirmSweet({
+            title: "Delete Social Media:",
+            text: "Are you sure you want to delete the Social Medias?",
+            confirmButtonText: "Yes",
+            cancelButtonText: "No"
+        });
         if (!confirmDelete) return;
 
         try {
             const result = await fetchDeleteSocialMedia(sid);
 
             if(result.error) {
-                //SWEET ALERT:
-                alert("Error deleting Social Media: ", result.error.message);
+                await errorSweet("Error deleting Social Media: ", result.error.message);
             } else {
-                //SWEET ALERT:
-                alert("Social Media Deleted!");
+                await successSweet("Social Media Deleted!");
                 setSocialMedias(prev => prev.filter(socialMedia => socialMedia._id !== sid));
             }
 
         } catch (error) {
             //LOGGER:
             console.error("Error deleting Social Media: ", error.message);
-            //SWEET ALERT:
-            alert("Internal Error deleting Social Media: " + error.message);
+            await errorSweet("Internal Error deleting Social Media: " + error.message);
         }
     };
 

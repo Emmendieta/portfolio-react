@@ -7,12 +7,14 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import EducationCard from "./EducationCard/EducationCard";
 import { useLoading } from "../../../../context/LoadingContext";
 import "../../../GlobalLoader.css";
+import { useConfirmSweet } from "../../../../context/SweetAlert2Context";
 
 function EducationsList() {
     const { user } = useContext(UserContext);
     const [educations, setEducations] = useState([]);
     const [loading, setLoading] = useState(true);
     const { startLoading, stopLoading } = useLoading();
+    const { confirmSweet, successSweet, errorSweet } = useConfirmSweet();
 
     useEffect(() => {
         const loadEducations = async () => {
@@ -22,8 +24,7 @@ function EducationsList() {
 
                 const educationsData = await fetchEducations();
                 if (educationsData?.error) {
-                    //SWEET ALERT:
-                    alert(educationsData.error.message);
+                    await errorSweet(educationsData.error.message);
                     setLoading(false);
                     return;
                 };
@@ -32,8 +33,8 @@ function EducationsList() {
                 setEducations(educations);
 
             } catch (error) {
+                await errorSweet("Error loading Educations: " + error.message);
                 console.error("Error loading Educations:", error);
-                alert("Error loading Educations: " + error.message);
             } finally {
                 setLoading(false);
                 stopLoading();
@@ -43,27 +44,28 @@ function EducationsList() {
     }, []);
 
     const handleDelete = async (eid) => {
-        //SWEET ALERT:
-        const confirmDelete = window.confirm("Are you sure you want to delete the education?");
+        const confirmDelete = await confirmSweet({
+            title: "Delete Education:", 
+            text: "Are you sure you want to delete the education?", 
+            confirmButtonText: "Yes", 
+            cancelButtonText: "No"
+        });
         if (!confirmDelete) return;
 
         try {
             const result = await fetchDeleteEducation(eid);
 
             if (result.error) {
-                //SWEET ALERT:
-                alert("Error deleting Education: ", result.error.message);
+                await errorSweet("Error deleting Education: ", result.error.message);
             } else {
-                //SWEET ALERT:
-                alert("Education Deleted!");
+                await successSweet("Education Deleted!");
                 setEducations(prev => prev.filter(education => education._id !== eid));
             }
 
         } catch (error) {
             //LOGGER:
             console.error("Error deleting Education: ", error.message);
-            //SWEET ALERT:
-            alert("Internal Error deleting Education: " + error.message);
+            await errorSweet("Internal Error deleting Education: " + error.message);
         }
     };
 

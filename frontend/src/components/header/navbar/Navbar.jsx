@@ -4,9 +4,11 @@ import { useContext } from "react";
 import { UserContext } from '../../../context/UserContext';
 import '../navbar/Navbar.css';
 import { signOutUser } from "../../../helpers/auth.js";
+import { useConfirmSweet } from "../../../context/SweetAlert2Context.jsx";
 
 function Navbar() {
     const { user, loadingUser } = useContext(UserContext);
+    const { successSweet } = useConfirmSweet();
 
     const handleSignOut = async () => {
         try {
@@ -17,6 +19,7 @@ function Navbar() {
                 console.error("Signout fail: ", result);
                 return;
             };
+            await successSweet("Signout success!");
             window.location.reload();
         } catch (error) {
             //LOGGER:
@@ -40,10 +43,10 @@ function Navbar() {
                                 <Link to="/profile" className="btn btn-outline-success" id="btnProfile"> Profile </Link>
                                 {user.role === "admin" && (
                                     <Link to="/users" className="btn btn-outline-success" id="btnUsers">Users</Link>
-                                )} 
+                                )}
                                 <button className="btn btn-outline-danger" onClick={handleSignOut} id="btnSignout"> Signout </button>
                             </>
-                        ) : ( <Link to="/login" className="btn btn-outline-success"> Login </Link> )
+                        ) : (<Link to="/login" className="btn btn-outline-success"> Login </Link>)
                     )}
                 </div>
             </div>

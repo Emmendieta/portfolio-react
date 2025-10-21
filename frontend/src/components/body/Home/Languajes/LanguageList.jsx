@@ -7,12 +7,14 @@ import { UserContext } from "../../../../context/UserContext";
 import "./LanguagesList.css";
 import { useLoading } from "../../../../context/LoadingContext";
 import "../../../GlobalLoader.css";
+import { useConfirmSweet } from "../../../../context/SweetAlert2Context";
 
 function LanguagesList() {
     const { user } = useContext(UserContext);
     const [languages, setLanguages] = useState([]);
     const [loading, setLoading] = useState(true);
     const { startLoading, stopLoading } = useLoading();
+    const { confirmSweet, successSweet, errorSweet } = useConfirmSweet();
 
     useEffect(() => {
         const loadLanguages = async () => {
@@ -21,19 +23,17 @@ function LanguagesList() {
                 startLoading();
                 const languagesData = await fetchLanguages();
                 if (languagesData?.error) {
-                    //SWEET ALERT:
-                    alert(languagesData.error.message);
+                    await errorSweet(languagesData.error.message);
                     setLoading(false);
                     return;
                 };
                 setLanguages(languagesData.response || []);
 
             } catch (error) {
+                await errorSweet("Error loading Languages: " + error.message);
                 console.error("Error loading Languages:", error);
-                alert("Error loading Languages: " + error.message);
             } finally {
                 setLoading(false);
-
                 stopLoading();
             }
         };
@@ -41,24 +41,26 @@ function LanguagesList() {
     }, []);
 
     const handleDelete = async (lid) => {
-        const confirmDelete = window.confirm("Are you sure you want to delete this Language?");
+        const confirmDelete = await confirmSweet({
+            title: "Delete Language:",
+            text: "Are you sure you want to delete this Language?",
+            confirmButtonText: "Yes",
+            cancelButtonText: "No"
+        });
         if (!confirmDelete) return;
 
         try {
             const result = await fetchDeleteLanguage(lid);
             if (result.error) {
-                //SWEET ALERT:
-                alert("Error deleting the Language: " + result.error.message);
+                await errorSweet("Error deleting the Language: " + result.error.message);
             } else {
-                //SWEET ALERT:
-                alert("Language Deleted!");
+                await successSweet("Language Deleted!");
                 setLanguages(prev => prev.filter(language => language._id !== lid));
             }
         } catch (error) {
             //LOGGER:
             console.error("Error deleting Language: ", error.message);
-            //SWEET ALERT:
-            alert("Error deleting Language: " + error.message);
+            await errorSweet("Error deleting Language: " + error.message);
         }
     };
 
@@ -73,7 +75,7 @@ function LanguagesList() {
                 <h3 id="languagesDivH3Title">Skills:</h3>
                 {user?.role === "admin" && (
                     <div className="addingControlGeneral">
-                        <Link to="/languages/form/nw" className="btn btn-outline-success" id="addBtnLanguage">
+                        <Link to="/languages/form/new" className="btn btn-outline-success" id="addBtnLanguage">
                             <IoIosAddCircleOutline id="addIcon" />
                         </Link>
                     </div>

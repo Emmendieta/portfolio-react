@@ -6,12 +6,14 @@ import { FaPen } from "react-icons/fa";
 import "./Person.css";
 import { useLoading } from "../../../../context/LoadingContext";
 import "../../../GlobalLoader.css";
+import { useConfirmSweet } from "../../../../context/SweetAlert2Context";
 
 function Person() {
     const { user } = useContext(UserContext);
     const [person, setPerson] = useState(null);
     const [loading, setLoading] = useState(true);
     const { startLoading, stopLoading } = useLoading();
+    const { errorSweet } = useConfirmSweet();
 
     useEffect(() => {
         const loadPerson = async () => {
@@ -20,8 +22,7 @@ function Person() {
                 startLoading();
                 const response = await fetchPerson();
                 if (response?.error) {
-                    //SWEET ALERT:
-                    alert(response.error.message);
+                    await errorSweet(response.error.message);
                     setLoading(false);
                     return;
                 };
@@ -30,8 +31,7 @@ function Person() {
                 if (!peopleArray || !Array.isArray(peopleArray) || peopleArray.length === 0) {
                     //LOGGER
                     console.error("No person data found!");
-                    //SWEET ALERT
-                    alert("No person data found!");
+                    await errorSweet("No person data found!");
                     setLoading(false);
                     return;
                 }
@@ -40,7 +40,7 @@ function Person() {
 
             } catch (error) {
                 console.error("Error loading Person:", error);
-                alert("Error loading Person: " + error.message);
+                await errorSweet("Error loading Person: " + error.message);
             } finally {
                 setLoading(false);
                 stopLoading();

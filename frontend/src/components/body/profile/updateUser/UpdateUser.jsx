@@ -3,6 +3,7 @@ import { UserContext } from "../../../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { handleUpdateUser } from "./logicUpdateUser";
 import "./UpdateUser.css";
+import { useConfirmSweet } from "../../../../context/SweetAlert2Context";
 
 function UpdateUser(/* { user, updateUserData } */) {
     const { user, setUser } = useContext(UserContext);
@@ -12,23 +13,25 @@ function UpdateUser(/* { user, updateUserData } */) {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [updateRole, setUpdatedRole] = useState(user?.role || "");
     const navigate = useNavigate();
+    const { successSweet, errorSweet } = useConfirmSweet();
 
     useEffect(() => {
-        if (!user) {
-            //LOGGER:
-            console.error("User not found!");
-            //SWEET ALERT:
-            alert("User not Found");
-            navigate("/profile");
+        const checkUser = async () => {
+            if (!user) {
+                //LOGGER:
+                console.error("User not found!");
+                await errorSweet("User not Found");
+                navigate("/profile");
+            };
         };
+        checkUser();
     }, [user, navigate]);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         if (updatePassword !== confirmPassword) {
-            //SWEET ALERT:
-            alert("Passwords do not match!");
+            await errorSweet("Passwords do not match!");
             return;
         };
 
@@ -44,7 +47,9 @@ function UpdateUser(/* { user, updateUserData } */) {
             uid: user._id,
             data,
             setUser,
-            navigate
+            navigate,
+            successSweet,
+            errorSweet
         });
     };
 

@@ -8,7 +8,6 @@ import "./CategoryCard.css";
 function CategoryCard({ category, onDelete, onClick, isSelected }) {
     const { user } = useContext(UserContext);
     const isAdmin = user?.role === "admin";
-
     const cardRef = useRef(null);
     const [visible, setVisble] = useState(false);
 

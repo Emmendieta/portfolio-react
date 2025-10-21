@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import "./WorksList.css";
 import { useLoading } from "../../../../context/LoadingContext.jsx";
 import "../../../GlobalLoader.css";
+import { useConfirmSweet } from "../../../../context/SweetAlert2Context.jsx";
 
 
 function WorksList() {
@@ -14,6 +15,7 @@ function WorksList() {
     const [works, setWorks] = useState([]);
     const [loading, setLoading] = useState(true);
     const { startLoading, stopLoading } = useLoading();
+    const { confirmSweet, successSweet, errorSweet } = useConfirmSweet();
 
     useEffect(() => {
         const loadWorks = async () => {
@@ -23,8 +25,7 @@ function WorksList() {
 
                 const worksData = await fetchWorks();
                 if (worksData?.error) {
-                    //SWEET ALERT:
-                    alert(worksData.error.message);
+                    await errorSweet(worksData.error.message);
                     setLoading(false);
                     return;
                 };
@@ -33,37 +34,37 @@ function WorksList() {
 
             } catch (error) {
                 console.error("Error loading Works:", error);
-                alert("Error loading Works: " + error.message);
+                await errorSweet("Error loading Works: " + error.message);
             } finally {
                 setLoading(false);
                 stopLoading();
             }
-
-
         };
 
         loadWorks();
     }, []);
 
     const handleDelete = async (wid) => {
-        const confirmDelete = window.confirm("Are you sure you want to delete the Work?");
+        const confirmDelete = await confirmSweet({
+            title: "Delete Work:",
+            text: "Are you sure you want to delete the Work?",
+            confirmButtonText: "Yes",
+            cancelButtonText: "No",
+        });
         if (!confirmDelete) return;
 
         try {
             const result = await fetchDeleteWork(wid);
             if (result.error) {
-                //SWEET ALERT:
-                alert("Error deleting the Work: ", result.error.message);
+                await errorSweet("Error deleting the Work: ", result.error.message);
             } else {
-                //SWEET ALERT:
-                alert("Work Deleted!");
+                await successSweet("Work Deleted!");
                 setWorks((prev) => prev.filter((work) => work._id !== wid));
             }
         } catch (error) {
             //LOGGER:
             console.error("Error deleting Work: ", error.message);
-            //SWEET ALERT:
-            alert("Error deleting Work: ", error.message);
+            await errorSweet("Error deleting Work: ", error.message);
         }
     };
 

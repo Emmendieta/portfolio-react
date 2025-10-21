@@ -3,11 +3,13 @@ import { UserContext } from "../../../../../context/UserContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchCategoryById, fetchCreateCategory, fetchUpdateCategory } from "../Categories";
 import "../../FormGeneral.css";
+import { useConfirmSweet } from "../../../../../context/SweetAlert2Context";
 
 function CategoriesForm() {
     const { user } = useContext(UserContext);
     const { id } = useParams();
     const navigate = useNavigate();
+    const { successSweet, errorSweet } = useConfirmSweet();
 
     const isEdit = id && id !== "new";
     const [formData, setFormData] = useState({
@@ -19,9 +21,8 @@ function CategoriesForm() {
         if (isEdit) {
             const loadCategory = async () => {
                 const result = await fetchCategoryById(id);
-                if(result?.error) {
-                    //SWEET ALERT:
-                    alert("Error loading Category by Id");
+                if (result?.error) {
+                    await errorSweet("Error loading Category by Id");
                     return;
                 };
                 setFormData(result.response);
@@ -32,7 +33,7 @@ function CategoriesForm() {
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setFormData(prev => ({...prev, [name]: value}));
+        setFormData(prev => ({ ...prev, [name]: value }));
     };
 
     const handleSubmit = async (event) => {
@@ -43,11 +44,9 @@ function CategoriesForm() {
         else { result = await fetchCreateCategory(formData); };
 
         if (result?.error) {
-            //SWEET ALERT:
-            alert("Error saving Category");
+            await errorSweet("Error saving Category");
         } else {
-            //SWEET ALERT:
-            alert("Category saved!");
+            await successSweet("Category saved!");
             navigate("/");
         };
     };
@@ -59,8 +58,8 @@ function CategoriesForm() {
             </div>
             <form id="formGeneralContent" onSubmit={handleSubmit}>
                 <div id="formGeneralContentBody">
-                    <CategoryField label= "Name: " value={formData.title} placeholder="Type Here the Name of the Category" name="title" type="text" onChange={handleChange} />
-                    <CategoryField label= "Image: " value={formData.thumbnails} placeholder="Type Here the Url of the Category" name="thumbnails" type="text" onChange={handleChange} />
+                    <CategoryField label="Name: " value={formData.title} placeholder="Type Here the Name of the Category" name="title" type="text" onChange={handleChange} />
+                    <CategoryField label="Image: " value={formData.thumbnails} placeholder="Type Here the Url of the Category" name="thumbnails" type="text" onChange={handleChange} />
                 </div>
 
                 {formData.thumbnails && (

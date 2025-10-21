@@ -3,12 +3,14 @@ import { UserContext } from "../../../../../context/UserContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchCreateWork, fetchUpdateWork, fetchWorkById } from "../Works";
 import "../../FormGeneral.css";
+import { useConfirmSweet } from "../../../../../context/SweetAlert2Context";
 
 //Falta Validar si el usuario es Admin:
 function WorksForm() {
     const { user } = useContext(UserContext);
     const { id } = useParams();
     const navigate = useNavigate();
+    const { successSweet, errorSweet } = useConfirmSweet();
 
     const isEdit = id && id !== "new";
     const [formData, setFormData] = useState({
@@ -26,9 +28,8 @@ function WorksForm() {
         if (isEdit) {
             const loadWork = async () => {
                 const result = await fetchWorkById(id);
-                if(result?.error) {
-                    //SWEET ALERT:
-                    alert("Error loading Work by Id");
+                if (result?.error) {
+                    await errorSweet("Error loading Work by Id");
                     return;
                 };
                 setFormData(result.response);
@@ -39,25 +40,23 @@ function WorksForm() {
 
     const handleChange = (event) => {
         const { name, type, value, checked } = event.target;
-        const newValue = type === "checkbox" ? checked: value;
+        const newValue = type === "checkbox" ? checked : value;
         setFormData(prev => ({ ...prev, [name]: newValue }));
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         let result;
-        if(isEdit) {
+        if (isEdit) {
             result = await fetchUpdateWork(id, formData);
         } else {
             result = await fetchCreateWork(formData);
         };
 
-        if(result?.error) {
-            //SWEET ALERT:
-            alert ("Error saving Work");
+        if (result?.error) {
+            await errorSweet("Error saving Work");
         } else {
-            //SWEET ALERT:
-            alert("Work saved!");
+            await successSweet("Work saved!");
             navigate("/");
         };
     };
@@ -81,7 +80,7 @@ function WorksForm() {
                     {formData.thumbnails && (
                         <div className="iconPreviewContanier">
                             <h4>Preview of Image:</h4>
-                            <img 
+                            <img
                                 src={formData.thumbnails}
                                 alt="Image Work"
                                 onError={(event) => event.currentTarget.src = "/img/imagen-no-disponible.png"}
