@@ -34,3 +34,30 @@
     align-items: center;
     justify-content: center;
 }
+
+/* ---- Mobile ---- */
+
+@media(max-width:576px) {
+    .languageList {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+/* ---- Medium ---- */
+
+@media(min-width:577px) and (max-width: 768px) {}
+
+/* ---- Large ---- */
+
+@media(min-width:769px) and (max-width: 992px) {}
+
+/* ---- X-Large ---- */
+
+@media(min-width:993px) and (max-width: 1200px) {}
+
+/* ---- XX-Large ---- */
+
+@media(min-width:1401px) {
+}

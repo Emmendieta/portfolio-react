@@ -1,7 +1,7 @@
 .proyectListLi {
     opacity: 0;
     transform: translateX(-100px);
-    transition: opacity 1s ease, transform 1s ease;
+    transition: opacity 1s ease, transform 1s ease, box-shadow 1.5s ease;
     border-radius: 15px;
     padding: 20px;
     margin-bottom: 100px;
@@ -123,3 +123,147 @@
 .proyectDivH3Languages {
     font-size: larger;
 }
+
+/* ---- Mobile ---- */
+
+@media(max-width:576px) {
+
+    .proyectListLi,
+    .proyectListLi.slide-in-left {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+    }
+
+    .proyectListLiInfo {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .proyectDivH3Languages {
+        padding-left: 10px;
+    }
+
+    .languageIcon {
+        width: 35px;
+        height: 35px;
+    }
+
+    .languageTitle {
+        font-size: small;
+    }
+
+    .carousel-control-prev {
+        left: 15px;
+    }
+
+    .carousel-control-next {
+        right: 15px;
+    }
+}
+
+/* ---- Medium ---- */
+
+@media(min-width:577px) and (max-width: 768px) {
+
+    .proyectListLi,
+    .proyectListLi.slide-in-left {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+    }
+
+    .proyectListLiInfo {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .proyectDivH3Languages {
+        padding-left: 10px;
+    }
+
+    .languageIcon {
+        width: 55px;
+        height: 55px;
+    }
+
+    .languageTitle {
+        font-size: medium;
+    }
+
+    .carousel-control-prev {
+        left: 75px;
+    }
+
+    .carousel-control-next {
+        right: 75px;
+    }
+
+}
+
+/* ---- Large ---- */
+
+@media(min-width:769px) and (max-width: 992px) {
+
+    .proyectListLi,
+    .proyectListLi.slide-in-left {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+    }
+
+    .proyectListLiInfo {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .proyectDivH3Languages {
+        padding-left: 10px;
+    }
+
+    .languageIcon {
+        width: 85px;
+        height: 85px;
+    }
+
+    .languageTitle {
+        font-size: large;
+    }
+
+    .carousel-control-prev {
+        left: 105px;
+    }
+
+    .carousel-control-next {
+        right: 105px;
+    }
+}
+
+/* ---- X-Large ---- */
+
+@media(min-width:993px) and (max-width: 1200px) {
+    .carousel-control-prev {
+        left: 15px;
+    }
+
+    .carousel-control-next {
+        right: 15px;
+    }
+
+    .editionsControlsProyects {
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+}
+
+/* ---- XX-Large ---- */
+
+@media(min-width:1401px) {}

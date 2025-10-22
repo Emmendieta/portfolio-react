@@ -11,7 +11,7 @@
     margin-top: 150px;
     opacity: 0;
     transform: translateY(50px);
-    transition: opacity 1.5s ease, transform 1.5s ease;
+    transition: opacity 1.5s ease, transform 1.5s ease, box-shadow 1.5s ease;
 }
 
 .educationCardItem.fade-in {
@@ -51,6 +51,7 @@
 }
 
 .educationDivBodyBottom {
+    width: 90%;
     display: flex;
     flex-direction: column;
 }
@@ -85,6 +86,7 @@
         margin: 0;
         padding: 0;
         margin-top: 30px;
+        align-items: center;
     }
 
     .educationDivImg {
@@ -111,6 +113,8 @@
     .educationCardItem {
         width: 100%;
         margin: 0;
+                margin-right: 15px;
+        margin-bottom: 35px;
         padding: 0;
         display: flex;
         flex-direction: column;
@@ -118,8 +122,9 @@
 
     .educationCardItem.fade-in {
         width: 100%;
-        margin-right: 15px;
         margin: 0;
+        margin-bottom: 35px;
+        margin-right: 15px;
         padding: 0;
     }
 
@@ -144,8 +149,18 @@
 /* ---- Large ---- */
 
 @media(min-width:769px) and (max-width: 992px) {
+    .educationCardItem {
+        width: 95%;
+        margin: 0 15px 30px 15px;
+    }
+
+    .educationCardItem.fade-in {
+        width: 95%;
+        margin: 0 15px 30px 15px;
+    }
+
     .educationDivImg {
-        margin-right: 10px;
+        margin-right: 25px;
     }
 
     .editionsControlsGeneral {
@@ -155,8 +170,13 @@
         align-items: center;
     }
 
-    #educationEdit, #educationDelete {
+    #educationEdit,
+    #educationDelete {
         margin-bottom: 10px;
+    }
+
+    .educationIcon {
+        margin-left: 40px;
     }
 }
 

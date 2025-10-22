@@ -4,7 +4,7 @@
     width: 100%;
     margin-top: 50px;
     margin-bottom: 50px;
-    background-color:  #E6E4D8;
+    background-color: #E6E4D8;
     padding: 100px 15px;
     color: rgba(0, 0, 0, 0.719);
 }
@@ -33,3 +33,34 @@
     list-style: none;
 }
 
+/* ---- Mobile ---- */
+
+@media(max-width:576px) {
+    #worksList {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+/* ---- Medium ---- */
+
+@media(min-width:577px) and (max-width: 768px) {
+    #worksList {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+/* ---- Large ---- */
+
+@media(min-width:769px) and (max-width: 992px) {
+    #worksList {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+/* ---- X-Large ---- */
+
+@media(min-width:993px) and (max-width: 1200px) {}
+
+/* ---- XX-Large ---- */
+
+@media(min-width:1401px) {}

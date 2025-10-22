@@ -5,16 +5,17 @@
     padding: 50px 15px 50px 0;
     opacity: 0;
     transform: translateX(50px);
-    transition: opacity 1.5s ease, transform 1.5s ease;
+    transition: opacity 1.5s ease, transform 1.5s ease, box-shadow 1.5s ease;
 }
 
 .workListLi.fade-in {
     opacity: 1;
     transform: translateX(0);
+    transition: opacity 1.5s ease, transform 1.5s ease, box-shadow 1.5s ease;
 }
 
 .workListLi:hover {
-    transition: 1.5s;
+    transition: opacity 1.5s ease, transform 1.5s ease, box-shadow 1.5s ease;
     box-shadow: rgb(85, 85, 85) 5px 5px 5px 5px;
 }
 
@@ -22,7 +23,8 @@
     display: grid;
     width: 100%;
     height: 100%;
-    gap: "10px"
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
 
 .workListTop {
@@ -56,6 +58,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-right: 25px;
 }
 
 #workEdit,
@@ -67,3 +70,43 @@
     width: 32px;
     margin-bottom: 15px;
 }
+
+/* ---- Mobile ---- */
+
+@media(max-width:576px) {
+    .workCardGrid {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .workListBody {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .editionsControlsWork {
+        display: flex;
+        flex-direction: row;
+        margin: 0;
+    }
+
+    #workEdit, #workDelete {
+        margin: 15px 25px;
+    }
+}
+
+/* ---- Medium ---- */
+
+@media(min-width:577px) and (max-width: 768px) {}
+
+/* ---- Large ---- */
+
+@media(min-width:769px) and (max-width: 992px) {}
+
+/* ---- X-Large ---- */
+
+@media(min-width:993px) and (max-width: 1200px) {}
+
+/* ---- XX-Large ---- */
+
+@media(min-width:1401px) {}
