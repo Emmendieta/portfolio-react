@@ -43,7 +43,7 @@ function GlobalLoader() {
                 isShownRef.current = false;
                 openTimeRef.current = null;
             }, remainingTime);
-        }
+        };
 
         return () => {
             if (timeoutRef.current) {

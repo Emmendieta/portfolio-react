@@ -5,6 +5,7 @@
     padding: 20px 15px;
     margin-top: 40px;
     margin-bottom: 20px;
+    width: 100%;
 }
 
 #divPersonTitle {
@@ -37,6 +38,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    width: 100%;
 }
 
 #bannerContainer {
@@ -97,4 +99,54 @@
     width: 65%;
     display: flex;
     flex-direction: column;
+}
+
+/* ---- Mobile ---- */
+
+@media(max-width:576px) {
+    #divPersonTitle {
+        margin-top: 60px;
+    }
+
+    #cardBodyPerson {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .profileDivH3 {
+        width: 100%;
+        font-size: medium !important;
+    }
+
+    #cardBodyPersonal {
+        width: 100%;
+    }
+
+    #cardBodyAbout {
+        margin-top: 20px;
+    }
+
+    .profileImage {
+        top: 280px;
+        left: 130px;
+    }
+}
+
+/* ---- Medium ---- */
+
+@media(min-width:577px) and (max-width: 768px) {
+    .profileDivH3 {
+        width: 100%;
+        font-size: medium !important;
+    }
+}
+
+/* ---- Large ---- */
+
+@media(min-width:769px) and (max-width: 992px) {
+    .profileDivH3 {
+        font-size: large !important;
+    }
 }

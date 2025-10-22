@@ -10,6 +10,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
     margin: 10px 0 10px 0;
 }
@@ -17,4 +18,33 @@
 #educationsList {
     padding: 0;
     width: 100%;
+}
+
+/* ---- Mobile ---- */
+
+@media(max-width:576px) {
+    #educationsDiv {
+        margin-top: 5px;
+    }
+
+    #educationsDivH3Title {
+        font-size: larger;
+    }
+}
+
+/* ---- Medium ---- */
+
+@media(min-width:577px) and (max-width: 768px) {}
+
+/* ---- Large ---- */
+
+@media(min-width:769px) and (max-width: 992px) {}
+
+/* ---- X-Large ---- */
+
+@media(min-width:993px) and (max-width: 1200px) {}
+
+/* ---- XX-Large ---- */
+
+@media(min-width:1401px) {
 }

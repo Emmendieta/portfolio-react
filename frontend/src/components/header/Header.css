@@ -1,10 +1,44 @@
 .headerDiv {
     width: 100%;
-    padding-right: 15px;
+    padding-right: 10px;
 }
 
 #hdDivLine {
     width: 75%;
     border-top: 1px solid rgba(0, 0, 0, 0.411);
     margin: 0 auto 20px auto;
+}
+
+/* ---- Mobile ---- */
+
+@media(max-width:576px) {
+    .headerDiv {
+        padding-right: 0;
+    }
+}
+
+/* ---- Medium ---- */
+
+@media(min-width:577px) and (max-width: 768px) {
+    .headerDiv {
+        padding-right: 0;
+    }
+}
+
+/* ---- Large ---- */
+
+@media(min-width:769px) and (max-width: 992px) {
+    
+}
+
+/* ---- X-Large ---- */
+
+@media(min-width:993px) and (max-width: 1200px) {
+    
+}
+
+/* ---- XX-Large ---- */
+
+@media(min-width:1401px) {
+    
 }

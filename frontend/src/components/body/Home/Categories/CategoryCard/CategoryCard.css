@@ -59,3 +59,128 @@
     width: 80%;
     justify-content: space-around;
 }
+
+/* ---- Mobile ---- */
+
+@media (max-width: 576px) {
+    .categoryCardItem {
+        width: 95%;
+        margin: 10px auto;
+        padding: 10px;
+    }
+
+    .categoryIcon {
+        width: 30px;
+        height: 30px;
+    }
+
+    .categoryDivvImg h3 {
+        font-size: small;
+    }
+
+    .editionsControlsGeneral {
+        flex-direction: row;
+        align-items: center;
+        gap: 5px;
+    }
+}
+
+/* ---- Medium ---- */
+
+@media(min-width:577px) and (max-width: 768px) {
+    .categoryCardItem {
+        width: 95%;
+        margin: 10px auto;
+        padding: 10px;
+    }
+
+    .categoryIcon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .categoryDivvImg h3 {
+        font-size: small;
+    }
+
+    .editionsControlsGeneral {
+        flex-direction: row;
+        align-items: center;
+        gap: 5px;
+    }
+}
+
+/* ---- Large ---- */
+
+@media(min-width:769px) and (max-width: 992px) {
+    .categoryCardItem {
+        width: 95%;
+        margin: 10px auto;
+        padding: 10px;
+    }
+
+    .categoryIcon {
+        width: 65px;
+        height: 65px;
+    }
+
+    .categoryDivvImg h3 {
+        font-size: medium;
+    }
+
+    .editionsControlsGeneral {
+        flex-direction: row;
+        align-items: center;
+        gap: 5px;
+    }
+}
+
+/* ---- X-Large ---- */
+
+@media(min-width:993px) and (max-width: 1200px) {
+    .categoryCardItem {
+        width: 95%;
+        margin: 10px auto;
+        padding: 10px;
+    }
+
+    .categoryIcon {
+        width: 65px;
+        height: 65px;
+    }
+
+    .categoryDivvImg h3 {
+        font-size: large;
+    }
+
+    .editionsControlsGeneral {
+        flex-direction: row;
+        align-items: center;
+        gap: 5px;
+    }
+}
+
+/* ---- XX-Large ---- */
+
+@media(min-width:1401px) {
+    .categoryCardItem {
+        width: 95%;
+        margin: 10px auto;
+        padding: 10px;
+    }
+
+    .categoryIcon {
+        width: 100px;
+        height: 100px;
+    }
+
+    .categoryDivvImg h3 {
+        font-size: xx-large;
+    }
+
+    .editionsControlsGeneral {
+        flex-direction: row;
+        align-items: center;
+        gap: 5px;
+    }
+}

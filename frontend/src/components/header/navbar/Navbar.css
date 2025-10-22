@@ -7,30 +7,36 @@
     width: 100%;
     margin: 0;
     padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
 }
 
-.navbarLeft, .navbarCenter {
-    margin: 10px 10px 10px 15px;
-    align-items: center;
+.navbarLeft {
+    align-items: flex-start;
+    margin-left: 10px;
 }
+
 .navbarRight {
+    justify-self: end;
     margin: 10px 0 10px 10px;
 }
 
 .navbarCenter {
+    margin: 10px 10px 10px 15px;
     display: flex;
     align-items: center;
     text-align: center;
 }
 
-#btnProfile, #btnUsers, #btnSignout {
+#btnProfile,
+#btnUsers,
+#btnSignout {
     margin-left: 5px;
 }
 
-#btnProfile, #btnUsers {
+#btnProfile,
+#btnUsers {
     margin-right: 5px;
 }
 
@@ -39,4 +45,103 @@
     font-size: xx-large;
     margin-bottom: 0;
     margin-top: 10px;
+}
+
+/* ---- Mobile ---- */
+
+@media (max-width: 576px) {
+    #containerFuild {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        justify-items: center;
+    }
+
+    #signatureH4 {
+        font-size: large !important;
+        text-align: center;
+    }
+
+    .navbarLeft {
+        padding-top: 15px;
+    }
+
+    .navbarRight {
+        justify-self: center;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+    }
+
+    #btnProfile,
+    #btnUsers,
+    #btnSignout,
+    .btn-outline-success {
+        font-size: small !important;
+        margin-bottom: 15px;
+    }
+}
+
+/* ---- Medium ---- */
+
+@media(min-width: 577px) and (max-width: 768px) {
+    #containerFuild {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        justify-items: center;
+    }
+
+    #btnProfile,
+    #btnUsers,
+    #btnSignout {
+        margin-left: 30px;
+    }
+
+    .navbarRight {
+        justify-self: center;
+    }
+}
+
+/* ---- Large ---- */
+
+@media(min-width: 769px) and (max-width: 992px) {
+    #containerFuild {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr 1fr;
+        justify-items: center;
+    }
+
+    .navbarLeft {
+        justify-self: start;
+    }
+
+    .navbarRight {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+    }
+}
+
+/* ---- X-Large ---- */
+
+@media(min-width: 993px) and (max-width: 1200px) {}
+
+/* ---- XX-Large ---- */
+
+@media(min-width: 1401px) {
+    #containerFuild {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr 1fr;
+        justify-items: center;
+        align-items: center;
+    }
+
+    .navbarLeft {
+        justify-self: start !important;
+        margin-left: 0;
+    }
 }

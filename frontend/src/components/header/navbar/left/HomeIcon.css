@@ -2,3 +2,33 @@
     width: 27px;
     height: 27px;
 }
+
+/* ---- Mobile ---- */
+
+@media(max-width:576px) {
+    #iconHome {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* ---- Medium ---- */
+
+@media(min-width:577px) and (max-width: 768px) {}
+
+/* ---- Large ---- */
+
+@media(min-width:769px) and (max-width: 992px) {}
+
+/* ---- X-Large ---- */
+
+@media(min-width:993px) and (max-width: 1200px) {}
+
+/* ---- XX-Large ---- */
+
+@media(min-width:1401px) {
+    #iconHome {
+        width: 50px;
+        height: 50px;
+    }
+}
