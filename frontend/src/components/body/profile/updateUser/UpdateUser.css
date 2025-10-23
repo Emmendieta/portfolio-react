@@ -6,6 +6,12 @@
     justify-content: center;
     align-items: center;
     padding: 15px;
+
+}
+
+#updateSectionPerson {
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 #updateSectDiv {
@@ -65,5 +71,101 @@
     justify-content: space-around;
     margin-top: 25px;
     margin-bottom: 10px;
+}
 
+/* ---- Mobile ---- */
+
+@media(max-width:576px) {
+
+    #updateSection {
+        margin-top: 150px;
+        margin-bottom: 50px;
+    }
+
+    #updateSectionPerson {
+        margin-top: 80px;
+        padding-bottom: 100px;
+    }
+
+    #updateDataDivH2Title,
+    #updateDataDivH2TitlePerson {
+        font-size: x-large;
+    }
+
+    .updateDataDivDiv {
+        flex-direction: column;
+    }
+
+    .updateDataDivDiv input {
+        width: 100%;
+    }
+
+    .updateDataDivh3,
+    .updateDataDivDiv input {
+        font-size: small;
+    }
+
+    #updateDataformBottom {
+        flex-direction: column;
+    }
+}
+
+/* ---- Medium ---- */
+
+@media(min-width:577px) and (max-width: 768px) {
+
+    #updateSection {
+        margin-top: 150px;
+        margin-bottom: 50px;
+    }
+
+    #updateSectionPerson {
+        margin-top: 80px;
+        padding-bottom: 100px;
+    }
+
+    #updateDataDivH2Title,
+    #updateDataDivH2TitlePerson {
+        font-size: x-large;
+    }
+
+    .updateDataDivDiv input {
+        width: 100%;
+    }
+
+    .updateDataDivh3,
+    .updateDataDivDiv input {
+        font-size: medium;
+    }
+
+}
+
+/* ---- Large ---- */
+
+@media(min-width:769px) and (max-width: 992px) {
+
+    #updateSectionPerson {
+        margin-top: 80px;
+        padding-bottom: 100px;
+    }
+}
+
+/* ---- X-Large ---- */
+
+@media(min-width:993px) and (max-width: 1200px) {
+
+    #updateSectionPerson {
+        margin-top: 80px;
+        padding-bottom: 100px;
+    }
+}
+
+/* ---- XX-Large ---- */
+
+@media(min-width:1401px) {
+
+        #updateSectionPerson {
+        margin-top: 80px;
+        padding-bottom: 100px;
+    }
 }

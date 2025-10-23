@@ -84,3 +84,105 @@
 .mt-2 {
     margin-top: 10px;
 }
+
+/* ---- Mobile ---- */
+
+@media(max-width:576px) {
+
+    .thumbnailsInputContainer {
+        flex-direction: column !important;
+    }
+
+    .thumbnailsInputContainer input {
+        width: 100%;
+        padding: 0;
+        margin-bottom: 15px;
+        margin-right: 0;
+    }
+
+    .thumbnailsPreviewContainer {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* ---- Medium ---- */
+
+@media(min-width:577px) and (max-width: 768px) {
+
+    .thumbnailsInputContainer {
+        flex-direction: column !important;
+    }
+
+    .thumbnailsInputContainer input {
+        width: 100%;
+        padding: 0;
+        margin-bottom: 15px;
+        margin-right: 0;
+    }
+
+    .thumbnailsPreviewContainer {
+        grid-template-columns: 1fr 1fr !important;
+    }
+}
+
+/* ---- Large ---- */
+
+@media(min-width:769px) and (max-width: 992px) {
+
+    .thumbnailsInputContainer {
+        flex-direction: column !important;
+    }
+
+    .thumbnailsInputContainer input {
+        width: 100%;
+        padding: 0;
+        margin-bottom: 15px;
+        margin-right: 0;
+    }
+
+    .thumbnailsPreviewContainer {
+        grid-template-columns: 1fr 1fr 1fr !important;
+    }
+}
+
+/* ---- X-Large ---- */
+
+@media(min-width:993px) and (max-width: 1200px) {
+
+    .thumbnailsInputContainer {
+        flex-direction: column !important;
+    }
+
+    .thumbnailsInputContainer input {
+        width: 100%;
+        padding: 0;
+        margin-bottom: 15px;
+        margin-right: 0;
+    }
+
+    .thumbnailsPreviewContainer {
+        grid-template-columns: 1fr 1fr 1fr !important;
+    }
+}
+
+@media(min-width: 1201px) and (max-width: 1401px) {
+
+    .thumbnailsInputContainer {
+        flex-direction: column !important;
+    }
+
+    .thumbnailsInputContainer input {
+        width: 100%;
+        padding: 0;
+        margin-bottom: 15px;
+        margin-right: 0;
+    }
+
+    .thumbnailsPreviewContainer {
+        grid-template-columns: 1fr 1fr 1fr 1fr !important;
+    }
+}
+
+/* ---- XXX-Large ---- */
+
+@media(min-width:1401px) {}

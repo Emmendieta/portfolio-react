@@ -81,7 +81,9 @@
     object-fit: cover;
     border-radius: 10px;
     border: 1px solid #ccc;
-}.profileImagesSection {
+}
+
+.profileImagesSection {
     margin-top: 15px;
     margin-bottom: 25px;
 }
@@ -102,3 +104,62 @@
     border-radius: 10px;
     border: 1px solid #ccc;
 }
+
+/* ---- Mobile ---- */
+
+@media(max-width:576px) {
+
+    #divProfile {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 100px;
+    }
+
+    #profileDivPerson {
+        margin-top: 15px;
+    }
+}
+
+/* ---- Medium ---- */
+
+@media(min-width:577px) and (max-width: 768px) {
+
+    #divProfile {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 100px;
+    }
+
+    #profileDivPerson {
+        margin-top: 15px;
+    }
+}
+
+/* ---- Large ---- */
+
+@media(min-width:769px) and (max-width: 992px) {
+
+    #divProfile {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 50px;
+    }
+
+    #profileDivPerson {
+        margin-top: 15px;
+    }
+}
+
+/* ---- X-Large ---- */
+
+@media(min-width:993px) and (max-width: 1200px) {}
+
+/* ---- XX-Large ---- */
+
+@media(min-width:1401px) {}
