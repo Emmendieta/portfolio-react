@@ -54,3 +54,30 @@
     font-size: xx-large;
     color: #FFE0BD;
 }
+
+/* ---- Mobile ---- */
+
+@media(max-width:576px) {
+}
+
+/* ---- Medium ---- */
+
+@media(min-width:577px) and (max-width: 768px) {
+
+    #signatureH4 {
+        font-size: x-large;
+    }
+}
+
+/* ---- Large ---- */
+
+@media(min-width:769px) and (max-width: 992px) {}
+
+/* ---- X-Large ---- */
+
+@media(min-width:993px) and (max-width: 1200px) {}
+
+/* ---- XX-Large ---- */
+
+@media(min-width:1401px) {
+}

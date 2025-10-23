@@ -59,3 +59,50 @@ h5 {
     border-radius: 50%;
     margin: 1.5px 3px 0 3px;
 }
+
+/* ---- Mobile ---- */
+
+@media(max-width:576px) {
+
+    #socialMediasList li {
+        flex-direction: column;
+    }
+
+    .editionControls {
+        flex-direction: row;
+        margin-bottom: 2.5px;
+        margin-top: 2.5px;
+    }
+
+    .socialMediaIcon {
+        max-width: 25px;
+        max-height: 25px;
+    }
+}
+
+/* ---- Medium ---- */
+
+@media(min-width:577px) and (max-width: 768px) {
+
+    #socialMediasList li {
+        flex-direction: column;
+    }
+
+    .editionControls {
+        flex-direction: row;
+        margin-bottom: 2.5px;
+        margin-top: 2.5px;
+    }
+}
+
+/* ---- Large ---- */
+
+@media(min-width:769px) and (max-width: 992px) {}
+
+/* ---- X-Large ---- */
+
+@media(min-width:993px) and (max-width: 1200px) {}
+
+/* ---- XX-Large ---- */
+
+@media(min-width:1401px) {}

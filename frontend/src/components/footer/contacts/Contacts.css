@@ -6,13 +6,13 @@
     gap: 0.5rem;
 }
 
-#contactList > li {
+#contactList>li {
     display: flex;
     flex-direction: row;
     margin: 3.5px 0 3.5px 0;
 }
 
-#contactList > li > a {
+#contactList>li>a {
     text-decoration: none;
     text-align: center;
 }
@@ -30,7 +30,8 @@
     max-height: 35px;
 }
 
-#contactEdit, #contactDelete {
+#contactEdit,
+#contactDelete {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -40,3 +41,51 @@
     margin: 0 3px 0 3px;
 }
 
+/* ---- Mobile ---- */
+
+@media(max-width:576px) {
+
+    #contactList {
+        padding-left: 0;
+    }
+
+    #contactList li {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .socialMediaContactIcon {
+        max-width: 25px;
+        max-height: 25px;
+    }
+
+    #contactList li a h5 {
+        margin-bottom: 7.5px;
+    }
+}
+
+/* ---- Medium ---- */
+
+@media(min-width:577px) and (max-width: 768px) {
+
+    #contactList {
+        padding-left: 5px;
+    }
+
+    .socialMediaContactIcon {
+        max-width: 30px;
+        max-height: 30px;
+    }
+}
+
+/* ---- Large ---- */
+
+@media(min-width:769px) and (max-width: 992px) {}
+
+/* ---- X-Large ---- */
+
+@media(min-width:993px) and (max-width: 1200px) {}
+
+/* ---- XX-Large ---- */
+
+@media(min-width:1401px) {}
