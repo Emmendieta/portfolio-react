@@ -32,19 +32,13 @@ const ready = async () => {
 };
 
 /* ----------------- Middlewares --------------------- */
-/* APP.use(cors({
-    origin: [
-        "http://localhost:3000",
-        "https://portfolio-react-production-6460.up.railway.app",
-        "https://frontend-production-2871.up.railway.app/"
-    ],
-    credentials: true
-})); */
 
 const allowedOrigins = [
-    "http://localhost:3000",                            // desarrollo local
-    "https://frontend-production-2871.up.railway.app",
-    "frontend-production-2871.up.railway.app",  // frontend en Railway
+    "http://localhost:3000",                             // desarrollo local
+    "https://frontend-production-2871.up.railway.app",  // frontend en Railway
+    "frontend-production-2871.up.railway.app",          // frontend en Railway sin https
+    "https://www.emmendieta.com",                        // dominio custom con www
+    "https://emmendieta.com",
 ];
 
 APP.use((req, res, next) => {
