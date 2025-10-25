@@ -1,5 +1,5 @@
 import { isValidObjectId } from "mongoose";
-import worksServices from "../services/works.services.js";
+import worksServices from "../services/works.service.js";
 
 class WorksController {
     constructor() {
@@ -12,8 +12,12 @@ class WorksController {
         const verifyWork = await this.verifyWorkJobDateStartCompany(data.jobTitle, data.dateStart, data.company);
         if (verifyWork === 1) { return res.json400("Work with the same Job Title, Start Date and Company alredy Exist!(C)"); }
         else {
+            const lastWork = await this.wService.readLastByOrder();
+            const nextOrder = lastWork ? lastWork.order + 1 : 0;
+            data.order = nextOrder;
             const workUpdated = await this.wService.createOne(data);
-            return res.json200(workUpdated);
+            if (!workUpdated) { return res.json400("Couldn't create the Work!(C)"); };
+            return res.json201(workUpdated);
         };
     };
 
@@ -55,12 +59,30 @@ class WorksController {
         };
     };
 
+    reorderWorks = async (req, res) => {
+        try {
+            const { data } = req.body;
+            if (!Array.isArray(data) || data.length === 0) { return res.json400("Data must be a non-empty array!(C)"); };
+            const orderedIds = data.map(item => item._id).filter(id => id);
+            if (orderedIds.length !== data.length) { return res.json400("Some Works are missing!(C)"); };
+            for (const id of orderedIds) {
+                if (!isValidObjectId(id)) { return res.json400(`Invalid Education Id: ${id}`); };
+            };
+            await this.wService.updateOrder(orderedIds);
+            res.json200("Works reordered successfully!(C)");
+        } catch (error) {
+            console.error("Error reordering educations: ", error);
+            res.json500("Internal Server Error!(C)");
+        };
+    };
+
     deleteWorkById = async (req, res) => {
         const { wid } = req.params;
         const work = await this.verifyWorkFun(wid);
         if (work === false) { return res.json400("Invalid Work ID!(C)"); };
         if (work === null) { return res.json404("Not Work Found!(C)"); };
         const workDeleted = await this.wService.destroyById(wid);
+        await this.wService.reorderAfterDelete();
         return res.json200(workDeleted);
     };
 

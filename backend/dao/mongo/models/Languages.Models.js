@@ -10,7 +10,8 @@ const languageSchema  = new mongoose.Schema(
             enum: ["Hard", "Soft"],
             required:true,
             default: "Hard"
-        }
+        },
+        order: { type: Number , required: true, default: 0 }
     },
     { timestamps: true }
 );

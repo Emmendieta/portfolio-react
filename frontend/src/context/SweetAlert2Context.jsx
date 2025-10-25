@@ -40,6 +40,7 @@ export const ConfirmProvider = ({ children }) => {
             title: "Success:",
             text,
             confirmButtonText: "OK",
+            returnFocus: false,
             theme: 'dark',
             customClass: {
                 popup: 'custom-swal-popup'
@@ -53,6 +54,7 @@ export const ConfirmProvider = ({ children }) => {
             title: "Error:",
             text,
             confirmButtonText: "OK",
+            returnFocus: false,
             theme: 'dark',
             customClass: {
                 popup: 'custom-swal-popup'
@@ -66,6 +68,7 @@ export const ConfirmProvider = ({ children }) => {
             title: "Info:",
             text,
             confirmButtonText: "OK",
+            returnFocus: false,
             theme: 'dark',
             customClass: {
                 popup: 'custom-swal-popup'

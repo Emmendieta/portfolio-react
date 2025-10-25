@@ -17,7 +17,11 @@ class ProyectsServices {
     readOneByFilter = async (filter) => await this.manager.readOneByFilter(filter);
     readByFilter = async (filter) => await this.manager.readByFilter(filter);
     updateById = async (pyid, data) => await this.manager.updateById(pyid, data);
+    //drag and drop:
+    updateOrder = async (orderedIds) => await this.manager.updateOrder(orderedIds);
+    readLastByOrder = async () => await this.manager.readLastByOrder();
     destroyById = async (pyid) => await this.manager.destroyById(pyid);
+    reorderAfterDelete = async () => await this.manager.reorderAfterDelete();
 };
 
 const proyectsService = new ProyectsServices(proyectsRepository);

@@ -14,7 +14,11 @@ class SocialMediasService {
     readOneByFilter = async (filter) => await this.manager.readOneByFilter(filter);
     readByFilter = async (filter) => await this.manager.readByFilter(filter);
     updateById = async (sid, data) => await this.manager.updateById(sid, data);
+    //drag and drop:
+    updateOrder = async (orderedIds) => await this.manager.updateOrder(orderedIds);
+    readLastByOrder = async () => await this.manager.readLastByOrder();
     destroyById = async (sid) => await this.manager.destroyById(sid);
+    reorderAfterDelete = async () => await this.manager.reorderAfterDelete();
 };
 
 const socialMediasService = new SocialMediasService(socialMediasRepository);

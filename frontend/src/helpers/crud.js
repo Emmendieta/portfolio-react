@@ -25,7 +25,7 @@ export const getData = async (baseUrl) => {
         //const url = `http://localhost:8080/api/${baseUrl}`;
 
         const url = `${BACKEND_URL}/${baseUrl}`;
-
+        
         const response = await fetch(url, opts);
 
         return await response.json();
@@ -71,7 +71,7 @@ export const getDataById = async (baseUrl, id) => {
 
 export const getDataPopulate = async (baseUrl, populateFields) => {
     try {
-        if (!baseUrl || !populateFields || !populateFields.length === 0) {
+        if (!baseUrl || !populateFields || populateFields.length === 0) {
             //LOGGER:
             console.error("All fields are needed!");
             //SWEET ALERT:
@@ -180,12 +180,47 @@ export const updateData = async (baseUrl, data = {}) => {
             credentials: credentials,
             body: JSON.stringify(data)
         };
-        
+
         //const url = `http://localhost:8080/api/${baseUrl}`;
         const url = `${BACKEND_URL}/${baseUrl}`;
         const response = await fetch(url, opts);
         const result = await response.json();
         return result;
+    } catch (error) {
+        //LOGGER:
+        console.error(error.message);
+        //SWEET ALERT:
+        alert("Error updating data!")
+    }
+};
+
+export const bulkUpdateData = async (baseUrl, dataArray = []) => {
+    try {
+        if(!baseUrl) {
+            console.error("Error in bulk update: missing URL!");
+            alert("Missing URL!");
+            return;
+        };
+
+        if (!Array.isArray(dataArray) || dataArray.length === 0) {
+            console.error("Error in bulk update: no data provided!");
+            alert("No data provided for bulk update!");
+            return;
+        };
+
+        const opts = {
+            method: UPDATE,
+            headers: baseHeaders,
+            credentials: credentials,
+            body: JSON.stringify({ data: dataArray })
+        };
+
+        const url = `${BACKEND_URL}/${baseUrl}`;
+        const response = await fetch(url, opts);
+        const result = await response.json();
+
+        return result;
+
     } catch (error) {
         //LOGGER:
         console.error(error.message);
@@ -209,7 +244,7 @@ export const deleteData = async (baseUrl, id) => {
             headers: baseHeaders,
             credentials: credentials
         };
-        
+
         //const url = `http://localhost:8080/api/${baseUrl}/${id}`;
         const url = `${BACKEND_URL}/${baseUrl}/${id}`;
         let response = await fetch(url, opts);

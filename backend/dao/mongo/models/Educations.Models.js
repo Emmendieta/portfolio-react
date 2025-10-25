@@ -17,7 +17,9 @@ const educationSchema = new mongoose.Schema(
             enum: ["Primary School", "High School", "University", "Course", "Conference", "Other"],
             required: true
         },
-        description: { type: String, required: true }
+        description: { type: String, required: true },
+        order: { type: Number , required: true, default: 0 }
+        
     },
     { timestamps: true }
 );

@@ -11,6 +11,7 @@ class UsersRouter extends RouterHelper {
         this.read("/", ["public"], usersController.getAllUsers);
         this.read("/:uid", ["public"], usersController.getUserById);
         this.read("/:uid/populated", ["public"], usersController.getuserByIdPopulated);
+        this.update("/reorder", ["public"], usersController.reorderUsers);
         this.update("/:uid", ["public"], usersController.updateUserById);
         this.create("/", ["public"], usersController.createUser);
         this.destroy("/:uid", ["public"], usersController.deleteUserById);

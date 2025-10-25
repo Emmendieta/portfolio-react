@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../../context/UserContext";
-import { fetchDeleteProyect, fetchProyectsPopulated } from "./logicProyects.js";
+import { fetchDeleteProyect, fetchProyectsPopulated, fetchUpdateProyectsOrder } from "./logicProyects.js";
 import { Link } from "react-router-dom";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import ProyectCard from "./ProyectCard/ProyectCard";
@@ -9,6 +9,7 @@ import CategoriesList from "../Categories/CategoriesList.jsx";
 import { useLoading } from "../../../../context/LoadingContext.jsx";
 import "../../../GlobalLoader.css";
 import { useConfirmSweet } from "../../../../context/SweetAlert2Context.jsx";
+import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 
 function ProyectsList() {
     const { user } = useContext(UserContext);
@@ -20,7 +21,6 @@ function ProyectsList() {
 
     useEffect(() => {
         const loadProyects = async () => {
-
             try {
                 startLoading();
                 const proyectsData = await fetchProyectsPopulated();
@@ -29,7 +29,10 @@ function ProyectsList() {
                     setLoading(false);
                     return;
                 };
-
+                const proyects = proyectsData.response;
+                //Reorder:
+                const sorted = proyects.sort((a, b) => a.order - b.order);
+                setProyects(sorted);
                 setProyects(proyectsData.response);
             } catch (error) {
                 console.error("Error loading Proyects:", error);
@@ -67,6 +70,30 @@ function ProyectsList() {
         }
     };
 
+    const handleDragEnd = async (result) => {
+        if (!result.destination) return;
+        const sourceIndex = result.source.index;
+        const destinationIndex = result.destination.index;
+        const visibleItems = Array.from(filteredProyects);
+        const [moved] = visibleItems.splice(sourceIndex, 1);
+        visibleItems.splice(destinationIndex, 0, moved);
+
+        const updatedGlobal = [...proyects];
+        visibleItems.forEach((item, index) => {
+            const globalIndex = updatedGlobal.findIndex(pro => pro._id === index._id);
+            if (globalIndex !== -1) { updatedGlobal[globalIndex].order = index; }
+        });
+        const reordered = updatedGlobal.sort((a, b) => a.order - b.order);
+        setProyects(reordered);
+        try {
+            const res = await fetchUpdateProyectsOrder(reordered);
+            if (res?.error) { await errorSweet("Error saving order: ", res.error.message); }
+            else { await successSweet("Order updated!"); }
+        } catch (error) {
+            console.error("Error updating order:", error);
+            await errorSweet("Error updating order: " + error.message);
+        }
+    };
     //VER SI LO CAMBIO:
     if (!proyects) return <p>No Proyects data available.</p>
 
@@ -88,6 +115,51 @@ function ProyectsList() {
                     selectedCategory={selectedCategory}
                 />
             </div>
+            {user?.role === "admin" ? (
+                <DragDropContext onDragEnd={handleDragEnd}>
+                    <Droppable droppableId="proyectList" direction="vertical">
+                        {(provided) => (
+                            <ul id="proyectList" {...provided.droppableProps} ref={provided.innerRef}>
+                                {filteredProyects.map((proyect, index) => (
+                                    <Draggable key={proyect._id} draggableId={proyect._id} index={index}>
+                                        {(provided) => (
+                                            <div
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                            >
+                                                <ProyectCard
+                                                    key={proyect._id}
+                                                    proyect={proyect}
+                                                    onDelete={handleDelete}
+                                                />
+                                            </div>
+                                        )}
+                                    </Draggable>
+                                ))}
+                                {provided.placeholder}
+                            </ul>
+                        )}
+                    </Droppable>
+                </DragDropContext>
+            ) : (
+                <ul id="proyectList">
+                    {filteredProyects.map(proyect => (
+                        <ProyectCard
+                            key={proyect._id}
+                            proyect={proyect}
+                            onDelete={handleDelete}
+                        />
+                    ))}
+                </ul>
+            )}
+        </div>
+    );
+};
+
+export default ProyectsList;
+
+/*
 
             <ul id="proyectList">
                 {filteredProyects.map(proyect => (
@@ -98,8 +170,5 @@ function ProyectsList() {
                     />
                 ))}
             </ul>
-        </div>
-    );
-};
 
-export default ProyectsList;
+            */

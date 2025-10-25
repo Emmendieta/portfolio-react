@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../../context/UserContext";
-import { fetchCategories, fetchDeleteCategory } from "./Categories";
+import { fetchCategories, fetchDeleteCategory, fetchUpdateCategoriesOrder } from "./Categories";
 import { Link } from "react-router-dom";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import CategoryCard from "./CategoryCard/CategoryCard";
@@ -8,6 +8,8 @@ import "./CategoriesList.css";
 import "../../../GlobalLoader.css";
 import { useLoading } from "../../../../context/LoadingContext";
 import { useConfirmSweet } from "../../../../context/SweetAlert2Context";
+import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
+import { useMediaQuery } from "../../../hooks/UseMediaQuery";
 
 function CategoriesList({ onCategorySelect, selectedCategory }) {
     const { user } = useContext(UserContext);
@@ -15,6 +17,7 @@ function CategoriesList({ onCategorySelect, selectedCategory }) {
     const [loading, setLoading] = useState(true);
     const { startLoading, stopLoading } = useLoading();
     const { confirmSweet, successSweet, errorSweet } = useConfirmSweet();
+    const isMobile = useMediaQuery("(max-width: 768px)");
 
     useEffect(() => {
         const loadCategories = async () => {
@@ -29,7 +32,11 @@ function CategoriesList({ onCategorySelect, selectedCategory }) {
                     setLoading(false);
                     return;
                 }
-                setCategories(categoriesData.response || []);
+
+                const categories = categoriesData.response;
+                //Reorder:
+                const sorted = categories.sort((a, b) => a.order - b.order);
+                setCategories(sorted || []);
 
             } catch (error) {
                 await errorSweet("Error loading categories: " + error.message);
@@ -81,6 +88,30 @@ function CategoriesList({ onCategorySelect, selectedCategory }) {
         }
     };
 
+    const handleDragEnd = async (result) => {
+        if (!result.destination) return;
+
+        const reordered = Array.from(categories);
+        const [movedItem] = reordered.splice(result.source.index, 1);
+        reordered.splice(result.destination.index, 0, movedItem);
+
+        const reorderedWithOrder = reordered.map((item, index) => ({
+            ...item,
+            order: index,
+        }));
+
+        setCategories(reorderedWithOrder);
+
+        try {
+            const res = await fetchUpdateCategoriesOrder(reorderedWithOrder);
+            if (res?.error) { await errorSweet("Error saving order: ", res.error.message); }
+            else { await successSweet("Order updated!"); }
+        } catch (error) {
+            console.error("Error updating order:", error);
+            await errorSweet("Error updating order: " + error.message);
+        }
+    };
+
     if (!categories || categories.length === 0) return <p>No Categories data available</p>;
 
     return (
@@ -96,6 +127,37 @@ function CategoriesList({ onCategorySelect, selectedCategory }) {
                 )}
             </div>
 
+            {user?.role === "admin" ? (
+                <DragDropContext onDragEnd={handleDragEnd}>
+                    <Droppable droppableId="categoriesDiContainer" direction={isMobile ? "vertical" : "horizontal"}>
+                        {(provided) => (
+                            <ul id="categoriesDiContainer" {...provided.droppableProps} ref={provided.innerRef}>
+                                {categories.map((category, index) => (
+                                    <Draggable key={category._id} draggableId={category._id} index={index}>
+                                        {(provided) => (
+                                            <div
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                            >
+                                                <CategoryCard
+                                                    key={category._id}
+                                                    category={category}
+                                                    onDelete={handleDelete}
+                                                    onClick={() => handleCategoryClick(category._id)}
+                                                    isSelected={category._id === selectedCategory}
+                                                    isDraggable={true}
+                                                />
+                                            </div>
+                                        )}
+                                    </Draggable>
+                                ))}
+                                {provided.placeholder}
+                            </ul>
+                        )}
+                    </Droppable>
+                </DragDropContext>
+            ) : (
             <ul id="categoriesDiContainer">
                 {categories.map((category) => (
                     <CategoryCard
@@ -104,9 +166,11 @@ function CategoriesList({ onCategorySelect, selectedCategory }) {
                         onDelete={handleDelete}
                         onClick={() => handleCategoryClick(category._id)}
                         isSelected={category._id === selectedCategory}
+                        isDraggable={false}
                     />
                 ))}
             </ul>
+            )}
         </div>
     );
 };

@@ -16,6 +16,7 @@ class ProyectsDTO {
         this.languages = data.languages || [""];
         this.categories = data.categories || [""],
         this.thumbnails = data.thumbnails || [""];
+        this.order = data.order;
         if (PERSISTENCE !== "mongo") {
             this.createdAt = new Date();
             this.updateAt = new Date();

@@ -13,9 +13,12 @@ class EducationsController {
         };
         const verifyEducation = await this.verifyEducationTitleTypeAndName(data.title, data.typeEducation, data.institutionName);
         if (verifyEducation === 1) { return res.json400("Error: Alredy exist an Education with the same Name of the Institucion, de Type of Education and the Title!(C)"); };
+        const lastEducation = await this.eService.readLastByOrder();
+        const nextOrder = lastEducation ? lastEducation.order + 1 : 0;
+        data.order = nextOrder;
         const education = await this.eService.createOne(data);
         if (!education) { return res.json400("Couldn't create the Education!(C)"); };
-        res.json201(education);;
+        res.json201(education);
     };
 
     getEducationById = async (req, res) => {
@@ -32,7 +35,8 @@ class EducationsController {
 
     getAllEducations = async (req, res) => {
         const educations = await this.eService.readAll();
-        if (educations.length === 0) { return res.json404("Not Educations found!(C)"); };;
+        //const education = await this.eService.readByFilter({}, {sort: { order: 1 } });
+        if (!educations || educations.length === 0) { return res.json404("Not Educations found!(C)"); };;
         return res.json200(educations);
     };
 
@@ -48,12 +52,31 @@ class EducationsController {
         return res.json200(educationUpdated);
     };
 
+    reorderEducations = async (req, res) => {
+        try {
+            const { data } = req.body;
+            if (!Array.isArray(data) || data.length === 0) { return res.json400("Data must be a non-empty array!(C)"); };
+            // Extraemos solo los IDs y validamos
+            const orderedIds = data.map(item => item._id).filter(id => id);
+            if (orderedIds.length !== data.length) {  return res.json400("Some items are missing a valid id!(C)"); };
+            for (const id of orderedIds) {
+                if (!isValidObjectId(id)) { return res.json400(`Invalid Education ID: ${id}`); }
+            };
+            await this.eService.updateOrder(orderedIds);
+            res.json200("Educations reordered successfully!(C)");
+        } catch (error) {
+            console.error("Error reordering educations: ", error);
+            res.json500("Internal Server Error!(C)");
+        }
+    };
+
     deleteEducationById = async (req, res) => {
         const { eid } = req.params;
         if (eid.length !== 24) { return res.json400("Invalid Education ID!(C)"); };
         const education = await this.verifyEducationFun(eid);
         if (education === null) { return res.json404("Education Not Found!(C)"); };
         const educationDeleted = await this.eService.destroyById(eid);
+        await this.eService.reorderAfterDelete();
         return res.json200(educationDeleted);
     };
 
@@ -66,7 +89,7 @@ class EducationsController {
 
     verifyEducationTitleTypeAndName = async (title, typeEducation, institutionName, eid = null) => {
         const exitingEducation = await this.eService.readOneByFilter({ title, typeEducation, institutionName });
-        if(!exitingEducation) { return 0; };
+        if (!exitingEducation) { return 0; };
         if (eid && exitingEducation._id.toString() === eid.toString()) { return 0; }
         return 1;
     };

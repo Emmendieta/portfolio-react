@@ -11,6 +11,7 @@ class WorksRouter extends RouterHelper {
         this.read("/", ["public"], worksController.getAllWorks);
         this.read("/:wid", ["public"], worksController.getWorkById);
         this.create("/", ["public"], worksController.createWork);
+        this.update("/reorder", ["public"], worksController.reorderWorks);
         this.update("/:wid", ["public"], worksController.updateWorkById);
         this.destroy("/:wid", ["public"], worksController.deleteWorkById);
     };

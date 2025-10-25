@@ -8,6 +8,7 @@ class CategoriesDTO {
         };
         this.title = data.title;
         this.thumbnails = data.thumbnails;
+        this.order = data.order;
         if (PERSISTENCE !== "mongo") {
             this.createdAt = new Date();
             this.updateAt = new Date();

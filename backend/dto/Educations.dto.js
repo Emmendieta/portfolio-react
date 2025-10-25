@@ -23,6 +23,7 @@ class EducationsDTO {
         this.linkCertificate = data.linkCertificate;
         this.finished = data.finished;
         this.description = data.description;
+        this.order = data.order;
         if (VALID_EDUCATION_TYPES.includes(data.typeEducation)) {
             this.typeEducation = data.typeEducation;
         } else {

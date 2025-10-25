@@ -1,5 +1,5 @@
 import { CategoryModel } from "./models/Categories.Models.js";
-import { EducationModel }  from "./models/Educations.Models.js";
+import { EducationModel } from "./models/Educations.Models.js";
 import { LanguagesModel } from "./models/Languages.Models.js";
 import { PeopleModel } from "./models/People.Models.js";
 import { ProyectsModel } from "./models/Proyects.Models.js";
@@ -39,7 +39,33 @@ class DaoMongo {
     readByFilter = async (filter) => await this.model.find(filter);
     readOneByFilter = async (filter) => await this.model.findOne(filter);
     updateById = async (id, data) => await this.model.findByIdAndUpdate(id, data, { new: true });
-    destroyById = async (id) =>await this.model.findByIdAndDelete(id);
+    //Reordenada con el drag and drop
+    bulkUpdateOrder = async (orderedIds) => {
+        if (!Array.isArray(orderedIds)) throw new Error("OrderedIds must be an array");
+
+        const bulkOps = orderedIds.map((id, index) => ({
+            updateOne: {
+                filter: { _id: id },
+                update: { order: index },
+            },             
+        }));
+        return await this.model.bulkWrite(bulkOps);
+    };
+    readLastByOrder = async () => await this.model.findOne().sort({ order: -1 });
+
+    destroyById = async (id) => await this.model.findByIdAndDelete(id);
+
+    reorderAfterDelete = async () => {
+        const educations = await this.model.find().sort({ order: 1 });
+        const bulkOps = educations.map((edu, index) => ( {
+            updateOne: {
+                filter: { _id : edu._id },
+                update: { order: index },
+            },
+        }));
+
+        if(bulkOps.length > 0) { await this.model.bulkWrite(bulkOps); };
+    };
 
 };
 
@@ -52,4 +78,4 @@ const socialMediasManager = new DaoMongo(SocialMediaModel);
 const usersManager = new DaoMongo(UsersModel);
 const worksManager = new DaoMongo(WorksModel);
 
-export { categoryManager, educationManager, languagesManager, peopleManager, proyectsManager, socialMediasManager,usersManager, worksManager };
+export { categoryManager, educationManager, languagesManager, peopleManager, proyectsManager, socialMediasManager, usersManager, worksManager };

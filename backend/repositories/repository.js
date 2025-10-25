@@ -23,10 +23,14 @@ class Repository {
     readByIdAndPopulate = async (id, populateFields = []) => {
         return await this.manager.readByIdAndPopulate(id, populateFields);
     };
-    readOneByFilter = async(filter) => await this.manager.readOneByFilter(filter);
+    readOneByFilter = async (filter) => await this.manager.readOneByFilter(filter);
     readByFilter = async (filter) => await this.manager.readByFilter(filter);
     updateById = async (id, data) => await this.manager.updateById(id, data);
+    //Reordenar el orden de los elementos (drag and drop):
+    updateOrder = async (orderedIds) => await this.manager.bulkUpdateOrder(orderedIds);
+    readLastByOrder = async () => await this.manager.readLastByOrder();
     destroyById = async (id) => await this.manager.destroyById(id);
+    reorderAfterDelete = async () => await this.manager.reorderAfterDelete();
 };
 
 const categoriesRepository = new Repository(categoryManager, CategoriesDTO);
@@ -38,4 +42,4 @@ const socialMediasRepository = new Repository(socialMediasManager, SocialMediasD
 const usersRepository = new Repository(usersManager, UsersDTO);
 const worksRepository = new Repository(worksManager, WorksDTO);
 
-export {categoriesRepository, educationsRepository, languagesRepository, peopleRepositry, proyectsRepository, socialMediasRepository, usersRepository, worksRepository };
+export { categoriesRepository, educationsRepository, languagesRepository, peopleRepositry, proyectsRepository, socialMediasRepository, usersRepository, worksRepository };

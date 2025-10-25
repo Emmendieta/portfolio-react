@@ -5,7 +5,8 @@ const socialMediasSchema = new mongoose.Schema(
         title: { type: String, required: true },
         linkSocial: { type: String, required: true },
         type: { type: String, required: true, default:"Social Media" }, 
-        thumbnails: { type: String }
+        thumbnails: { type: String },
+        order: { type: Number , required: true, default: 0 }
     },
     { timestamps: true }
 );

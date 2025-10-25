@@ -6,7 +6,7 @@ import { FaPen } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import GeneralFieldsDark from "../../GeneralFieldsDark/GeneralFieldsDark";
 
-function EducationCard({ education, onDelete }) {
+function EducationCard({ education, onDelete, isDraggable }) {
     const { user } = useContext(UserContext);
     const isAdmin = user?.role === "admin";
 
@@ -43,10 +43,10 @@ function EducationCard({ education, onDelete }) {
             ref={cardRef}
             className={`educationCardItem ${visible ? "fade-in" : ""}`}
             style={{
-                gridTemplateColumns: isAdmin ? "5% 44% 43% 8%" : "5% 48% 47%"
+                gridTemplateColumns: isAdmin ? "5% 44% 43% 8%" : "5% 48% 47%",
+                cursor: isDraggable ? "grab" : "default",
             }}
         >
-            {/* ... el resto del contenido sin cambios */}
             <div className="educationDivImg">
                 <a href={education.linkInstitution} target="_blank" rel="noopener noreferrer">
                     <img

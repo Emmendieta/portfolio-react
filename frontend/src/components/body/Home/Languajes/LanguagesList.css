@@ -1,8 +1,10 @@
+/* ================================== */
+/* Container principal de LanguagesList */
+/* ================================== */
 #langaugesDiv {
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: auto;
     padding: 100px 15px;
     margin-top: 50px;
     margin-bottom: 180px;
@@ -10,12 +12,19 @@
 
 #languagesDivTitle {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     width: 100%;
     margin-bottom: 50px;
 }
 
+.addingControlGeneral {
+    display: flex;
+    align-items: center;
+}
+
+/* ================================== */
+/* Lista de cards */
+/* ================================== */
 .languageList {
     display: flex;
     flex-wrap: wrap;
@@ -27,37 +36,159 @@
     width: 100%;
 }
 
-.languageDivContainer {
+.languageList>div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20%;
+}
+
+/* ================================== */
+/* Card individual: LanguageCard */
+/* ================================== */
+.languageListLi {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 15px;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    opacity: 0;
+    transform: translateY(-50px);
+    transition: opacity 1.5s ease, transform 1.5s ease;
+    width: 100%;
+}
+
+.languageListLi.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.languageListLi:hover {
+    box-shadow: rgb(85, 85, 85) 5px 5px 5px 5px;
+    transition: 1.5s;
+}
+
+/* Body Middle (contenido del nombre y porcentaje) */
+.languageListBodyMiddle {
     display: flex;
     flex-direction: column;
     width: 100%;
-    align-items: center;
-    justify-content: center;
+    margin-top: 10px;
 }
 
-/* ---- Mobile ---- */
+.languageDivDiv {
+    display: flex;
+    width: 100%;
+    white-space: pre;
+}
 
+.languageDivH3 {
+    width: 100%;
+    margin-right: 10px;
+    padding-left: 0;
+    font-size: larger;
+    text-align: center;
+}
+
+/* Botones de edición / borrado */
+.editionsControlsLanguage {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.editionsControlsLanguage.admin-hidden {
+    height: 0;
+    padding-bottom: 0;
+    visibility: hidden;
+}
+
+.editionsControlsLanguage.admin-visible {
+    height: auto;
+    padding-bottom: 15px;
+    visibility: visible;
+}
+
+#languageEdit,
+#languageDelete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 32px;
+    width: 32px;
+}
+
+/* ================================== */
+/* Responsive Cards y Lista */
+/* ================================== */
+
+/* ---- Mobile ---- */
 @media(max-width:576px) {
     .languageList {
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        width: 80%;
+        gap: 15px;
+    }
+
+    .languageList>div {
+        width: 100%;
+    }
+
+    .languageDivH3 {
+        font-size: medium;
     }
 }
 
-/* ---- Medium ---- */
+/* ---- Small / Medium ---- */
+@media(min-width:577px) and (max-width:768px) {
+    .languageList {
+        width: 90%;
+    }
 
-@media(min-width:577px) and (max-width: 768px) {}
+    .languageList>div {
+        width: 45%;
+    }
+}
 
 /* ---- Large ---- */
+@media(min-width:769px) and (max-width:992px) {
+    .languageList {
+        width: 95%;
+    }
 
-@media(min-width:769px) and (max-width: 992px) {}
+    .languageList>div {
+        width: 48%;
+    }
+}
 
 /* ---- X-Large ---- */
-
-@media(min-width:993px) and (max-width: 1200px) {}
+@media(min-width:993px) and (max-width:1200px) {
+    .languageList>div {
+        width: 30%;
+    }
+}
 
 /* ---- XX-Large ---- */
+@media(min-width:1201px) and (max-width:1400px) {
+    .languageList>div {
+        width: 25%;
+    }
+}
 
+/* ---- Ultra-Large ---- */
 @media(min-width:1401px) {
+    .languageList>div {
+        width: 20%;
+    }
+}
+
+/* ================================== */
+/* LanguageCard CircularProgressbar */
+.languageListBodyTop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

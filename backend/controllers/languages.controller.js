@@ -12,6 +12,9 @@ class LanguagesController {
         const verifyLanguage = await this.verifyLanguageTitle(data.title);
         if (verifyLanguage === 1) { return res.json400("Language Alredy Exist!(C)"); }
         else {
+            const lastLanguage = await this.eService.readLastByOrder();
+            const nextOrder = lastLanguage ? lastLanguage.order + 1 : 0;
+            data.order = nextOrder;
             const language = await this.lService.createOne(data);
             res.json201(language);
         };
@@ -53,6 +56,24 @@ class LanguagesController {
         };
     };
 
+    reorderLanguages = async (req, res) => {
+        try {
+            const { data } = req.body;
+            if (!Array.isArray(data) || data.length === 0) { return res.json400("Data must be a non-empty array!(C)"); };
+            // Extraemos solo los IDs y validamos
+            const orderedIds = data.map(item => item._id).filter(id => id);
+            if (orderedIds.length !== data.length) { return res.json400("Some items are missing a valid id!(C)"); };
+            for (const id of orderedIds) {
+                if (!isValidObjectId(id)) { return res.json400(`Invalid Language ID: ${id}`); }
+            };
+            await this.lService.updateOrder(orderedIds);
+            res.json200("Languages reordered successfully!(C)");
+        } catch (error) {
+            console.error("Error reordering Languages: ", error);
+            res.json500("Internal Server Error!(C)");
+        }
+    };
+
     deleteLanguageById = async (req, res) => {
         const { lid } = req.params;
         if (lid.length !== 24) { return res.json400("Invalid Language ID!(C)"); };
@@ -60,6 +81,7 @@ class LanguagesController {
         if (language === false) { return res.json400("Lenguage Not Found!(C)"); };
         if (language === null) { return res.json404("Lenguage Not Found!(C)"); };
         const languageDeleted = await this.lService.destroyById(lid);
+        await this.lService.reorderAfterDelete();
         return res.json200(languageDeleted);
     };
 

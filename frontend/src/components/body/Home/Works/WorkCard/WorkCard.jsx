@@ -6,7 +6,7 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import GeneralFields from "../../GeneralFields/GeneralFields";
 
-function WorkCard({ work, onDelete }) {
+function WorkCard({ work, onDelete, isDraggable }) {
     const { user } = useContext(UserContext);
     const isAdmin = user?.role === "admin";
 
@@ -38,6 +38,7 @@ function WorkCard({ work, onDelete }) {
         className={`workListLi ${visible ? "fade-in" : ""}`} 
         data-id={work._id}
         ref={cardRef}
+        style={{ cursor: isDraggable ? "grab" : "default" }}
         >
             <div className="workCardGrid" style={{ gridTemplateColumns: isAdmin ? "10% 83% 7%" : "15% 85%" }} >
 

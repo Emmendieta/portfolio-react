@@ -23,6 +23,13 @@
     box-shadow: rgba(85, 85, 85, 0.37) 5px 5px 5px 5px;
 }
 
+#categoriesDiContainer > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1 1 150px;
+}
+
 /* ---- Mobile ---- */
 
 @media(max-width: 576px) {

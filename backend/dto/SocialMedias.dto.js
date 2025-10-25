@@ -10,6 +10,7 @@ class SocialMediasDTO {
         this.linkSocial = data.linkSocial;
         this.type = data.type || "social";
         this.thumbnails = data.thumbnails || [];
+        this.order = data.order;
         if (PERSISTENCE !== "mongo") {
             this.createdAt = new Date();
             this.updateAt = new Date();

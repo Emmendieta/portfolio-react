@@ -1,11 +1,11 @@
-import { createData, deleteData, getData, getDataById, updateData } from "../../../../helpers/crud";
+import { bulkUpdateData, createData, deleteData, getData, getDataById, updateData } from "../../../../helpers/crud";
 
 export const fetchCategories = async () => {
     try {
         const url = "categories/";
         const data = await getData(url);
 
-        if(!data) {
+        if (!data) {
             //LOGGER:
             console.error("Error in fetch Categories or no data recibed!");
             //SWEET ALERT:
@@ -13,7 +13,7 @@ export const fetchCategories = async () => {
             return;
         };
 
-        return data; 
+        return data;
 
     } catch (error) {
         //LOGGER:
@@ -61,12 +61,38 @@ export const fetchUpdateCategory = async (cid, data) => {
     }
 };
 
+export const fetchUpdateCategoriesOrder = async (orderedCategories) => {
+    try {
+        if (!Array.isArray(orderedCategories) || orderedCategories.length === 0) {
+            console.error("No ordered Categories provided!");
+            alert("No ordered Categories provided!");
+            return;
+        };
+        const dataArray = orderedCategories.map((cat, index) => {
+            if (!cat._id || cat._id.length !== 24) throw new Error("Each Category must have a valid Id!");
+            return { _id: cat._id, order: index };
+        });
+
+        const response = await bulkUpdateData("categories/reorder", dataArray);
+        if (!response) {
+            console.error("No response from backend when updating Categories order");
+            alert("No response from backend when updating Categories order");
+            return;
+        };
+        return response;
+    } catch (error) {
+        console.error("Error updating Categories order:", error.message);
+        alert("Error updating Categories order!");
+        return { error: { message: error.message } };
+    }
+};
+
 export const fetchDeleteCategory = async (cid) => {
     try {
         const url = "categories";
         const response = await deleteData(url, cid);
         return response;
-        
+
     } catch (error) {
         //LOGGER:
         console.error("Error deleting Category:", error.message);

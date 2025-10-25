@@ -6,7 +6,7 @@ import { FaPen } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import GeneralFields from "../../GeneralFields/GeneralFields";
 
-function ProyectCard({ proyect, onDelete }) {
+function ProyectCard({ proyect, onDelete, isDraggable }) {
     const { user } = useContext(UserContext);
     const isAdmin = user?.role === "admin";
 
@@ -37,13 +37,14 @@ function ProyectCard({ proyect, onDelete }) {
             ref={ref}
             className={`proyectListLi ${visible ? "slide-in-left" : ""}`}
             data-id={proyect._id}
+            style={{ cursor: isDraggable ? "grab" : "default"}}
         >
             <div
                 className="proyectListLiInfo"
                 style={{
                     gridTemplateColumns: isAdmin
                         ? "28.5% 28.5% 36% 7%"
-                        : "35% 35% 30%"
+                        : "35% 35% 30%",
                 }}
             >
                 <div id="proyectListLiBody">

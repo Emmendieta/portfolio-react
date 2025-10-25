@@ -5,7 +5,7 @@ import { FaPen } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import "./CategoryCard.css";
 
-function CategoryCard({ category, onDelete, onClick, isSelected }) {
+function CategoryCard({ category, onDelete, onClick, isSelected, isDraggable }) {
     const { user } = useContext(UserContext);
     const isAdmin = user?.role === "admin";
     const cardRef = useRef(null);
@@ -42,6 +42,7 @@ function CategoryCard({ category, onDelete, onClick, isSelected }) {
             className={`categoryCardItem ${visible ? "fade-in" : ""} ${isSelected ? "selected" : ""}`}
             id="categoryLi"
             onClick={() => onClick(category._id)}
+            style={{cursor: isDraggable ? "grab" : "default"}}
         >
             <div className={`categoryDivvImg ${isSelected ? "selected": ""}`}
                 onClick={() => onClick(category._id)}

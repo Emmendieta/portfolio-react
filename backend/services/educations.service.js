@@ -14,7 +14,11 @@ class EducationsService {
     };
     readOneByFilter = async (filter) => await this.manager.readOneByFilter(filter);
     updateById = async (eid, data) => await this.manager.updateById(eid, data);
+    //drag and drop:
+    updateOrder = async (orderedIds) => await this.manager.updateOrder(orderedIds);
+    readLastByOrder = async () => await this.manager.readLastByOrder();
     destroyById = async (eid) => await this.manager.destroyById(eid);
+    reorderAfterDelete = async () => await this.manager.reorderAfterDelete();
 };
 
 const educationsService = new EducationsService(educationsRepository);

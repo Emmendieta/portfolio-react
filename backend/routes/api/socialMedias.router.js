@@ -11,6 +11,7 @@ class SocialMediasRouter extends RouterHelper {
         this.read("/:sid", ["public"], socialMediasController.getSocialMediaById);
         this.read("/", ["public"], socialMediasController.getAllSocialMedias);
         this.create("/", ["public"], socialMediasController.createSocialMedia);
+        this.update("/reorder", ["public"], socialMediasController.reorderSocialMedias);
         this.update("/:sid", ["public"], socialMediasController.updateSocialMediaById);
         this.destroy("/:sid", ["public"], socialMediasController.deleteSocialMediabyId);
     };

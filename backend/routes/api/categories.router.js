@@ -11,6 +11,7 @@ class CategoriesRouter extends RouterHelper {
         this.read("/", ["public"], categoriesController.getAllCategories);
         this.read("/:cid", ["public"], categoriesController.getCategoryById);
         this.create("/", ["public"], categoriesController.createCategory);
+        this.update("/reorder", ["public"], categoriesController.reorderCategories);
         this.update("/:cid", ["public"], categoriesController.updateCategoryById);
         this.destroy("/:cid", ["public"], categoriesController.deleteCategoryById);
     };

@@ -13,7 +13,11 @@ class CategoriesService {
     };
     readOneByFilter = async (filter) => await this.manager.readOneByFilter(filter);
     updateById = async (cid, data) => await this.manager.updateById(cid, data);
+    //drag and drop:
+    updateOrder = async (orderedIds) => await this.manager.updateOrder(orderedIds);
+    readLastByOrder = async () => await this.manager.readLastByOrder();
     destroyById = async (cid) => await this.manager.destroyById(cid);
+    reorderAfterDelete = async () => await this.manager.reorderAfterDelete();
 };
 
 const categoriesService = new CategoriesService(categoriesRepository);

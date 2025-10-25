@@ -8,6 +8,9 @@ import "./WorksList.css";
 import { useLoading } from "../../../../context/LoadingContext.jsx";
 import "../../../GlobalLoader.css";
 import { useConfirmSweet } from "../../../../context/SweetAlert2Context.jsx";
+import { fetchUpdateEducationsOrder } from "../Educations/Educations.js";
+import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
+import { useMediaQuery } from "../../../hooks/UseMediaQuery.jsx";
 
 
 function WorksList() {
@@ -16,22 +19,22 @@ function WorksList() {
     const [loading, setLoading] = useState(true);
     const { startLoading, stopLoading } = useLoading();
     const { confirmSweet, successSweet, errorSweet } = useConfirmSweet();
+    const isMobile = useMediaQuery("(max-width: 992px)");
 
     useEffect(() => {
         const loadWorks = async () => {
-
             try {
                 startLoading();
-
                 const worksData = await fetchWorks();
                 if (worksData?.error) {
                     await errorSweet(worksData.error.message);
                     setLoading(false);
                     return;
                 };
-
-                setWorks(worksData.response);
-
+                const works = worksData.response;
+                //Reorder:
+                const sorted = works.sort((a, b) => a.order - b.order);
+                setWorks(sorted);
             } catch (error) {
                 console.error("Error loading Works:", error);
                 await errorSweet("Error loading Works: " + error.message);
@@ -40,7 +43,6 @@ function WorksList() {
                 stopLoading();
             }
         };
-
         loadWorks();
     }, []);
 
@@ -52,7 +54,6 @@ function WorksList() {
             cancelButtonText: "No",
         });
         if (!confirmDelete) return;
-
         try {
             const result = await fetchDeleteWork(wid);
             if (result.error) {
@@ -65,6 +66,26 @@ function WorksList() {
             //LOGGER:
             console.error("Error deleting Work: ", error.message);
             await errorSweet("Error deleting Work: ", error.message);
+        }
+    };
+
+    const handleDragEnd = async (result) => {
+        if (!result.destination) return;
+        const reordered = Array.from(works);
+        const [movedItem] = reordered.splice(result.source.index, 1);
+        reordered.splice(result.destination.index, 0, movedItem);
+        const reorderedWithOrder = reordered.map((item, index) => ({
+            ...item,
+            order: index,
+        }));
+        setWorks(reorderedWithOrder);
+        try {
+            const res = await fetchUpdateEducationsOrder(reorderedWithOrder);
+            if (res?.error) { await errorSweet("Error saving order: ", res.error.message); }
+            else { await successSweet("Order updated!"); }
+        } catch (error) {
+            console.error("Error updating order:", error);
+            await errorSweet("Error updating order: " + error.message);
         }
     };
 
@@ -83,11 +104,47 @@ function WorksList() {
                     </div>
                 )}
             </div>
-            <ul id="worksList">
-                {works.map((work) => (
-                    <WorkCard key={work._id} work={work} onDelete={handleDelete} />
-                ))}
-            </ul>
+            {user?.role === "admin" ? (
+                <DragDropContext onDragEnd={handleDragEnd}>
+                    <Droppable droppableId="workList" direction={isMobile ? "vertical": "horizontal"}>
+                        {(provided) => (
+                            <ul id="worksList" {...provided.droppableProps} ref={provided.innerRef}>
+                                {works.map((work, index) => (
+                                    <Draggable key={work._id} draggableId={work._id} index={index}>
+                                        {(provided) => (
+                                            <div
+                                            ref={provided.innerRef}
+                                            {...provided.draggableProps}
+                                            {...provided.dragHandleProps}
+                                            >
+                                                <WorkCard
+                                                    key={work._id}
+                                                    work={work}
+                                                    onDelete={handleDelete}
+                                                    isDraggable={true}
+                                                />
+                                            </div>
+                                        )}
+                                    </Draggable>
+                                ))}
+                                {provided.placeholder}
+                            </ul>
+                        )}
+                    </Droppable>
+                </DragDropContext>
+            ) : (
+                <ul id="worksList">
+                    {works.map((work) => (
+                        <WorkCard
+                            key={work._id}
+                            work={work}
+                            onDelete={handleDelete}
+                            isDraggable={false}
+                        />
+                    ))}
+                </ul>
+            )}
+
         </div>
     );
 };

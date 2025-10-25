@@ -12,6 +12,9 @@ class SocialMediasController {
         const verifyTitle = await this.verifySocialMediaTitle(data.title);
         if (verifyTitle === 1) { return res.json400("Social Media alredy Exist!(C)"); }
         else {
+            const lastSocialMedia = await this.sMService.readLastByOrder();
+            const nextOrder = lastSocialMedia ? lastSocialMedian.order + 1 : 0;
+            data.order = nextOrder;
             const socialMedia = await this.sMService.createOne(data);
             return res.json201(socialMedia);
         };
@@ -50,12 +53,30 @@ class SocialMediasController {
         };
     };
 
+    reorderSocialMedias = async (req, res) => {
+        try {
+            const { data } = req.body;
+            if (!Array.isArray(data) || data.length === 0) { return res.json400("Data must be a non-empty array!(C)"); };
+            const orderedIds = data.map(item => item._id).filter(id => id);
+            if (orderedIds.length !== data.length) { return res.json400("Some items are missing a valid id!(C)"); };
+            for (const id of orderedIds) {
+                if (!isValidObjectId(id)) { return res.json400(`Invalid Social Medias/Contacts ID: ${id}`); }
+            };
+            await this.sMService.updateOrder(orderedIds);
+            res.json200("Social Medias/Contacts reordered successfully!(C)");
+        } catch (error) {
+            console.error("Error reordering Social Medias/Contacts: ", error);
+            res.json500("Internal Server Error!(C)");
+        }
+    };
+
     deleteSocialMediabyId = async (req, res) => {
         const { sid } = req.params;
         if (sid.length !== 24) { return res.json400("Invalid Social Media ID!(C)"); };
         const socialMedia = await this.verifySocialMediaFun(sid);
         if (socialMedia === null) { return res.json404("Not Social Media Found!"); };
         const socialMediaDeleted = await this.sMService.destroyById(sid);
+        await this.sMService.reorderAfterDelete();
         return res.json200(socialMediaDeleted);
     };
 
@@ -69,7 +90,7 @@ class SocialMediasController {
     verifySocialMediaTitle = async (title, sid = null) => {
         const verifyTitle = await this.sMService.readOneByFilter({ title });
         if (!verifyTitle || verifyTitle.length === 0) { return 0; }
-        if(sid && verifyTitle._id.toString() === sid.toString()) { return 0; }
+        if (sid && verifyTitle._id.toString() === sid.toString()) { return 0; }
         else { return 1; };
     };
 };

@@ -19,7 +19,8 @@ const proyectSchema = new mongoose.Schema(
             ref: "categories",
             required: true
         }],
-        thumbnails: [{type: String, default: ""}]
+        thumbnails: [{type: String, default: ""}],
+        order: { type: Number , required: true, default: 0 }
     },
     { timestamps: true }
 );

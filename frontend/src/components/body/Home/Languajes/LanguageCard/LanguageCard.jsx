@@ -9,7 +9,7 @@ import { FaPen } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import "./LanguageCard.css";
 
-function LanguageCard({ language, onDelete }) {
+function LanguageCard({ language, onDelete, isDraggable }) {
     const { user } = useContext(UserContext);
     const [progress, setProgress] = useState(0);
     const [visible, setVisible] = useState(false);
@@ -70,6 +70,7 @@ function LanguageCard({ language, onDelete }) {
             className={`languageListLi ${visible ? "fade-in" : ""}`}
             ref={ref}
             data-id={language._id}
+            style={{ cursor: isDraggable ? "grab" : "default" }}
         >
             <div className="languageListBodyTop">
                 <div style={{ width: 100, height: 100 }}>

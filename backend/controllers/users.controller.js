@@ -13,9 +13,13 @@ class UsersController {
         const verify = await this.verifyUserAndEmailFun(data.user, data.email);
         if (verify === 0 || verify === 1 || verify === 2) { return res.json400("User or Emial alredy Exist!(C)"); }
         else {
+            const lastUser = await this.uService.readLastByOrder();
+            const nextOrder = lastUser ? lastUser.order + 1 : 0;
+            data.roder = nextOrder;
             const passHash = createHash(data.password)
             data.password = passHash;
             const user = await this.uService.createOne(data);
+            if(!user) { return res.json400("Couldn't create the User!(C)"); };
             return res.json201(user);
         };
     };
@@ -83,12 +87,28 @@ class UsersController {
         };
     };
 
+    reorderUsers = async (req, res) => {
+        try {
+            const { data } = req.body;
+            if (!Array.isArray(data) || data.length === 0) {  return res.json400("Data must be a non-empty array!(C)"); };
+            const orderedIds = data.map(item => item._id).filter(id => id);
+            if (orderedIds.length !== data.length) { return res.json400("Some Users are missing!(C)"); };
+            for (const id of orderedIds) { if (!isValidObjectId(id)) { return res.json400(`Invalid User ID: ${id}`); }; };
+            await this.uService.updateOrder(orderedIds);
+            res.json200("Users reordered successfully!(C)");
+        } catch (error) {
+            console.error("Error reordering Users: ", error);
+            res.json500("Internal Server Error!(C)");
+        };
+    }
+
     deleteUserById = async (req, res) => {
         const { uid } = req.params;
         if (uid.length !== 24) { return res.json400("Invalid User ID!(C)"); };
         const user = await this.verifyUserFun(uid);
         if (user === null) { return res.json404("User Not Found!(C)"); };
         const userDeleted = await this.uService.destroyById(uid);
+        await this.uService.reorderAfterDelete();
         return res.json200(userDeleted);
     };
 

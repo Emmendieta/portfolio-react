@@ -12,6 +12,9 @@ class ProyectsController {
         const verifyProyect = await this.verifyInfoProyect(data.title, data.company);
         if (verifyProyect === 1) { return res.json400("Proyect with the same Title and Company alredy Exist!(C)"); }
         else {
+            const lastProyect = await this.pService.readLastByOrder();
+            const nextOrder = Proyect ? lastProyect.order + 1 : 0;
+            data.order = nextOrder;
             const proyect = await this.pService.createOne(data);
             return res.json201(proyect);
         };
@@ -72,12 +75,31 @@ class ProyectsController {
         };
     };
 
+    reorderProyects = async (req, res) => {
+        try {
+            const { data } = req.body;
+            if (!Array.isArray(data) || data.length === 0) { return res.json400("Data must be a non-empty array!(C)"); };
+            // Extraemos solo los IDs y validamos
+            const orderedIds = data.map(item => item._id).filter(id => id);
+            if (orderedIds.length !== data.length) {  return res.json400("Some items are missing a valid id!(C)"); };
+            for (const id of orderedIds) {
+                if (!isValidObjectId(id)) { return res.json400(`Invalid Proyect ID: ${id}`); }
+            };
+            await this.pService.updateOrder(orderedIds);
+            res.json200("Proyects reordered successfully!(C)");
+        } catch (error) {
+            console.error("Error reordering Proyects: ", error);
+            res.json500("Internal Server Error!(C)");
+        }
+    };
+
     deleteProyectById = async (req, res) => {
         const { pyid } = req.params;
         const proyect = await this.verifyProyectFun(pyid);
         if (proyect === false) { return res.json400("Invalid Proyect Id"); };
         if (proyect === null) { return res.json404("Proyect Not Found!(C)"); };
         const proyectDeleted = await this.pService.destroyById(pyid);
+        await this.pService.reorderAfterDelete();
         return res.json200(proyectDeleted);
     };
 

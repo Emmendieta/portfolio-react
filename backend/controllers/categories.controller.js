@@ -12,6 +12,9 @@ class CategoriesController {
         const verifyTitle = await this.verifyCategoryTitle(data.title);
         if (verifyTitle === 1) { return res.json400("The Title of the Category alredy Exist!(C)"); }
         else {
+            const lastCategory = await this.eService.readLastByOrder();
+            const nextOrder = lastCategory ? lastCategory.order + 1 : 0;
+            data.order = nextOrder;
             const category = await this.cService.createOne(data);
             res.json201(category);
         };
@@ -60,6 +63,24 @@ class CategoriesController {
         return res.json200(categoryUpdated);
     };
 
+    reorderCategories = async (req, res) => {
+        try {
+            const { data } = req.body;
+            if (!Array.isArray(data) || data.length === 0) { return res.json400("Data must be a non-empty array!(C)"); };
+            // Extraemos solo los IDs y validamos
+            const orderedIds = data.map(item => item._id).filter(id => id);
+            if (orderedIds.length !== data.length) {  return res.json400("Some items are missing a valid id!(C)"); };
+            for (const id of orderedIds) {
+                if (!isValidObjectId(id)) { return res.json400(`Invalid Category ID: ${id}`); }
+            };
+            await this.cService.updateOrder(orderedIds);
+            res.json200("Categories reordered successfully!(C)");
+        } catch (error) {
+            console.error("Error reordering Categories: ", error);
+            res.json500("Internal Server Error!(C)");
+        }
+    };
+
     deleteCategoryById = async (req, res) => {
         const { cid } = req.params;
         if (cid.length !== 24) { return res.json400("Invalid Category ID!(C)"); };
@@ -67,6 +88,7 @@ class CategoriesController {
         if (category === null) { return res.json404("Category Not Found!(C)"); };
         const categoryDeleted = await this.cService.destroyById(cid);
         if (!categoryDeleted) { return res.json400("Couldn't Delete the Category!(C)"); };
+        await this.cService.reorderAfterDelete();
         return res.json200(categoryDeleted);
     };
 

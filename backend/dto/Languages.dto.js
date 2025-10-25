@@ -10,6 +10,7 @@ class LanguagesDTO {
         this.percent = data.percent;
         this.thumbnails = data.thumbnails;
         this.type = data.type || "Hard";
+        this.order = data.order;
         if (PERSISTENCE !== "mongo") {
             this.createdAt = new Date();
             this.updateAt = new Date();

@@ -14,6 +14,7 @@ class WorksDTO {
         this.finished = data.finished;
         this.description = data.description;
         this.thumbnails = data.thumbnails || [];
+        this.order = data.order;
         if (PERSISTENCE !== "mongo") {
             this.createdAt = new Date();
             this.updateAt = new Date();

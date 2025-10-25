@@ -13,7 +13,11 @@ class UsersService {
     readOneByFilter = async (filter) => await this.manager.readOneByFilter(filter);
     readByFilter = async (filter) => await this.manager.readByFilter(filter);
     updateById = async (uid, data) => await this.manager.updateById(uid, data);
+    //drag and drop:
+    updateOrder = async (orderedIds) => await this.manager.updateOrder(orderedIds);
+    readLastByOrder = async () => await this.manager.readLastByOrder();
     destroyById = async (uid) => await this.manager.destroyById(uid);
+    reorderAfterDelete = async () => await this.manager.reorderAfterDelete();
 };
 
 const usersService = new UsersService(usersRepository);

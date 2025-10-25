@@ -1,4 +1,4 @@
-import { createData, deleteData, getData, getDataById, updateData } from "../../../../helpers/crud";
+import { bulkUpdateData, createData, deleteData, getData, getDataById, updateData } from "../../../../helpers/crud";
 
 export const fetchLanguages = async () => {
     try {
@@ -54,6 +54,34 @@ export const fetchUpdateLangauge = async (lid, data) => {
     } catch (error) {
         //LOGGER:
         console.error("Error fetching update Language:", error.message);
+        return { error: { message: error.message } };
+    }
+};
+
+export const fetchUpdateLanguagesOrder = async (orderedLanguages) => {
+    try {
+        if (!Array.isArray(orderedLanguages) || orderedLanguages.length === 0) {
+            console.error("No ordered Languages provided!");
+            alert("No ordered Languages provided!");
+            return;
+        };
+        // Cada elemento debe tener _id
+        const dataArray = orderedLanguages.map((lan, index) => {
+            if (!lan._id || lan._id.length !== 24) throw new Error("Each Language must have a valid _id");
+            return { _id: lan._id, order: index };
+        });
+        const url = "languages/reorder";
+        // Llamamos a bulkUpdateData según tu backend
+        const response = await bulkUpdateData(url, dataArray);
+        if (!response) {
+            console.error("No response from backend when updating Languages order");
+            alert("No response from backend when updating Languages order");
+            return;
+        };
+        return response;
+    } catch (error) {
+        console.error("Error updating Langauges order:", error.message);
+        alert("Error updating Langauges order!");
         return { error: { message: error.message } };
     }
 };

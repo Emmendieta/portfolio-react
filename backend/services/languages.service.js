@@ -14,7 +14,11 @@ class LanguagesService {
     };
     readOneByFilter = async (filter) => await this.manager.readOneByFilter(filter);
     updateById = async (lid, data) => this.manager.updateById(lid, data);
+    //drag and drop:
+    updateOrder = async (orderedIds) => await this.manager.updateOrder(orderedIds);
+    readLastByOrder = async () => await this.manager.readLastByOrder();
     destroyById = async (lid) => this.manager.destroyById(lid);
+    reorderAfterDelete = async () => await this.manager.reorderAfterDelete();
 };
 
 const languagesService = new LanguagesService(languagesRepository);
