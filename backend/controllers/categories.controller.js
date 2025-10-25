@@ -12,7 +12,7 @@ class CategoriesController {
         const verifyTitle = await this.verifyCategoryTitle(data.title);
         if (verifyTitle === 1) { return res.json400("The Title of the Category alredy Exist!(C)"); }
         else {
-            const lastCategory = await this.eService.readLastByOrder();
+            const lastCategory = await this.cService.readLastByOrder();
             const nextOrder = lastCategory ? lastCategory.order + 1 : 0;
             data.order = nextOrder;
             const category = await this.cService.createOne(data);

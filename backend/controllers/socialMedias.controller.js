@@ -13,7 +13,7 @@ class SocialMediasController {
         if (verifyTitle === 1) { return res.json400("Social Media alredy Exist!(C)"); }
         else {
             const lastSocialMedia = await this.sMService.readLastByOrder();
-            const nextOrder = lastSocialMedia ? lastSocialMedian.order + 1 : 0;
+            const nextOrder = lastSocialMedia ? lastSocialMedia.order + 1 : 0;
             data.order = nextOrder;
             const socialMedia = await this.sMService.createOne(data);
             return res.json201(socialMedia);

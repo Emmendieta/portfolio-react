@@ -13,7 +13,7 @@ class ProyectsController {
         if (verifyProyect === 1) { return res.json400("Proyect with the same Title and Company alredy Exist!(C)"); }
         else {
             const lastProyect = await this.pService.readLastByOrder();
-            const nextOrder = Proyect ? lastProyect.order + 1 : 0;
+            const nextOrder = lastProyect ? lastProyect.order + 1 : 0;
             data.order = nextOrder;
             const proyect = await this.pService.createOne(data);
             return res.json201(proyect);
