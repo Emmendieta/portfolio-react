@@ -12,7 +12,7 @@ class LanguagesController {
         const verifyLanguage = await this.verifyLanguageTitle(data.title);
         if (verifyLanguage === 1) { return res.json400("Language Alredy Exist!(C)"); }
         else {
-            const lastLanguage = await this.eService.readLastByOrder();
+            const lastLanguage = await this.lService.readLastByOrder();
             const nextOrder = lastLanguage ? lastLanguage.order + 1 : 0;
             data.order = nextOrder;
             const language = await this.lService.createOne(data);

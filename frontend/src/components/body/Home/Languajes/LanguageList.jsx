@@ -65,29 +65,39 @@ function LanguagesList() {
     };
 
     const handleDragEnd = async (result) => {
-        const { source, destination } = result;
-        if (!destination || source.droppableId !== destination.droppableId) return;
-        const listType = source.droppableId; //Hard o Soft
-        const filtered = languages.filter(lang => lang.type === listType);
-        const reordered = Array.from(filtered);
-        const [moved] = reordered.splice(source.index, 1);
-        reordered.splice(destination.index, 0, moved);
-        const updated = languages.map(lang => {
-            const newIndex = reordered.findIndex(lng => lng._id === lang._id);
-            if (newIndex !== -1) { return { ...lang, order: newIndex }; };
-            return lang;
-        });
-        setLanguages(updated);
-        try {
-            const res = await fetchUpdateLanguagesOrder(updated);
-            if (res?.error) { await errorSweet("Error saving order: ", res.error.message); }
-            else { await successSweet("Order updated!"); }
-        } catch (error) {
-            console.error("Error updating order:", error);
-            await errorSweet("Error updating order: " + error.message);
+    const { source, destination } = result;
+    if (!destination || source.droppableId !== destination.droppableId) return;
+    const listType = source.droppableId; // "Hard" o "Soft"
+    // Sublista filtrada según tipo (Hard o Soft)
+    const filtered = languages.filter(lang => lang.type === listType);
+    // Reordenamos dentro de esa sublista
+    const reordered = Array.from(filtered);
+    const [moved] = reordered.splice(source.index, 1);
+    reordered.splice(destination.index, 0, moved);
+    // Actualizamos la lista global
+    const updated = languages.map(lang => {
+        if (lang.type === listType) {
+            const newIndex = reordered.findIndex(l => l._id === lang._id);
+            if (newIndex !== -1) { return { ...lang, order: newIndex }; } // solo cambia el order relativo dentro de su tipo
         }
-
+        return lang;
+    });
+    // Reasignamos el orden global correctamente
+    const globallySorted = [...updated]
+        .sort((a, b) => a.order - b.order)
+        .map((lang, index) => ({ ...lang, order: index }));
+    setLanguages(globallySorted);
+    try {
+        // Enviamos al backend solo los campos necesarios
+        const payload = globallySorted.map(l => ({ _id: l._id, order: l.order }));
+        const res = await fetchUpdateLanguagesOrder(payload);
+        if (res?.error) { await errorSweet("Error saving order: " + res.error.message); } 
+        else { await successSweet("Order updated!"); }
+    } catch (error) {
+        console.error(" Error updating order:", error);
+        await errorSweet("Error updating order: " + error.message);
     }
+};
 
     if (!languages || languages.length === 0) return <p>No Languages data available.</p>;
 
@@ -106,7 +116,6 @@ function LanguagesList() {
                     </div>
                 )}
             </div>
-
             {user?.role === "admin" ? (
                 <DragDropContext onDragEnd={handleDragEnd}>
                     <div id="languageDivContainer">
@@ -116,28 +125,13 @@ function LanguagesList() {
                                 <h4 className="languageCategoryTitle">Hard Skills:</h4>
                                 <Droppable droppableId="Hard" direction="horizontal">
                                     {(provided) => (
-                                        <ul
-                                            className="languageList"
-                                            {...provided.droppableProps}
-                                            ref={provided.innerRef}
+                                        <ul className="languageList" {...provided.droppableProps} ref={provided.innerRef}
                                         >
                                             {hardSkills.map((language, index) => (
-                                                <Draggable
-                                                    key={language._id}
-                                                    draggableId={language._id}
-                                                    index={index}
-                                                >
+                                                <Draggable key={language._id} draggableId={language._id} index={index} >
                                                     {(provided) => (
-                                                        <div
-                                                            ref={provided.innerRef}
-                                                            {...provided.draggableProps}
-                                                            {...provided.dragHandleProps}
-                                                        >
-                                                            <LanguageCard
-                                                                language={language}
-                                                                onDelete={handleDelete}
-                                                                isDraggable={true}
-                                                            />
+                                                        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                                            <LanguageCard language={language} onDelete={handleDelete} isDraggable={true} />
                                                         </div>
                                                     )}
                                                 </Draggable>
@@ -155,28 +149,12 @@ function LanguagesList() {
                                 <h4 className="languageCategoryTitle">Soft Skills:</h4>
                                 <Droppable droppableId="Soft" direction="horizontal">
                                     {(provided) => (
-                                        <ul
-                                            className="languageList"
-                                            {...provided.droppableProps}
-                                            ref={provided.innerRef}
-                                        >
+                                        <ul className="languageList" {...provided.droppableProps} ref={provided.innerRef} >
                                             {softSkills.map((language, index) => (
-                                                <Draggable
-                                                    key={language._id}
-                                                    draggableId={language._id}
-                                                    index={index}
-                                                >
+                                                <Draggable key={language._id} draggableId={language._id} index={index} >
                                                     {(provided) => (
-                                                        <div
-                                                            ref={provided.innerRef}
-                                                            {...provided.draggableProps}
-                                                            {...provided.dragHandleProps}
-                                                        >
-                                                            <LanguageCard
-                                                                language={language}
-                                                                onDelete={handleDelete}
-                                                                isDraggable={true}
-                                                            />
+                                                        <div ref={provided.innerRef}  {...provided.draggableProps} {...provided.dragHandleProps}>
+                                                            <LanguageCard language={language} onDelete={handleDelete} isDraggable={true} />
                                                         </div>
                                                     )}
                                                 </Draggable>
@@ -190,19 +168,13 @@ function LanguagesList() {
                     </div>
                 </DragDropContext>
             ) : (
-                // 👇 Si NO es admin: se renderizan listas estáticas
                 <div id="languageDivContainer">
                     {hardSkills.length > 0 && (
                         <div className="languageCategory">
                             <h4 className="languageCategoryTitle">Hard Skills:</h4>
                             <ul className="languageList">
                                 {hardSkills.map(language => (
-                                    <LanguageCard
-                                        key={language._id}
-                                        language={language}
-                                        onDelete={handleDelete}
-                                        isDraggable={false}
-                                    />
+                                    <LanguageCard key={language._id} language={language} onDelete={handleDelete} isDraggable={false} />
                                 ))}
                             </ul>
                         </div>
@@ -212,12 +184,7 @@ function LanguagesList() {
                             <h4 className="languageCategoryTitle">Soft Skills:</h4>
                             <ul className="languageList">
                                 {softSkills.map(language => (
-                                    <LanguageCard
-                                        key={language._id}
-                                        language={language}
-                                        onDelete={handleDelete}
-                                        isDraggable={false}
-                                    />
+                                    <LanguageCard key={language._id} language={language} onDelete={handleDelete} isDraggable={false} />
                                 ))}
                             </ul>
                         </div>
@@ -226,6 +193,6 @@ function LanguagesList() {
             )}
         </div>
     );
-}
+};
 
 export default LanguagesList;

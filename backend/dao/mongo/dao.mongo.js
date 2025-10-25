@@ -15,7 +15,6 @@ class DaoMongo {
     createMany = async (data) => await this.model.insertMany(data);
     readAll = async (filter) => await this.model.find(filter);
     readById = async (id) => await this.model.findById(id);
-
     readAllAndPopulate = async (populateFileds = []) => {
         let query = this.model.find();
         if (populateFileds.length > 0) {
@@ -25,7 +24,6 @@ class DaoMongo {
             return await query;
         };
     };
-
     readByIdAndPopulate = async (id, populateFileds = []) => {
         let query = this.model.findById(id);
         if (populateFileds.length > 0) {
@@ -35,26 +33,23 @@ class DaoMongo {
             return await query;
         };
     };
-
     readByFilter = async (filter) => await this.model.find(filter);
     readOneByFilter = async (filter) => await this.model.findOne(filter);
     updateById = async (id, data) => await this.model.findByIdAndUpdate(id, data, { new: true });
     //Reordenada con el drag and drop
     bulkUpdateOrder = async (orderedIds) => {
         if (!Array.isArray(orderedIds)) throw new Error("OrderedIds must be an array");
-
         const bulkOps = orderedIds.map((id, index) => ({
             updateOne: {
                 filter: { _id: id },
                 update: { order: index },
             },             
         }));
-        return await this.model.bulkWrite(bulkOps);
+        const result = await this.model.bulkWrite(bulkOps);
+        return result;
     };
     readLastByOrder = async () => await this.model.findOne().sort({ order: -1 });
-
     destroyById = async (id) => await this.model.findByIdAndDelete(id);
-
     reorderAfterDelete = async () => {
         const educations = await this.model.find().sort({ order: 1 });
         const bulkOps = educations.map((edu, index) => ( {
@@ -63,10 +58,9 @@ class DaoMongo {
                 update: { order: index },
             },
         }));
-
+        console.log('Bulk operations:', bulkOps);
         if(bulkOps.length > 0) { await this.model.bulkWrite(bulkOps); };
     };
-
 };
 
 const categoryManager = new DaoMongo(CategoryModel);
