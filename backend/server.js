@@ -41,26 +41,19 @@ const allowedOrigins = [
     "https://emmendieta.com",
 ];
 
-APP.use((req, res, next) => {
-    const origin = req.headers.origin;
-    if (allowedOrigins.includes(origin)) {
-        res.header("Access-Control-Allow-Origin", origin);
-    }
-
-    res.header("Access-Control-Allow-Credentials", "true");
-    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
-    res.header(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-    );
-
-    // Responder automáticamente a las preflight requests
-    if (req.method === "OPTIONS") {
-        return res.sendStatus(204);
-    }
-
-    next();
-});
+APP.use(cors({
+    origin: function(origin, callback) {
+        if(!origin) return callback(null, true); // permite Postman o server-to-server
+        if(allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("No permitido por CORS"));
+        }
+    },
+    credentials: true,
+    methods: "GET,HEAD,OPTIONS,POST,PUT,DELETE",
+    allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+}));
 
 APP.use(compression());
 APP.use(cookieParser(env.SECRET));

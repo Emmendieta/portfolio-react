@@ -56,7 +56,6 @@
     opacity: 0;
     transform: translateY(-50px);
     transition: opacity 1.5s ease, transform 1.5s ease;
-    width: 100%;
 }
 
 .languageListLi.fade-in {
