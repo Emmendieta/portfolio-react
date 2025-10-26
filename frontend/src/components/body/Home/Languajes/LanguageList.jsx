@@ -27,8 +27,7 @@ function LanguagesList() {
                     setLoading(false);
                     return;
                 };
-                //Ordered:
-                const sorted = languagesData.response.sort((a, b) => a.order - b.order);
+                const sorted = languagesData.response.sort((a, b) => a.order - b.order);//Ordered:
                 setLanguages(sorted || []);
             } catch (error) {
                 await errorSweet("Error loading Languages: " + error.message);
@@ -68,28 +67,23 @@ function LanguagesList() {
     const { source, destination } = result;
     if (!destination || source.droppableId !== destination.droppableId) return;
     const listType = source.droppableId; // "Hard" o "Soft"
-    // Sublista filtrada según tipo (Hard o Soft)
-    const filtered = languages.filter(lang => lang.type === listType);
-    // Reordenamos dentro de esa sublista
-    const reordered = Array.from(filtered);
+        const filtered = languages.filter(lang => lang.type === listType);// Sublista filtrada según tipo (Hard o Soft)
+        const reordered = Array.from(filtered);// Reordenamos dentro de esa sublista
     const [moved] = reordered.splice(source.index, 1);
     reordered.splice(destination.index, 0, moved);
-    // Actualizamos la lista global
-    const updated = languages.map(lang => {
+    const updated = languages.map(lang => {// Actualizamos la lista global
         if (lang.type === listType) {
             const newIndex = reordered.findIndex(l => l._id === lang._id);
             if (newIndex !== -1) { return { ...lang, order: newIndex }; } // solo cambia el order relativo dentro de su tipo
         }
         return lang;
     });
-    // Reasignamos el orden global correctamente
-    const globallySorted = [...updated]
+    const globallySorted = [...updated]// Reasignamos el orden global correctamente
         .sort((a, b) => a.order - b.order)
         .map((lang, index) => ({ ...lang, order: index }));
     setLanguages(globallySorted);
     try {
-        // Enviamos al backend solo los campos necesarios
-        const payload = globallySorted.map(l => ({ _id: l._id, order: l.order }));
+        const payload = globallySorted.map(l => ({ _id: l._id, order: l.order }));// Enviamos al backend solo los campos necesarios
         const res = await fetchUpdateLanguagesOrder(payload);
         if (res?.error) { await errorSweet("Error saving order: " + res.error.message); } 
         else { await successSweet("Order updated!"); }
@@ -98,9 +92,7 @@ function LanguagesList() {
         await errorSweet("Error updating order: " + error.message);
     }
 };
-
     if (!languages || languages.length === 0) return <p>No Languages data available.</p>;
-
     const hardSkills = languages.filter(lang => lang.type === "Hard");
     const softSkills = languages.filter(lang => lang.type === "Soft");
 
@@ -142,8 +134,6 @@ function LanguagesList() {
                                 </Droppable>
                             </div>
                         )}
-
-                        {/* 💬 Soft Skills */}
                         {softSkills.length > 0 && (
                             <div className="languageCategory">
                                 <h4 className="languageCategoryTitle">Soft Skills:</h4>
