@@ -45,9 +45,9 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export const sendEmailHelper = async ({ name, email, message }) => {
     try {
         console.log("Sending email with Resend...");
-        const response = await resend.emails.send({
-            from: "Portfolio <onboarding@resend.dev>", // podés cambiarlo luego por tu dominio verificado
-            to: "emmendieta12@gmail.com", // tu correo destino
+        const { data, error } = await resend.emails.send({
+            from: "Portfolio <onboarding@resend.dev>",
+            to: ["emmendieta12@gmail.com"],
             subject: `Mensaje de ${name} - Portfolio`,
             html: `
                 <h3>Nuevo mensaje de tu portfolio</h3>
@@ -56,12 +56,19 @@ export const sendEmailHelper = async ({ name, email, message }) => {
                 <p><strong>Mensaje:</strong></p>
                 <p>${message}</p>
             `,
+            text: `NUEVO MENSAJE DE TU PORTFOLIO\n\nNombre: ${name}\n\nEmail: ${email}\n\nMensaje:\n\n${message}`
         });
 
-        console.log("✅ Email enviado con Resend:", response);
-        return response;
-    } catch (error) {
-        console.error("❌ Error enviando con Resend:", error);
-        throw new Error("Error sending Email");
+        if (error) {
+            console.error("❌ Error enviando email con Resend:", error);
+            return { success: false, error };
+        }
+
+        console.log("✅ Email enviado con Resend:", data);
+        return { success: true, data }; // 👈 importante: success = true
+
+    } catch (err) {
+        console.error("Error in sendEmailHelpler:", err);
+        return { success: false, error: err };
     }
 };
