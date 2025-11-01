@@ -32,7 +32,7 @@ console.log("Transport:", transport);
     } catch (error) {
         //LOGGER:
         console.error("Error sending Email: ", error || error.response);
-        return { success: false, error  || error.response};
+        return { success: false, error: error || error.response};
     }
 };
 
