@@ -8,11 +8,11 @@ class EmailController {
         try {
             const { name, email, message, recaptcha } = req.body;
             if (!name || !email || !message || !recaptcha) { return res.json400("All fields are needed!"); };
-            const isHuman = await validateRecaptcha(req.body.recaptcha);
+            const isHuman = await validateRecaptcha(recaptcha);
             if (!isHuman) { return res.json400("Recaptcha validation failed!"); };
             const result = await sendEmailHelper({
-                fromName: name,
-                fromEmail: email,
+                name,
+                email,
                 message
             });
             if (!result.success) {
