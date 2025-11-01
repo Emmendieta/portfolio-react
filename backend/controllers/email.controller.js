@@ -8,9 +8,7 @@ class EmailController {
         try {
             const { name, email, message, recaptcha } = req.body;
             if (!name || !email || !message || !recaptcha) { return res.json400("All fields are needed!"); };
-            console.log("Body recibido:", req.body);
-            console.log("Clave secreta:", process.env.RECAPTCHA_SECRET_KEY ? "OK" : "Falta");
-            const isHuman = await validateRecaptcha(recaptcha);
+            const isHuman = await validateRecaptcha(req.body.recaptcha);
             if (!isHuman) { return res.json400("Recaptcha validation failed!"); };
             const result = await sendEmailHelper({
                 fromName: name,
