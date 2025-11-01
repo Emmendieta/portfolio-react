@@ -67,7 +67,7 @@ function EducationForm() {
         };
 
         if (result?.error) {
-            errorSweet("Error saving Education");
+            await errorSweet("Error saving Education");
         } else {
             await successSweet("Education saved!");
             navigate("/");

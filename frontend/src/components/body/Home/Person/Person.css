@@ -101,6 +101,13 @@
     flex-direction: column;
 }
 
+.divMoreAboutMe {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    text-decoration: none;
+}
+
 /* ---- Mobile ---- */
 
 @media(max-width:576px) {

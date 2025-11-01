@@ -111,3 +111,48 @@
     margin-top: 30px;
     margin-bottom: 5px;
 }
+
+.divFieldsGeneral textarea {
+    margin-top: 25px;
+    border-radius: 15px;
+    padding: 5px;
+}
+
+/* ---- Mobile ---- */
+
+@media(max-width:576px) {
+    .divFieldsGeneral {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .divFieldsGeneral h3 {
+        text-align: center;
+        font-size: medium;
+    }
+
+    .divFieldsGeneral input, .divFieldsGeneral textarea {
+        font-size: small;
+    }
+
+    .divFieldsGeneral textarea {
+        width: 85% ;
+    }
+}
+
+/* ---- Medium ---- */
+
+@media(min-width:577px) and (max-width: 768px) {}
+
+/* ---- Large ---- */
+
+@media(min-width:769px) and (max-width: 992px) {}
+
+/* ---- X-Large ---- */
+
+@media(min-width:993px) and (max-width: 1200px) {}
+
+/* ---- XX-Large ---- */
+
+@media(min-width:1401px) {
+}

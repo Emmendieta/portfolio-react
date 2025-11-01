@@ -1,0 +1,133 @@
+#moreAbout {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 60px 40px;
+}
+
+#moreAboutTopThumbs {
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+#carouselExampleSlidesOnly,
+.carousel-inner,
+.carousel-item, .carousel-item.active {
+    width: 100%;
+    height: auto;
+}
+
+#imgThumbnails {
+    width: 100% !important;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 15px;
+}
+
+#moreAboutMiddleInfo {
+    margin: 10px 15px;
+}
+
+#moreAboutBottom {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+
+.moreAboutBottomLink {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+#moreAboutMapContainer {
+    margin-top: 40px;
+    text-align: center;
+}
+
+#mapTitle {
+    font-family: "Merriweather", serif;
+    color: #0dcaf0;
+    margin-bottom: 15px;
+}
+
+#mapWrapper {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#mapWrapper iframe {
+    width: 100%;
+    height: 350px;
+    border: none;
+}
+
+#moreAboutMapContainer {
+    margin-top: 40px;
+    text-align: center;
+}
+
+#mapTitle {
+    font-family: "Merriweather", serif;
+    color: #0dcaf0;
+    margin-bottom: 15px;
+}
+
+#mapWrapper {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#mapWrapper iframe {
+    width: 100%;
+    height: 350px;
+    border: none;
+}
+
+.place-card,
+.place-card-large {
+    display: none !important;
+}
+
+
+/* ---- Mobile ---- */
+
+@media(max-width:576px) {
+    #moreAbout {
+        margin-top: 50px;
+    }
+
+    #imgThumbnails {
+        height: 250px;
+    }
+
+    #mapWrapper iframe {
+        height: 250px;
+    }
+}
+
+/* ---- Medium ---- */
+
+@media(min-width:577px) and (max-width: 768px) {
+    #moreAboutTopThumbs, #carouselExampleSlidesOnly, .carousel-inner, .carousel-item, .carousel-item.active, #imgThumbnails {
+        width: 100%;
+    }
+
+}
+
+/* ---- Large ---- */
+
+@media(min-width:769px) and (max-width: 992px) {}
+
+/* ---- X-Large ---- */
+
+@media(min-width:993px) and (max-width: 1200px) {}
+
+/* ---- XX-Large ---- */
+
+@media(min-width:1401px) {}

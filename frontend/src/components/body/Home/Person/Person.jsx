@@ -102,6 +102,9 @@ function Person() {
                         <div id="cardBodyAbout">
                             <h3 className="profileDivH3">About Me: </h3>
                             <h3 className="profileDivH3">{person.about || "-"}</h3>
+                            <Link to="/more-about-me" className="divMoreAboutMe" state={{ person }}>
+                                <button className="btn btn-outline-primary" id="btnMoreAboutMe">More About Me...</button>
+                            </Link>
                         </div>
                     </div>
                 </div>

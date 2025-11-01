@@ -129,7 +129,8 @@
     }
 
     .editionsControlsGeneral {
-        flex-direction: row;
+        display: flex;
+        flex-direction: row !important;
         align-items: center;
         gap: 5px;
     }

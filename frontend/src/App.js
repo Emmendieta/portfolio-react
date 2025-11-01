@@ -15,6 +15,8 @@ import SocialmediasForm from "./components/footer/SocialMediaContactForm/SocialM
 import CategoriesForm from "./components/body/Home/Categories/CategoriesForm/CategoriesForm";
 import NotFound from "./components/body/Home/NotFound/NotFound";
 import Forbidden from "./components/body/Home/Forbidden/Forbidden";
+import MoreAboutMe from "./components/body/Home/Person/MoreAboutMe/MoreAboutMe";
+import ContactMe from "./components/body/Home/ContactMe/ContactMe";
 
 function AppRoutes() {
   const { loadingUser } = useContext(UserContext);
@@ -38,7 +40,9 @@ function AppRoutes() {
         <Route path="/proyects/form/:id" element={<ProyectForm />} />
         <Route path="/social-medias/form/:id" element={<SocialmediasForm />} />
         <Route path="/categories/form/:id" element={<CategoriesForm />} />
+        <Route path="/more-about-me" element={<MoreAboutMe />} />
         <Route path="/forbidden" element={<Forbidden />} />
+        <Route path="/contact-me" element={<ContactMe />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
