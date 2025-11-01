@@ -9,7 +9,6 @@ import { fetchCreateSendMessage } from "./ContactMeLogic";
 import ReCAPTCHA from "react-google-recaptcha";
 
 function ContactMe() {
-    console.log(process.env.REACT_APP_RECAPTCHA_SITE_KEY)
     const { user } = useContext(UserContext);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
@@ -69,9 +68,7 @@ function ContactMe() {
                         <Link to={"/"}>
                             <button className="btn btn-outline-success">Home</button>
                         </Link>
-                        <Link>
                             <button className="btn btn-outline-success" type="submit">Send</button>
-                        </Link>
                     </div>
                 </form>
             </div>
