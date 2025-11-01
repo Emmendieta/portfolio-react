@@ -31,8 +31,8 @@ console.log("Transport:", transport);
         return { success: true };
     } catch (error) {
         //LOGGER:
-        console.error("Error sending Email: ", error);
-        return { success: false, error };
+        console.error("Error sending Email: ", error || error.response);
+        return { success: false, error  || error.response};
     }
 };
 
