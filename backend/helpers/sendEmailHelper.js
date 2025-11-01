@@ -13,6 +13,8 @@ const transport = createTransport({
 
 const sendEmailHelper = async ({ fromName, fromEmail, message }) => {
     try {
+        console.log("EMAIL: " ,process.env.GOOGLE_EMAIL)
+        console.log("Password: ", process.env.GOOGLE_PASSWORD)
         await transport.sendMail({
             from: `"${fromName}" <${fromEmail}>`, //Sender
             to: process.env.GOOGLE_EMAIL, //reciber

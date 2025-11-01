@@ -1,5 +1,6 @@
 export const validateRecaptcha = async (token) => {
     const secretkey = process.env.RECAPTCHA_SECRET_KEY;
+    console.log("Secret KEY:", secretkey)
     if(!secretkey) throw new Error("CAPTCHA SECRECT KEY is not defined!");
 
     const response = await fetch(
