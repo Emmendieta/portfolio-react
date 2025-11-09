@@ -14,8 +14,11 @@ function EducationsList() {
     const { user } = useContext(UserContext);
     const [educations, setEducations] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [selectedType, setSelectedType] = useState(null);
     const { startLoading, stopLoading } = useLoading();
     const { confirmSweet, successSweet, errorSweet } = useConfirmSweet();
+
+    const educationTypes = ["Primary School", "High School", "University", "Course", "Conference", "Other"];
 
     useEffect(() => {
         const loadEducations = async () => {
@@ -41,6 +44,8 @@ function EducationsList() {
         };
         loadEducations();
     }, []);
+    
+    const filteredEducations = selectedType ? educations.filter((edu) => edu.typeEducation === selectedType) : educations;
 
     const handleDelete = async (eid) => {
         const confirmDelete = await confirmSweet({
@@ -100,12 +105,20 @@ function EducationsList() {
                     </div>
                 )}
             </div>
+
+            <div id="educationTypeFilter">
+                <button className={`typeFilterBtn ${selectedType === null ? "active": ""}`} onClick={() => setSelectedType(null)}>All</button>
+                {educationTypes.map((type) => (
+                    <button key= {type} className={`typeFilterBtn ${selectedType === type ? "active" : ""}`} onClick={() => setSelectedType(type)}>{type}</button>
+                ))}
+            </div>
+
             {user?.role === "admin" ? (
                 <DragDropContext onDragEnd={handleDragEnd}>
                     <Droppable droppableId="educationsList">
                         {(provided) => (
                             <ul id="educationsList" {...provided.droppableProps} ref={provided.innerRef}>
-                                {educations.map((education, index) => (
+                                {filteredEducations.map((education, index) => (
                                     <Draggable key={education._id} draggableId={education._id} index={index}>
                                         {(provided) => (
                                             <div
@@ -129,7 +142,7 @@ function EducationsList() {
                 </DragDropContext>
             ) : (
                 <ul id="educationsList">
-                    {educations.map((education) => (
+                    {filteredEducations.map((education) => (
                         <EducationCard
                             key={education._id}
                             education={education}

@@ -31,7 +31,7 @@ class EducationsController {
 
     getEducationByFilter = async (req, res) => {
         //Falta buscar por filtro!
-    }
+    };
 
     getAllEducations = async (req, res) => {
         const educations = await this.eService.readAll();

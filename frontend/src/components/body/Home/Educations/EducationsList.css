@@ -20,6 +20,34 @@
     width: 100%;
 }
 
+#educationTypeFilter {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 8px;
+    margin: 40px 0 20px 0;
+}
+
+.typeFilterBtn {
+    background-color: #E6E4D8;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+}
+
+.typeFilterBtn:hover {
+    background-color: #e6e6e6;
+}
+
+.typeFilterBtn.active {
+    background-color: #198754; 
+    color: white;
+    border-color: #198754;
+}
+
 /* ---- Mobile ---- */
 
 @media(max-width:576px) {

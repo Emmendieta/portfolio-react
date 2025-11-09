@@ -17,7 +17,7 @@ class EmailController {
             });
             if (!result.success) {
                 console.error("Error in sendEmailHelpler: ", result.error);
-                return res.json500("Error sending Email!");
+                return res.json500("Error sending Email!(C)2");
             };
 
             return res.json201("Message sent!");

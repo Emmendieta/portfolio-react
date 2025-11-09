@@ -22,7 +22,6 @@ export const getData = async (baseUrl) => {
             headers: baseHeaders,
             credentials: credentials
         };
-        //const url = `http://localhost:8080/api/${baseUrl}`;
 
         const url = `${BACKEND_URL}/${baseUrl}`;
         
@@ -54,7 +53,6 @@ export const getDataById = async (baseUrl, id) => {
             credentials: credentials
         };
 
-        //const url = `http://localhost:8080/api/${baseUrl}/${id}`;
         const url = `${BACKEND_URL}/${baseUrl}/${id}`;
 
         const response = await fetch(url, opts);
@@ -86,7 +84,6 @@ export const getDataPopulate = async (baseUrl, populateFields) => {
         };
 
         let populateQuery = Array.isArray(populateFields) ? populateFields.join(",") : populateFields;
-        //const url = `http://localhost:8080/api/${baseUrl}/populated?populate=${populateQuery}`;
         const url = `${BACKEND_URL}/${baseUrl}/populated?populate=${populateQuery}`;
         let response = await fetch(url, opts);
         return await response.json();
@@ -115,7 +112,6 @@ export const getAllPopulated = async (baseUrl, populateFields) => {
         };
 
         let populateQuery = Array.isArray(populateFields) ? populateFields.join(",") : populateFields;
-        //const url = `http://localhost:8080/api/${baseUrl}/populated?populate=${populateQuery}`;
         const url = `${BACKEND_URL}/${baseUrl}/populated?populate=${populateQuery}`;
 
         let response = await fetch(url, opts);
@@ -149,7 +145,6 @@ export const createData = async (baseUrl, data = {}) => {
             body: JSON.stringify(data)
         };
 
-        //const url = `http://localhost:8080/api/${baseUrl}`;
         const url = `${BACKEND_URL}/${baseUrl}`;
         const response = await fetch(url, opts);
         const result = await response.json();
@@ -181,7 +176,6 @@ export const updateData = async (baseUrl, data = {}) => {
             body: JSON.stringify(data)
         };
 
-        //const url = `http://localhost:8080/api/${baseUrl}`;
         const url = `${BACKEND_URL}/${baseUrl}`;
         const response = await fetch(url, opts);
         const result = await response.json();
@@ -245,7 +239,6 @@ export const deleteData = async (baseUrl, id) => {
             credentials: credentials
         };
 
-        //const url = `http://localhost:8080/api/${baseUrl}/${id}`;
         const url = `${BACKEND_URL}/${baseUrl}/${id}`;
         let response = await fetch(url, opts);
         response = await response.json();

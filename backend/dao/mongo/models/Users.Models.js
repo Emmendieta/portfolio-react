@@ -11,7 +11,6 @@ const userSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId, 
             ref: "people",
         }
-        //FALTA ASOCIAR: EDUCATIONS, LENGUAGES, PROYECTS, SOCIALMEDIAS, WORKS
     },
     { timestamps: true}
 );

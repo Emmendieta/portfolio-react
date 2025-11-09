@@ -100,7 +100,7 @@ class UsersController {
             console.error("Error reordering Users: ", error);
             res.json500("Internal Server Error!(C)");
         };
-    }
+    };
 
     deleteUserById = async (req, res) => {
         const { uid } = req.params;

@@ -10,10 +10,10 @@ class LanguagesRouter extends RouterHelper {
     init = () => {
         this.read("/", ["public"], languagesController.getAllLanguages);
         this.read("/:lid", ["public"], languagesController.getLanguageById);
-        this.create("/", ["public"], languagesController.createLanguage);
-        this.update("/reorder", ["public"], languagesController.reorderLanguages);
-        this.update("/:lid", ["public"], languagesController.updateLanguageById);
-        this.destroy("/:lid", ["public"], languagesController.deleteLanguageById);
+        this.create("/", ["user", "admin"], languagesController.createLanguage);
+        this.update("/reorder", ["user", "admin"], languagesController.reorderLanguages);
+        this.update("/:lid", ["user", "admin"], languagesController.updateLanguageById);
+        this.destroy("/:lid", ["user", "admin"], languagesController.deleteLanguageById);
     };
 };
 

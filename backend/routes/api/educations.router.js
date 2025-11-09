@@ -10,10 +10,10 @@ class EducationsRouter extends RouterHelper {
     init = () => {
         this.read("/", ["public"], educationsController.getAllEducations);
         this.read("/:eid", ["public"], educationsController.getEducationById);
-        this.create("/", ["public"], educationsController.createEducation);
-        this.update("/reorder", ["public"], educationsController.reorderEducations);
-        this.update("/:eid", ["public"], educationsController.updateEducationById);
-        this.destroy("/:eid", ["public"], educationsController.deleteEducationById);
+        this.create("/", ["user", "admin"], educationsController.createEducation);
+        this.update("/reorder", ["user", "admin"], educationsController.reorderEducations);
+        this.update("/:eid", ["user", "admin"], educationsController.updateEducationById);
+        this.destroy("/:eid", ["user", "admin"], educationsController.deleteEducationById);
     };
 };
 

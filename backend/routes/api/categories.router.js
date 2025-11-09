@@ -10,10 +10,10 @@ class CategoriesRouter extends RouterHelper {
     init = () => {
         this.read("/", ["public"], categoriesController.getAllCategories);
         this.read("/:cid", ["public"], categoriesController.getCategoryById);
-        this.create("/", ["public"], categoriesController.createCategory);
-        this.update("/reorder", ["public"], categoriesController.reorderCategories);
-        this.update("/:cid", ["public"], categoriesController.updateCategoryById);
-        this.destroy("/:cid", ["public"], categoriesController.deleteCategoryById);
+        this.create("/", ["user", "admin"], categoriesController.createCategory);
+        this.update("/reorder", ["user", "admin"], categoriesController.reorderCategories);
+        this.update("/:cid", ["user", "admin"], categoriesController.updateCategoryById);
+        this.destroy("/:cid", ["user", "admin"], categoriesController.deleteCategoryById);
     };
 };
 

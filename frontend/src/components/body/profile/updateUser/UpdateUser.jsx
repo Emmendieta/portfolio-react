@@ -5,7 +5,7 @@ import { handleUpdateUser } from "./logicUpdateUser";
 import "./UpdateUser.css";
 import { useConfirmSweet } from "../../../../context/SweetAlert2Context";
 
-function UpdateUser(/* { user, updateUserData } */) {
+function UpdateUser() {
     const { user, setUser } = useContext(UserContext);
     const [updateEmail, setUpdatedEmail] = useState(user?.email || "");
     const [updateUserName, setUpdatedUserName] = useState(user?.user || "");
@@ -68,7 +68,7 @@ function UpdateUser(/* { user, updateUserData } */) {
                         <div id="updateDataformBody">
                             <div className="updateDataDivDiv">
                                 <label className="updateDataDivh3">Id: </label>
-                                <input type="text" value={user._id} disabled={true} /* onChange={(e) => setUpdatedUserName(e.target.value)} */ />
+                                <input type="text" value={user._id} disabled={true}/>
                             </div>
                             <div className="updateDataDivDiv">
                                 <label className="updateDataDivh3">User Name: </label>

@@ -6,8 +6,6 @@ class AuthController {
 
     loginCB = async (req, res) => {
         const { _id } = req.user;
-        /*         const opts = { maxAge: 24 * 60 * 60 * 1000 };
-                res.cookie("token", req.user.token, opts).json200(_id, "Logged In Success!(C)"); */
         const opts = {
             httpOnly: true,
             secure: false, // ⚠️ Ponelo en true si usás HTTPS

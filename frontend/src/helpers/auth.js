@@ -8,7 +8,6 @@ const getCurrentUser = async () => {
     };
     try {
         const url = `${BACKEND_URL}/auth/current`;
-        //const url = "http://localhost:8080/api/auth/current";
         const response = await fetch(url, opts);
         const data = await response.json();
 
@@ -33,7 +32,6 @@ const loginUser = async (email, password) => {
     try {
         
         const url = `${BACKEND_URL}/auth/login`;
-        //const url = "http://localhost:8080/api/auth/login";
         const response = await fetch(url, opts);
         const data = await response.json();
 
@@ -57,7 +55,6 @@ const signOutUser = async () => {
 
         
         const url = `${BACKEND_URL}/auth/signout`;
-        //const url = "http://localhost:8080/api/auth/signout";
         const response = await fetch(url, opts);
         const res = await response.json();
         

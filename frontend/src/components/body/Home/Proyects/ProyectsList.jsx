@@ -33,7 +33,7 @@ function ProyectsList() {
                 //Reorder:
                 const sorted = proyects.sort((a, b) => a.order - b.order);
                 setProyects(sorted);
-                setProyects(proyectsData.response);
+                setProyects(proyects);
             } catch (error) {
                 console.error("Error loading Proyects:", error);
                 await errorSweet("Error loading Proyects: " + error.message);

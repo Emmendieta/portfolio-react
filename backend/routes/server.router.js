@@ -1,6 +1,5 @@
 import RouterHelper from "../helpers/router.helper.js";
 import apiRouter from "./api.router.js";
-/* import viewsRouter from "./views.router.js"; */
 
 class ServerRouter extends RouterHelper {
     constructor() {
@@ -10,7 +9,6 @@ class ServerRouter extends RouterHelper {
 
     init = () => {
         this.use("/", apiRouter);
-        /* this.use("/", viewsRouter); */
     };
 };
 

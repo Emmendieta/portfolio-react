@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
@@ -8,7 +7,6 @@ import { ConfirmProvider } from './context/SweetAlert2Context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  //<React.StrictMode>
   <RefreshProvider>
     <LoadingProvider>
       <ConfirmProvider>
@@ -16,5 +14,4 @@ root.render(
       </ConfirmProvider>
     </LoadingProvider>
   </RefreshProvider>
-  //</React.StrictMode>
 );

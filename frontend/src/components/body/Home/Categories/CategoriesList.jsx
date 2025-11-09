@@ -27,7 +27,6 @@ function CategoriesList({ onCategorySelect, selectedCategory }) {
 
                 const categoriesData = await fetchCategories();
                 if (categoriesData?.error) {
-                    //SWEET ALERT:
                     await errorSweet(categoriesData.error.message);
                     setLoading(false);
                     return;
