@@ -9,10 +9,10 @@ function Home() {
     return (
         <>
             <Person />
-            <EducationsList />
+            {/* <EducationsList />
             <WorksList />
             <LanguagesList />
-            <ProyectsList />
+            <ProyectsList /> */}
         </>
     );
 };
