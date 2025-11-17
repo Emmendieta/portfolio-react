@@ -8,7 +8,7 @@ function Home() {
 
     return (
         <>
-            <Person />
+            {/* <Person /> */}
             {/* <EducationsList />
             <WorksList />
             <LanguagesList />
