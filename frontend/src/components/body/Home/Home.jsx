@@ -8,11 +8,11 @@ function Home() {
 
     return (
         <>
-            {/* <Person /> */}
-            {/* <EducationsList />
+            <Person />
+            <EducationsList />
             <WorksList />
             <LanguagesList />
-            <ProyectsList /> */}
+            <ProyectsList />
         </>
     );
 };
