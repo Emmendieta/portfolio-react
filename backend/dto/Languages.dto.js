@@ -6,7 +6,7 @@ class LanguagesDTO {
         if (PERSISTENCE !== "mongo") {
             this._id = crypto.randomBytes(12).toString("hex");
         };
-        this.title = data.title;
+        this.title = typeof data.title === "string" ? { en: data.title }: data.title;
         this.percent = data.percent;
         this.thumbnails = data.thumbnails;
         this.type = data.type || "Hard";

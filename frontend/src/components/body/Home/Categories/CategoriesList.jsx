@@ -10,6 +10,8 @@ import { useLoading } from "../../../../context/LoadingContext";
 import { useConfirmSweet } from "../../../../context/SweetAlert2Context";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import { useMediaQuery } from "../../../hooks/UseMediaQuery";
+import { useLanguage } from "../../../../context/LanguageContext";
+import { LANG_CONST } from "../../../constants/selectConstLang.js";
 
 function CategoriesList({ onCategorySelect, selectedCategory }) {
     const { user } = useContext(UserContext);
@@ -18,14 +20,14 @@ function CategoriesList({ onCategorySelect, selectedCategory }) {
     const { startLoading, stopLoading } = useLoading();
     const { confirmSweet, successSweet, errorSweet } = useConfirmSweet();
     const isMobile = useMediaQuery("(max-width: 768px)");
+    const { language } = useLanguage();
 
     useEffect(() => {
         const loadCategories = async () => {
 
             try {
                 startLoading();
-
-                const categoriesData = await fetchCategories();
+                const categoriesData = await fetchCategories(language);
                 if (categoriesData?.error) {
                     await errorSweet(categoriesData.error.message);
                     setLoading(false);
@@ -38,16 +40,17 @@ function CategoriesList({ onCategorySelect, selectedCategory }) {
                 setCategories(sorted || []);
 
             } catch (error) {
-                await errorSweet("Error loading categories: " + error.message);
-                console.error("Error loading categories:", error);
+                await errorSweet(TEXT.ERROR_SWEET_TEXT_CATEGORIES_LOADING + error.message);
+                console.error(TEXT.ERROR_SWEET_TEXT_CATEGORIES_LOADING, error);
             } finally {
                 setLoading(false);
                 stopLoading();
             }
         };
         loadCategories();
-    }, []);
+    }, [language]);
 
+    const TEXT = LANG_CONST[language];
 
     const handleCategoryClick = (categoryId) => {
         if (selectedCategory === categoryId) {
@@ -61,29 +64,29 @@ function CategoriesList({ onCategorySelect, selectedCategory }) {
         const categoryToDelete = categories.find(cat => cat._id === cid);
 
         if (categoryToDelete?.title === "All") {
-            await errorSweet("Error: This Category must be all time!");
+            await errorSweet(TEXT.ERROR_SWEET_TEXT_CATEGORY_ALL);
             return;
         };
         const confirmDelete = await confirmSweet({
-            title: "Delete Category:",
-            text: "Are you sure you want to delete the Category?",
-            confirmButtonText: "Yes",
-            cancelButtonText: "No"
+            title: TEXT.CONFIRM_SWEET_TITLE_DELETE_CATEGORY,
+            text: TEXT.CONFIRM_SWEET_TEXT_DELETE_CATEGORY,
+            confirmButtonText: TEXT.YES,
+            cancelButtonText: TEXT.NO
         });
         if (!confirmDelete) return;
 
         try {
             const result = await fetchDeleteCategory(cid);
             if (result?.error) {
-                await errorSweet("Error deleting Category: " + result.error.message);
-                console.error("Error deleting Category: ", result.error.message);
+                await errorSweet(TEXT.ERROR_SWEET_TEXT_CATEGORY_DELETING + result.error.message);
+                console.error(TEXT.ERROR_SWEET_TEXT_CATEGORY_DELETING, result.error.message);
             } else {
-                await successSweet("Category Deleted!");
+                await successSweet(TEXT.SUCCESS_SWEET_CATEGORY_DELETED);
                 setCategories(prev => prev.filter(category => category._id !== cid));
             }
         } catch (error) {
-            errorSweet("Error deleting Category: " + error.message);
-            console.error("Error deleting Category: ", error.message);
+            errorSweet(TEXT.ERROR_SWEET_TEXT_CATEGORY_DELETING + error.message);
+            console.error(TEXT.ERROR_SWEET_TEXT_CATEGORY_DELETING, error.message);
         }
     };
 
@@ -103,20 +106,20 @@ function CategoriesList({ onCategorySelect, selectedCategory }) {
 
         try {
             const res = await fetchUpdateCategoriesOrder(reorderedWithOrder);
-            if (res?.error) { await errorSweet("Error saving order: ", res.error.message); }
-            else { await successSweet("Order updated!"); }
+            if (res?.error) { await errorSweet(TEXT.ERROR_SWEET_ORDER_SAVE, res.error.message); }
+            else { await successSweet(TEXT.SUCCESS_SWEET_ORDER); }
         } catch (error) {
-            console.error("Error updating order:", error);
-            await errorSweet("Error updating order: " + error.message);
+            console.error(TEXT.ERROR_SWEET_ORDER_UPDATE, error);
+            await errorSweet(TEXT.ERROR_SWEET_ORDER_UPDATE + error.message);
         }
     };
 
-    if (!categories || categories.length === 0) return <p>No Categories data available</p>;
+    if (!categories || categories.length === 0) return <p>{TEXT.NO_CATEGORIES}</p>;
 
     return (
         <div id="categoriesDiv">
             <div id="categoriesDivTitle">
-                <h3>Categories:</h3>
+                <h3>{TEXT.CATEGORIES + ":"}</h3>
                 {user?.role === "admin" && (
                     <div className="addingControlGeneral">
                         <Link to="/categories/form/new" className="btn btn-outline-success" id="addBtnCategory">

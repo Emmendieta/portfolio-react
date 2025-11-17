@@ -29,7 +29,14 @@ class LanguagesController {
     };
 
     getLanguageByFilter = async (req, res) => {
-        //FALTA BUSCAR POR FILTRO!
+        try {
+            const filter = req.query || {};
+            const languages = await this.lService.readByFilter(filter);
+            return res.json200(languages);
+        } catch (error) {
+            console.error(error);
+            res.json500("Internal Server Error!(C)");
+        }
     };
 
     getAllLanguages = async (req, res) => {
@@ -93,7 +100,10 @@ class LanguagesController {
     };
 
     verifyLanguageTitle = async (title, lid = null) => {
-        const verify = await this.lService.readOneByFilter({ title });
+        const query = {
+            'title.en': title?.en || title,
+        };
+        const verify = await this.lService.readOneByFilter({ query });
         if (!verify) { return 0; };
         if (lid && verify._id.toString() === lid.toString()) { return 0; }
         return 1;

@@ -4,6 +4,8 @@ import { UserContext } from "../../../../../context/UserContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchCreateEducation, fetchEducationById, fetchUpdateEducation } from "../Educations";
 import { useConfirmSweet } from "../../../../../context/SweetAlert2Context";
+import { useLanguage } from "../../../../../context/LanguageContext";
+import { LANG_CONST } from "../../../../constants/selectConstLang.js";
 
 //FALTA QUE SE VALIDE SI EL USUARIO ES ADMIN!!!!
 
@@ -12,20 +14,37 @@ function EducationForm() {
     const { id } = useParams();
     const navigate = useNavigate();
     const { successSweet, errorSweet } = useConfirmSweet();
-
+    const { language } = useLanguage();
     const isEdit = id && id !== "new";
     const [formData, setFormData] = useState({
-        institutionName: "",
+        institutionName: {},
         linkInstitution: "",
-        title: "",
+        title: {},
         linkCertificate: "",
         dateStart: "",
         dateEnd: "",
         finished: false,
         typeEducation: "",
-        description: "",
+        description: {},
         iconInstitution: ""
     });
+    const educationTypes = [
+        "Primary School",
+        "High School",
+        "University",
+        "Course",
+        "Conference",
+        "Other"
+    ];
+
+    const typeEducationLabels = {
+        "Primary School": { en: "Primary School", es: "Escuela primaria" },
+        "High School": { en: "High School", es: "Secundario" },
+        "University": { en: "University", es: "Universidad" },
+        "Course": { en: "Course", es: "Curso" },
+        "Conference": { en: "Conference", es: "Conferencia" },
+        "Other": { en: "Other", es: "Otro" }
+    };
 
     useEffect(() => {
         if (!user) {
@@ -34,9 +53,10 @@ function EducationForm() {
         };
         if (isEdit) {
             const loadEducation = async () => {
+                const TEXT = LANG_CONST[language];
                 const result = await fetchEducationById(id);
                 if (result?.error) {
-                    await errorSweet("Error loading Education by Id");
+                    await errorSweet(TEXT.ERROR_SWEET_TEXT_EDUCATION_LOADING_ID);
                     return;
                 };
                 setFormData(result.response);
@@ -45,17 +65,21 @@ function EducationForm() {
         };
     }, [id, isEdit]);
 
+    const TEXT = LANG_CONST[language];
+
     const handleChange = (event) => {
         const { name, value, type, checked } = event.target;
         const newValue = type === "checkbox" ? checked : value;
-        setFormData(prev => ({ ...prev, [name]: newValue }));
+        if (["institutionName", "title", "description"].includes(name)) {
+            setFormData(prev => ({ ...prev, [name]: { ...prev[name], [language]: newValue } }));
+        } else { setFormData(prev => ({ ...prev, [name]: newValue })); }
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         if (formData.typeEducation === "") {
-            await errorSweet("Please select a valid type of Education!");
+            await errorSweet(TEXT.ERROR_SWEET_TEXT_INVALID_EDUCATION);
             return;
         };
 
@@ -67,9 +91,9 @@ function EducationForm() {
         };
 
         if (result?.error) {
-            await errorSweet("Error saving Education");
+            await errorSweet(TEXT.ERROR_SWEET_TEXT_EDUCATION_SAVING);
         } else {
-            await successSweet("Education saved!");
+            await successSweet(TEXT.SUCCESS_SWEET_EDUCATION_SAVED);
             navigate("/");
         };
     };
@@ -77,30 +101,32 @@ function EducationForm() {
     return (
         <div id="formBodyGeneral">
             <div id="formBodyGeneralTop">
-                <h3>{isEdit ? "Update Education:" : "Create Education:"}</h3>
+                <h3>{isEdit ? TEXT.UPDATE + " " + TEXT.EDUCATION + ":" : TEXT.CREATE + " " + TEXT.EDUCATION + ":"}</h3>
             </div>
             <form id="formGeneralContent" onSubmit={handleSubmit}>
                 <div id="formGeneralContentBody">
-                    <EducationField label="Institution: " value={formData.institutionName} placeholder="Type the Name of the Institution" name="institutionName" type="text" onChange={handleChange} />
-                    <EducationField label="Link Institution" value={formData.linkInstitution} placeholder="Type the Link of the Institution" name="linkInstitution" type="text" onChange={handleChange} />
-                    <EducationField label="Title: " value={formData.title} placeholder="Type the title or what you studied" name="title" type="text" onChange={handleChange} />
-                    <EducationField label="Link Certificate: " value={formData.linkCertificate} placeholder="Type the Link of the Certificate" name="linkCertificate" type="text" onChange={handleChange} />
-                    <EducationField label="Date Started: " value={formData.dateStart.slice(0, 10)} placeholder="Select the date you started" name="dateStart" type="date" onChange={handleChange} />
-                    <EducationField label="Date Ended: " value={formData.dateEnd.slice(0, 10)} placeholder="Select the date you ended" name="dateEnd" type="date" onChange={handleChange} />
-                    <EducationField label="Finished" value={formData.finished} name="finished" type="checkbox" onChange={handleChange} />
-                    <EducationField label="Description: " value={formData.description} placeholder="Type a description of what you studied" name="description" type="text" onChange={handleChange} />
+                    <EducationField label={`${TEXT.INSTITUTION} (${language.toUpperCase()}): `} value={formData.institutionName?.[language] || ""} placeholder={TEXT.PLACEHOLDER_EDUCATION_INSTITUTION_NAME} name="institutionName" type="text" onChange={handleChange} />
+                    <EducationField label={TEXT.LINK_INSTITUTION} value={formData.linkInstitution} placeholder={TEXT.PLACEHOLDER_EDUCATION_LINK} name="linkInstitution" type="text" onChange={handleChange} />
+                    <EducationField label={`${TEXT.TITLE} (${language.toUpperCase()}): `} value={formData.title?.[language] || ""} placeholder={TEXT.PLACEHOLDER_EDUCATION_TITLE} name="title" type="text" onChange={handleChange} />
+                    <EducationField label={TEXT.LINK_CERTIFICATE} value={formData.linkCertificate} placeholder={TEXT.PLACEHOLDER_EDUCATION_LINK_CERTIFICATE} name="linkCertificate" type="text" onChange={handleChange} />
+                    <EducationField label={TEXT.DATE_START} value={formData.dateStart.slice(0, 10)} placeholder={TEXT.PLACEHOLDER_EDUCATION_DATE_STARTED} name="dateStart" type="date" onChange={handleChange} />
+                    <EducationField label={TEXT.DATE_END} value={formData.dateEnd.slice(0, 10)} placeholder={TEXT.PLACEHOLDER_EDUCATION_DATE_ENDED} name="dateEnd" type="date" onChange={handleChange} />
+                    <EducationField label={TEXT.FINISHED} value={formData.finished} name="finished" type="checkbox" onChange={handleChange} />
+                    <EducationField label={`${TEXT.DESCRIPTION} (${language.toUpperCase()}): `} value={formData.description?.[language] || ""} placeholder={TEXT.PLACEHOLDER_EDUCATION_DESCRIPTION} name="description" type="text" onChange={handleChange} />
                     <EducationSelectField
-                        label="Type of Education:"
+                        label={TEXT.TYPE_EDUCATION}
                         name="typeEducation"
                         value={formData.typeEducation}
                         onChange={handleChange}
-                        options={["Primary School", "High School", "University", "Course", "Conference", "Other"]}
+                        options={educationTypes}
+                        renderLabel={(key) => typeEducationLabels[key][language]}
+                        placeholder={TEXT.SELECT_TYPE_OF_EDUCATION}
                     />
-                    <EducationField label="Institution Icon: " value={formData.iconInstitution} placeholder="Type the Link of the Icon of the Institution" name="iconInstitution" type="text" onChange={handleChange} />
+                    <EducationField label={TEXT.INSTITUTION_ICON} value={formData.iconInstitution} placeholder={TEXT.PLACEHOLDER_EDUCATION_ICON} name="iconInstitution" type="text" onChange={handleChange} />
 
                     {formData.iconInstitution && (
                         <div className="iconPreviewContanier">
-                            <h4>Preview of Icon:</h4>
+                            <h4>{TEXT.PREVIEW_ICON}</h4>
                             <img
                                 src={formData.iconInstitution}
                                 alt="Instution Icon"
@@ -112,8 +138,8 @@ function EducationForm() {
 
                 </div>
                 <div id="formGeneralBottom">
-                    <a className="btn btn-outline-success" id="btnGoBack" href="/">Go Back</a>
-                    <button className="btn btn-outline-success" type="submit">{isEdit ? "Update" : "Create"}</button>
+                    <a className="btn btn-outline-success" id="btnGoBack" href="/">{TEXT.GO_BACK}</a>
+                    <button className="btn btn-outline-success" type="submit">{isEdit ? TEXT.UPDATE : TEXT.CREATE}</button>
                 </div>
             </form>
         </div>
@@ -139,14 +165,16 @@ function EducationField({ label, value, type, placeholder, name, onChange }) {
     );
 };
 
-function EducationSelectField({ label, name, value, options, onChange }) {
+function EducationSelectField({ label, name, value, options, onChange, renderLabel, placeholder }) {
     return (
         <div className="divFieldsSelectGeneral">
             <h3>{label}</h3>
             <select name={name} value={value} onChange={onChange}>
-                <option value="">Select type of Education</option>
-                {options.map((option) => (
-                    <option key={option} value={option}>{option}</option>
+                <option value="">{placeholder}</option>
+                {options.map(option => (
+                    <option key={option} value={option}>
+                        {renderLabel(option)}
+                    </option>
                 ))}
             </select>
         </div>

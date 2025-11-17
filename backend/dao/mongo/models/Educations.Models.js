@@ -3,8 +3,8 @@ import paginate from "mongoose-paginate-v2";
 
 const educationSchema = new mongoose.Schema(
     {
-        institutionName: { type: String, required: true },
-        title: { type: String, required: true },
+        institutionName: { type: Map, of: String, required: true },
+        title: { type: Map, of: String, required: true },
         dateStart: { type: Date, required: true },
         dateEnd: { type: Date },
         linkInstitution: { type: String },
@@ -17,7 +17,7 @@ const educationSchema = new mongoose.Schema(
             enum: ["Primary School", "High School", "University", "Course", "Conference", "Other"],
             required: true
         },
-        description: { type: String, required: true },
+        description: { type: Map, of: String, required: true },
         order: { type: Number , required: true, default: 0 }
         
     },

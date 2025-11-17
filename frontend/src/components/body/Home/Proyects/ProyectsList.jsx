@@ -10,6 +10,8 @@ import { useLoading } from "../../../../context/LoadingContext.jsx";
 import "../../../GlobalLoader.css";
 import { useConfirmSweet } from "../../../../context/SweetAlert2Context.jsx";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
+import { useLanguage } from "../../../../context/LanguageContext.jsx";
+import { LANG_CONST } from "../../../constants/selectConstLang.js";
 
 function ProyectsList() {
     const { user } = useContext(UserContext);
@@ -18,11 +20,13 @@ function ProyectsList() {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const { startLoading, stopLoading } = useLoading();
     const { confirmSweet, successSweet, errorSweet } = useConfirmSweet();
+    const { language } = useLanguage();
 
     useEffect(() => {
         const loadProyects = async () => {
             try {
                 startLoading();
+                const TEXT = LANG_CONST[language];
                 const proyectsData = await fetchProyectsPopulated();
                 if (proyectsData?.error) {
                     await errorSweet(proyectsData.error.message);
@@ -35,38 +39,39 @@ function ProyectsList() {
                 setProyects(sorted);
                 setProyects(proyects);
             } catch (error) {
-                console.error("Error loading Proyects:", error);
-                await errorSweet("Error loading Proyects: " + error.message);
+                console.error(TEXT.ERROR_SWEET_TEXT_PROYECT_LOADING, error);
+                await errorSweet(TEXT.ERROR_SWEET_TEXT_PROYECT_LOADING + error.message);
             } finally {
                 setLoading(false);
                 stopLoading();
             }
         };
         loadProyects();
-    }, []);
+    }, [language]);
 
+    const TEXT = LANG_CONST[language];
     const filteredProyects = selectedCategory ? proyects.filter(proyect => proyect.categories.some(category => category._id === selectedCategory)) : proyects;
 
     const handleDelete = async (pyid) => {
         const confirmDelete = await confirmSweet({
-            title: "Delete Proyect:",
-            text: "Are you sure you want to delete the Proyect?",
-            confirmButtonText: "Yes",
-            cancelButtonText: "No",
+            title: TEXT.CONFIRM_SWEET_TITLE_DELETE_PROYECT,
+            text: TEXT.CONFIRM_SWEET_TEXT_DELETE_PROYECT,
+            confirmButtonText: TEXT.YES,
+            cancelButtonText: TEXT.NO,
         });
         if (!confirmDelete) return;
         try {
             const result = await fetchDeleteProyect(pyid);
             if (result.error) {
-                await errorSweet("Error deleting the Proyect", result.error.message);
+                await errorSweet(TEXT.ERROR_SWEET_TEXT_PROYECT_DELETING, result.error.message);
             } else {
-                await successSweet("Proyect Deleted!");
+                await successSweet(TEXT.SUCCESS_SWEET_PROYECT_DELETED);
                 setProyects(prev => prev.filter(proyect => proyect._id !== pyid));
             }
         } catch (error) {
             //LOGGER:
-            console.error("Error deleting Proyect: ", error.message);
-            await errorSweet("Error deleting Proyect: " + error.message);
+            console.error(TEXT.ERROR_SWEET_TEXT_PROYECT_DELETING, error.message);
+            await errorSweet(TEXT.ERROR_SWEET_TEXT_PROYECT_DELETING + error.message);
         }
     };
 
@@ -87,20 +92,20 @@ function ProyectsList() {
         setProyects(reordered);
         try {
             const res = await fetchUpdateProyectsOrder(reordered);
-            if (res?.error) { await errorSweet("Error saving order: ", res.error.message); }
-            else { await successSweet("Order updated!"); }
+            if (res?.error) { await errorSweet(TEXT.ERROR_SWEET_ORDER_SAVE, res.error.message); }
+            else { await successSweet(TEXT.SUCCESS_SWEET_ORDER); }
         } catch (error) {
-            console.error("Error updating order:", error);
-            await errorSweet("Error updating order: " + error.message);
+            console.error(TEXT.ERROR_SWEET_ORDER_UPDATE, error);
+            await errorSweet(TEXT.ERROR_SWEET_ORDER_UPDATE + error.message);
         }
     };
     //VER SI LO CAMBIO:
-    if (!proyects) return <p>No Proyects data available.</p>
+    if (!proyects) return <p>{TEXT.NO_PROYECTS}</p>
 
     return (
         <div id="proyectsDiv">
             <div id="proyectsDivTitle">
-                <h3 id="proyectsDivH3Title">Proyects:</h3>
+                <h3 id="proyectsDivH3Title">{TEXT.PROYECTS + ":"}</h3>
                 {user?.role === "admin" && (
                     <div className="addControlGeneral">
                         <Link to="/proyects/form/new" className="btn btn-outline-success" id="addBtnproyect">

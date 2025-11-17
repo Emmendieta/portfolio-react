@@ -5,10 +5,13 @@ import { FaPen } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import GeneralFields from "../../GeneralFields/GeneralFields";
+import { useLanguage } from "../../../../../context/LanguageContext";
+import { LANG_CONST } from "../../../../constants/selectConstLang.js";
 
 function WorkCard({ work, onDelete, isDraggable }) {
     const { user } = useContext(UserContext);
     const isAdmin = user?.role === "admin";
+    const { language } = useLanguage();
 
     const cardRef = useRef(null);
     const [ visible, setVisible] = useState(false);
@@ -33,6 +36,8 @@ function WorkCard({ work, onDelete, isDraggable }) {
         };
     }, []);
 
+    const TEXT = LANG_CONST[language];
+
     return (
         <li 
         className={`workListLi ${visible ? "fade-in" : ""}`} 
@@ -46,7 +51,7 @@ function WorkCard({ work, onDelete, isDraggable }) {
                     <a href={work.thumbnails} target="_blank" rel="noopener noreferrer">
                         <img
                             src={work.thumbnails || "/img/imagen-no-disponible.png"}
-                            alt={work.company}
+                            alt={work.company?.[language] || ""} 
                             className="workIcon"
                             onError={(event) =>
                                 (event.currentTarget.src = "/img/imagen-no-disponible.png")
@@ -57,14 +62,14 @@ function WorkCard({ work, onDelete, isDraggable }) {
 
                 <div className="workListBody">
                     <div className="workListBodyTop">
-                        <GeneralFields label="Company:" value={work.company} />
-                        <GeneralFields label="Link Company:" value={work.linkCompany} />
-                        <GeneralFields label="Job Title:" value={work.jobTitle} />
-                        <GeneralFields label="Date Started:" value={work.dateStart?.slice(0, 10)} />
-                        <GeneralFields label="Date End:" value={work.dateEnd?.slice(0, 10)} />
+                        <GeneralFields label={TEXT.COMPANY} value={work.company?.[language] || ""} />
+                        <GeneralFields label={TEXT.LINK_COMPANY} value={work.linkCompany} language={language} />
+                        <GeneralFields label={TEXT.JOB_TITLE} value={work.jobTitle?.[language] || ""} />
+                        <GeneralFields label={TEXT.DATE_START} value={work.dateStart?.slice(0, 10)} />
+                        <GeneralFields label={TEXT.DATE_END} value={work.dateEnd?.slice(0, 10)} />
                     </div>
                     <div className="workListBodyBottom">
-                        <GeneralFields label="Description:" value={work.description} isTextArea />
+                        <GeneralFields label={TEXT.DESCRIPTION} value={work.description?.[language] || ""} isTextArea />
                     </div>
                 </div>
 

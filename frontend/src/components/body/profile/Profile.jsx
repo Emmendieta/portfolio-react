@@ -3,12 +3,15 @@ import { UserContext } from "../../../context/UserContext";
 import { fetchUserPopulated } from "./logicProfile";
 import './Profile.css';
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLanguage } from "../../../context/LanguageContext";
+import { LANG_CONST } from "../../constants/selectConstLang.js";
 
 function Profile() {
     const { user } = useContext(UserContext);
     const [userProfile, setUserProfile] = useState(null);
     const location = useLocation();
     const navigate = useNavigate();
+    const { language } = useLanguage();
     const updatedPerson = location.state?.updatedPerson;
 
     useEffect(() => {
@@ -29,26 +32,29 @@ function Profile() {
         loadUserProfile();
     }, [user, updatedPerson]);
 
+    const TEXT = LANG_CONST[language];
+
     //Ver de cambiar:
     if (!userProfile) return <p>Loading profile...</p>
 
     const { _id, user: username, email, person } = userProfile;
-
+    const jobTitles = person?.jobTitles?.[language] || person?.jobTitles?.[Object.keys(person.jobTitles)[0]] || "-";
+    const about = person?.about?.[language] || person?.about?.[Object.keys(person.about)[0]] || "-";
     return (
         <div id="divProfile">
             {/* USER SECTION */}
             <div id="profileDiv">
                 <section id="profileDivSectTop">
-                    <h2 id="profileDivH2Title">Profile Data:</h2>
+                    <h2 id="profileDivH2Title">{TEXT.PROFILE_TITLE}</h2>
                 </section>
                 <section id="profileDivSectMiddle">
                     <ProfileField label="ID: " value={_id} />
-                    <ProfileField label="User Name: " value={username} />
+                    <ProfileField label={TEXT.PROFILE_LABEL_USER_NAME} value={username} />
                     <ProfileField label="Email: " value={email} />
                 </section>
                 <section id="profileDivSectBottom">
                     <div className="profileDivDivBottom">
-                        <a className="btn btn-outline-success" id="btnUpdateUserData" href="/update-user">Update User Data</a>
+                        <a className="btn btn-outline-success" id="btnUpdateUserData" href="/update-user">{TEXT.PROFILE_UPDATE_USER_DATA}</a>
                     </div>
                 </section>
             </div>
@@ -56,24 +62,24 @@ function Profile() {
             {/* PERSON SECTION */}
             <div id="profileDivPerson">
                 <section id="profileDivSectTop">
-                    <h2 id="profileDivH2Title">Personal Data:</h2>
+                    <h2 id="profileDivH2Title">{TEXT.PROFILE_PERSONAL_TITLE}</h2>
                 </section>
                 <section id="profileDivDivSectMiddle">
-                    <ProfileField label="First Name: " value={person ? person.firstName : "-"} />
-                    <ProfileField label="Last Name: " value={person ? person.lastName : "-"} />
-                    <ProfileField label="DNI: " value={person ? person.dni : "-"} />
-                    <ProfileField label="CUIL: " value={person ? person.cuil : "-"} />
-                    <ProfileField label="Birthday: " value={person ? person.birthday?.slice(0, 10) : "-"} />
-                    <ProfileField label="Job Title: " value={person ? person.jobTitles : "-"} />
-                    <ProfileField label="City: " value={person ? person.city : "-"} />
-                    <ProfileField label="Province: " value={person ? person.province : "-"} />
-                    <ProfileField label="Country: " value={person ? person.country : "-"} />
-                    <ProfileField label="About: " value={person ? person.about : "-"} />
-                    {/* <ProfileField label="Images: " value={person && person.thumbnails? person.thumbnails.join(", ") : "-"} /> */}
+                    <ProfileField label={TEXT.FIRST_NAME} value={person ? person.firstName : "-"} />
+                    <ProfileField label={TEXT.LAST_NAME} value={person ? person.lastName : "-"} />
+                    <ProfileField label={TEXT.DNI} value={person ? person.dni : "-"} />
+                    <ProfileField label={TEXT.CUIL} value={person ? person.cuil : "-"} />
+                    <ProfileField label={TEXT.BIRTHDAY} value={person ? person.birthday?.slice(0, 10) : "-"} />
+                    <ProfileField label={TEXT.JOB_TITLE} value={jobTitles} />
+                    <ProfileField label={TEXT.CITY} value={person ? person.city : "-"} />
+                    <ProfileField label={TEXT.PROVINCE} value={person ? person.province : "-"} />
+                    <ProfileField label={TEXT.COUNTRY} value={person ? person.country : "-"} />
+                    <ProfileField label={TEXT.ABOUT} value={about} />
+
                     <div className="profileImagesContainer">
                         {person && person.thumbnails && person.thumbnails.length > 0 && (
                             <div className="profileImagesSection">
-                                <h4>Profile Images:</h4>
+                                <h4>{TEXT.PROFILE_IMAGES}</h4>
                                 <div className="imageGrid">
                                     {person.thumbnails.map((url, idx) => (
                                         <img
@@ -90,7 +96,7 @@ function Profile() {
 
                         {person && person.banners && person.banners.length > 0 && (
                             <div className="profileImagesSection">
-                                <h4>Banner Images:</h4>
+                                <h4>{TEXT.PROFILE_BANNER_IMAGES}</h4>
                                 <div className="imageGrid">
                                     {person.banners.map((url, idx) => (
                                         <img
@@ -109,7 +115,7 @@ function Profile() {
                 </section>
                 <section id="profileDivSectBottom">
                     <div className="profileDivDivBottom">
-                        <Link className="btn btn-outline-success" id="btnUpdatePersonData" to="/update-person" state={{ person }}>Update Person Data</Link>
+                        <Link className="btn btn-outline-success" id="btnUpdatePersonData" to="/update-person" state={{ person }}>{TEXT.PROFILE_UPDATE_PERSONAL_DATA}</Link>
                     </div>
                 </section>
             </div>

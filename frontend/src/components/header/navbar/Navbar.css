@@ -13,9 +13,11 @@
 }
 
 .navbarLeft {
-    align-items: flex-start;
+    display: flex;
+    align-items: center;
     margin-left: 10px;
 }
+
 
 .navbarRight {
     justify-self: end;
@@ -63,6 +65,7 @@
     }
 
     .navbarLeft {
+        flex-direction: column;
         padding-top: 15px;
     }
 

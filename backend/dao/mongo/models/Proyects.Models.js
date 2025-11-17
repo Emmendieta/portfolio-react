@@ -2,13 +2,13 @@ import mongoose from "mongoose";
 
 const proyectSchema = new mongoose.Schema(
     {
-        title: {type: String, required: true },
+        title: { type: Map, of: String, required: true },
         dateStart: { type: Date },
         dateEnd: { type: Date },
-        company: { type: String, required: true },
+        company: { type: Map, of: String, required: true },
         linkProyect: { type: String },
         linkCompany: { type: String },
-        description: { type: String, required: true },
+        description: { type: Map, of: String, required: true },
         languages: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "languages",

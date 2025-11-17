@@ -6,7 +6,7 @@ class SocialMediasDTO {
         if (PERSISTENCE !== "mongo") {
             this._id = crypto.randomBytes(12).toString("hex");
         };
-        this.title = data.title;
+        this.title = typeof data.title === "string" ? { en: data.title } : data.title;
         this.linkSocial = data.linkSocial;
         this.type = data.type || "social";
         this.thumbnails = data.thumbnails || [];

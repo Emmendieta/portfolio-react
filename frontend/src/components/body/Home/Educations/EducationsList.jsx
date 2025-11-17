@@ -9,6 +9,8 @@ import { useLoading } from "../../../../context/LoadingContext";
 import "../../../GlobalLoader.css";
 import { useConfirmSweet } from "../../../../context/SweetAlert2Context";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import { useLanguage } from "../../../../context/LanguageContext";
+import { LANG_CONST } from "../../../constants/selectConstLang.js";
 
 function EducationsList() {
     const { user } = useContext(UserContext);
@@ -17,14 +19,22 @@ function EducationsList() {
     const [selectedType, setSelectedType] = useState(null);
     const { startLoading, stopLoading } = useLoading();
     const { confirmSweet, successSweet, errorSweet } = useConfirmSweet();
-
+    const { language } = useLanguage();
     const educationTypes = ["Primary School", "High School", "University", "Course", "Conference", "Other"];
+    const typeEducationLabels = {
+        "Primary School": { en: "Primary School", es: "Escuela primaria" },
+        "High School": { en: "High School", es: "Secundario" },
+        "University": { en: "University", es: "Universidad" },
+        "Course": { en: "Course", es: "Curso" },
+        "Conference": { en: "Conference", es: "Conferencia" },
+        "Other": { en: "Other", es: "Otro" }
+    };
 
     useEffect(() => {
         const loadEducations = async () => {
             try {
                 startLoading();
-                const educationsData = await fetchEducations();
+                const educationsData = await fetchEducations(language);
                 if (educationsData?.error) {
                     await errorSweet(educationsData.error.message);
                     setLoading(false);
@@ -35,38 +45,40 @@ function EducationsList() {
                 const sorted = educations.sort((a, b) => a.order - b.order);
                 setEducations(sorted);
             } catch (error) {
-                await errorSweet("Error loading Educations: " + error.message);
-                console.error("Error loading Educations:", error);
+                await errorSweet(TEXT.ERROR_SWEET_TEXT_EDUCATIONS_LOADING + error.message);
+                console.error(TEXT.ERROR_SWEET_TEXT_EDUCATIONS_LOADING, error);
             } finally {
                 setLoading(false);
                 stopLoading();
             }
         };
         loadEducations();
-    }, []);
-    
+    }, [language]);
+
+    const TEXT = LANG_CONST[language];
+
     const filteredEducations = selectedType ? educations.filter((edu) => edu.typeEducation === selectedType) : educations;
 
     const handleDelete = async (eid) => {
         const confirmDelete = await confirmSweet({
-            title: "Delete Education:",
-            text: "Are you sure you want to delete the education?",
-            confirmButtonText: "Yes",
-            cancelButtonText: "No"
+            title: TEXT.CONFIRM_SWEET_TITLE_DELETE_EDUCATION,
+            text: TEXT.CONFIRM_SWEET_TEXT_DELETE_EDUCATION,
+            confirmButtonText: TEXT.YES,
+            cancelButtonText: TEXT.NO
         });
         if (!confirmDelete) return;
         try {
             const result = await fetchDeleteEducation(eid);
             if (result.error) {
-                await errorSweet("Error deleting Education: ", result.error.message);
+                await errorSweet(TEXT.ERROR_SWEET_TEXT_EDUCATION_DELETING, result.error.message);
             } else {
-                await successSweet("Education Deleted!");
+                await successSweet(TEXT.SUCCESS_SWEET_EDUCATION_DELETED);
                 setEducations(prev => prev.filter(education => education._id !== eid));
             }
         } catch (error) {
             //LOGGER:
-            console.error("Error deleting Education: ", error.message);
-            await errorSweet("Internal Error deleting Education: " + error.message);
+            console.error(TEXT.ERROR_SWEET_TEXT_EDUCATION_DELETING, error.message);
+            await errorSweet(TEXT.INTERNAL_SERVER_ERROR_DELETING_EDUCATION + error.message);
         }
     };
 
@@ -82,21 +94,21 @@ function EducationsList() {
         setEducations(reorderedWithOrder);
         try {
             const res = await fetchUpdateEducationsOrder(reorderedWithOrder);
-            if (res?.error) { await errorSweet("Error saving order: ", res.error.message); }
-            else { await successSweet("Order updated!"); }
+            if (res?.error) { await errorSweet(TEXT.ERROR_SWEET_ORDER_SAVE, res.error.message); }
+            else { await successSweet(TEXT.SUCCESS_SWEET_ORDER); }
         } catch (error) {
-            console.error("Error updating order:", error);
-            await errorSweet("Error updating order: " + error.message);
+            console.error(TEXT.ERROR_SWEET_ORDER_UPDATE, error);
+            await errorSweet(TEXT.ERROR_SWEET_ORDER_UPDATE + error.message);
         }
     };
 
     //VER DE CAMBIAR:
-    if (educations.length === 0) return <p>No Educations data available.</p>;
+    if (educations.length === 0) return <p>{TEXT.NO_EDUCATIONS}</p>;
 
     return (
         <div id="educationsDiv">
             <div id="educationsDivTitle">
-                <h3 id="educationsDivH3Title">Educations:</h3>
+                <h3 id="educationsDivH3Title">{TEXT.EDUCATIONS + ":"}</h3>
                 {user?.role === "admin" && (
                     <div className="addingControlGeneral">
                         <Link to="/educations/form/new" className="btn btn-outline-success" id="addBtnEducation">
@@ -107,9 +119,9 @@ function EducationsList() {
             </div>
 
             <div id="educationTypeFilter">
-                <button className={`typeFilterBtn ${selectedType === null ? "active": ""}`} onClick={() => setSelectedType(null)}>All</button>
+                <button className={`typeFilterBtn ${selectedType === null ? "active" : ""}`} onClick={() => setSelectedType(null)}>{language === "es" ? "Todos": "All"}</button>
                 {educationTypes.map((type) => (
-                    <button key= {type} className={`typeFilterBtn ${selectedType === type ? "active" : ""}`} onClick={() => setSelectedType(type)}>{type}</button>
+                    <button key={type} className={`typeFilterBtn ${selectedType === type ? "active" : ""}`} onClick={() => setSelectedType(type)}>{typeEducationLabels[type][language]}</button>
                 ))}
             </div>
 

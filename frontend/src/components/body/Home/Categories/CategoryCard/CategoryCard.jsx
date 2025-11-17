@@ -4,12 +4,14 @@ import { Link } from "react-router-dom";
 import { FaPen } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import "./CategoryCard.css";
+import { useLanguage } from "../../../../../context/LanguageContext";
 
 function CategoryCard({ category, onDelete, onClick, isSelected, isDraggable }) {
     const { user } = useContext(UserContext);
     const isAdmin = user?.role === "admin";
     const cardRef = useRef(null);
     const [visible, setVisble] = useState(false);
+    const { language } = useLanguage();
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -49,11 +51,11 @@ function CategoryCard({ category, onDelete, onClick, isSelected, isDraggable }) 
             >
                 <img
                     src={category.thumbnails || "/img/imagen-no-disponible.png"}
-                    alt={category.title}
+                    alt={category.title?.[language] || ""}
                     className="categoryIcon"
                     onError={(event) => event.currentTarget.src = "/img/imagen-no-disponible.png"}
                 />
-                <h3>{category.title}</h3>
+                <h3>{category.title?.[language] || ""}</h3>
             </div>
             {isAdmin && (
                 <div className="editionsControlsGeneral">

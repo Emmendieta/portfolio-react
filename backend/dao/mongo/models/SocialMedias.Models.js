@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const socialMediasSchema = new mongoose.Schema(
     {
-        title: { type: String, required: true },
+        title: { type: Map, of: String, required: true },
         linkSocial: { type: String, required: true },
         type: { type: String, required: true, default:"Social Media" }, 
         thumbnails: { type: String },

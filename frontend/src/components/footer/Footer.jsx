@@ -4,11 +4,14 @@ import './Footer.css';
 import NewSocialMediaContact from './newSocialMediaContact/newSocialMediaContact';
 import SocialMedias from './socialMedias/SocialMedias';
 import { useRefresh } from '../../context/RefreshContext';
-
+import { LANG_CONST } from "../constants/selectConstLang.js";
+import { useLanguage } from '../../context/LanguageContext.jsx';
 
 function Footer() {
 
     const { refreshKey } = useRefresh();
+    const { language } = useLanguage();
+    const TEXT = LANG_CONST[language];
 
     return (
         <>
@@ -21,14 +24,14 @@ function Footer() {
                     <Contacts refreshKey={refreshKey} />
                 </section>
                 <section id="secSignature">
-                    <h4 id='signatureH4'>Emiliano Manuel Mendieta</h4>
+                    <h4 id='signatureH4'>{TEXT.EMILIANO_MENDIETA}</h4>
                 </section>
                 <section id="secSocialMedias">
                     <SocialMedias refreshKey={refreshKey} />
                 </section>
             </div>
             <div id="ftDivBottom">
-                <h1 id="copyRights">© Todos los derechos reserado.  2025</h1>
+                <h1 id="copyRights">{TEXT.COPYRIGHTS}</h1>
             </div>
         </>
     );

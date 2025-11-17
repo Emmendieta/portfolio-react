@@ -29,7 +29,14 @@ class SocialMediasController {
     };
 
     getSocialMediaByFilter = async (req, res) => {
-        //Falta Buscar por Filtro!!!
+        try {
+            const filter = req.query || {};
+            const socialMedias = await this.sMService.readByFilter(filter);
+            return res.json200(socialMedias);
+        } catch (error) {
+            console.error(error);
+            res.json500("Internal Server Error!(C)");
+        }
     };
 
     getAllSocialMedias = async (req, res) => {
@@ -88,7 +95,10 @@ class SocialMediasController {
     };
 
     verifySocialMediaTitle = async (title, sid = null) => {
-        const verifyTitle = await this.sMService.readOneByFilter({ title });
+        const query = {
+            'title.en' : title?.en || title,
+        };
+        const verifyTitle = await this.sMService.readOneByFilter({ query });
         if (!verifyTitle || verifyTitle.length === 0) { return 0; }
         if (sid && verifyTitle._id.toString() === sid.toString()) { return 0; }
         else { return 1; };

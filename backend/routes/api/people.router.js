@@ -10,6 +10,7 @@ class PeopleRouter extends RouterHelper {
     init = () => {
         this.read("/:pid", ["public"], peopleController.getPersonById);
         this.read("/", ["public"], peopleController.getAllPeople);
+        this.read("/filter", ["public"], peopleController.getPersonByFilter);
         this.create("/", ["user", "admin"], peopleController.createPerson);
         this.update("/:pid", ["user", "admin"], peopleController.updatePersonById);
         this.destroy("/:pid", ["user", "admin"], peopleController.deletePersonById);

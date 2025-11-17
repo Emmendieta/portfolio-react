@@ -8,23 +8,25 @@ import ThumbnailsMananger from "./ThumbnailsMananger/ThumbnailsMananger";
 import { fetchCategories } from "../../Categories/Categories";
 import CategorySelect from "../../Categories/CategorySelect/CategorySelect";
 import { useConfirmSweet } from "../../../../../context/SweetAlert2Context";
+import { useLanguage } from "../../../../../context/LanguageContext";
+import { LANG_CONST } from "../../../../constants/selectConstLang.js";
 
 function ProyectForm() {
     const { user } = useContext(UserContext);
     const { id } = useParams();
     const navigate = useNavigate();
     const { successSweet, errorSweet } = useConfirmSweet();
-
+    const { language } = useLanguage();
     const isEdit = id && id !== "new";
 
     const [formData, setFormData] = useState({
-        title: "",
+        title: {},
         dateStart: "",
         dateEnd: "",
-        company: "",
+        company: {},
         linkProyect: "",
         linkCompany: "",
-        description: "",
+        description: {},
     });
 
     const [allLanguages, setAllLanguages] = useState([]);
@@ -39,10 +41,11 @@ function ProyectForm() {
             return;
         };
         const loadInitialData = async () => {
+            const TEXT = LANG_CONST[language];
             // 1.1 Traer todos los lenguajes
             const langResult = await fetchLanguages();
             if (langResult?.error) {
-                await errorSweet("Error fetching Languages");
+                await errorSweet(TEXT.ERROR_SWEET_TEXT_PROYECT_FETCHING_LANGUAGES);
                 return;
             };
             const allLangs = langResult.response;
@@ -52,7 +55,7 @@ function ProyectForm() {
 
             const catResult = await fetchCategories();
             if (catResult?.error) {
-                await errorSweet("Error fetching Categories");
+                await errorSweet(TEXT.ERROR_SWEET_TEXT_PROYECT_FETCHING_CATEGORIES);
                 return;
             };
 
@@ -63,12 +66,20 @@ function ProyectForm() {
             if (isEdit) {
                 const projResult = await fetchProyectById(id);
                 if (projResult?.error) {
-                    await errorSweet("Error loading Proyect by Id!");
+                    await errorSweet(TEXT.ERROR_SWEET_TEXT_PROYECT_LOADING_ID);
                     return;
                 };
 
                 const { languages, categories, thumbnails, ...rest } = projResult.response;
-                setFormData(rest);
+                setFormData({
+                    title: { ...rest.title, [language]: rest.title?.[language] || "" },
+                    company: { ...rest.company, [language]: rest.company?.[language] || "" },
+                    description: { ...rest.description, [language]: rest.description?.[language] || "" },
+                    dateStart: rest.dateStart || "",
+                    dateEnd: rest.dateEnd || "",
+                    linkProyect: rest.linkProyect || "",
+                    linkCompany: rest.linkCompany || "",
+                });
                 setThumbnails(thumbnails || []);
 
                 // 3. Filtrar los objetos de lenguajes seleccionados
@@ -87,6 +98,8 @@ function ProyectForm() {
         loadInitialData();
     }, [id, isEdit, user, navigate, errorSweet]);
 
+    const TEXT = LANG_CONST[language];
+
     //verifico que All siempre este:
     useEffect(() => {
         const allCategory = allCategories.find(cat => cat.title === "All");
@@ -97,7 +110,12 @@ function ProyectForm() {
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        if (["title", "company", "description"].includes(name)) {
+            setFormData(prev => ({
+                ...prev,
+                [name]: { ...prev[name], [language]: value }
+            }));
+        } else { setFormData(prev => ({ ...prev, [name]: value })); }
     };
 
     const handleSubmit = async (event) => {
@@ -115,9 +133,9 @@ function ProyectForm() {
         const result = isEdit ? await fetchUpdateProyect(id, dataToSend) : await fetchCreateProyect(dataToSend);
 
         if (result?.error) {
-            await errorSweet("Error saving Proyect!");
+            await errorSweet(TEXT.ERROR_SWEET_TEXT_PROYECT_SAVING);
         } else {
-            await successSweet("Proyect saved!");
+            await successSweet(TEXT.SUCCESS_SWEET_PROYECT_SAVED);
             navigate("/");
         };
     };
@@ -125,17 +143,17 @@ function ProyectForm() {
     return (
         <div id="formBodyGeneral">
             <div id="formBodyGeneralTop">
-                <h3>{isEdit ? "Update Proyect:" : "Create Proyect"}</h3>
+                <h3>{isEdit ? TEXT.UPDATE + " " + TEXT.PROYECT : TEXT.CREATE + " " + TEXT.PROYECT}</h3>
             </div>
             <form id="formGeneralContent" onSubmit={handleSubmit}>
                 <div id="formGeneralContentBody">
-                    <ProyectField label="Title" name="title" value={formData.title} type="text" placeholder="Title" onChange={handleChange} />
-                    <ProyectField label="Company" name="company" value={formData.company} type="text" placeholder="Company" onChange={handleChange} />
-                    <ProyectField label="Link Company" name="linkCompany" value={formData.linkCompany} type="text" placeholder="Link Company" onChange={handleChange} />
-                    <ProyectField label="Link Proyect" name="linkProyect" value={formData.linkProyect} type="text" placeholder="Link Proyect" onChange={handleChange} />
-                    <ProyectField label="Date Started" name="dateStart" value={formData.dateStart?.slice(0, 10)} type="date" placeholder="Start Date" onChange={handleChange} />
-                    <ProyectField label="Date Ended" name="dateEnd" value={formData.dateEnd?.slice(0, 10)} type="date" placeholder="End Date" onChange={handleChange} />
-                    <ProyectField label="Description" name="description" value={formData.description} type="text" placeholder="Description" onChange={handleChange} />
+                    <ProyectField label={`${TEXT.TITLE} (${language.toUpperCase()}):`} name="title" value={formData.title?.[language] || ""} type="text" placeholder={TEXT.PLACEHOLDER_PROYECT_TITLE} onChange={handleChange} />
+                    <ProyectField label={`${TEXT.COMPANY} (${language.toUpperCase()}):`} name="company" value={formData.company?.[language] || ""} type="text" placeholder={TEXT.PLACEHOLDER_WORK_COMPANY} onChange={handleChange} />
+                    <ProyectField label={TEXT.LINK_COMPANY} name="linkCompany" value={formData.linkCompany || ""} type="text" placeholder={TEXT.PLACEHOLDER_WORK_LINK_COMPANY} onChange={handleChange} />
+                    <ProyectField label={TEXT.LINK_PROYECT} name="linkProyect" value={formData.linkProyect || ""} type="text" placeholder={TEXT.PLACEHOLDER_PROYECT_LINK_PROYECT} onChange={handleChange} />
+                    <ProyectField label={TEXT.DATE_START} name="dateStart" value={formData.dateStart?.slice(0, 10) || ""} type="date" placeholder={TEXT.PLACEHOLDER_PROYECT_DATE_STARTED} onChange={handleChange} />
+                    <ProyectField label={TEXT.DATE_END} name="dateEnd" value={formData.dateEnd?.slice(0, 10) || ""} type="date" placeholder={TEXT.PLACEHOLDER_PROYECT_DATE_ENDED} onChange={handleChange} />
+                    <ProyectField label={`${TEXT.DESCRIPTION} (${language.toUpperCase()}):`} name="description" value={formData.description?.[language] || ""} type="text" placeholder={TEXT.PLACEHOLDER_PROYECT_DESCRIPTION} onChange={handleChange} />
 
                     {/* Lenguajes */}
                     <LanguageSelect
@@ -159,8 +177,8 @@ function ProyectForm() {
                 </div>
 
                 <div id="formGeneralBottom">
-                    <a className="btn btn-outline-success" id="btnGoBack" href="/">Go Back</a>
-                    <button className="btn btn-outline-success" type="submit">{isEdit ? "Update" : "Create"}</button>
+                    <a className="btn btn-outline-success" id="btnGoBack" href="/">{ TEXT.GO_BACK }</a>
+                    <button className="btn btn-outline-success" type="submit">{isEdit ? TEXT.UPDATE : TEXT.CREATE }</button>
                 </div>
             </form>
         </div>

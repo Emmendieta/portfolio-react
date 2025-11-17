@@ -11,6 +11,7 @@ class ProyectsRouter extends RouterHelper {
         this.read("/", ["public"], proyectsController.getAllProyects);
         this.read("/populated", ["public"], proyectsController.getAllProyectsPopulated);
         this.read("/:pyid", ["public"], proyectsController.getProyectById);
+        this.read("/filter", ["public"], proyectsController.getProyectByFilter);
         this.read("/:pyid/populated", ["public"], proyectsController.getProyectByIdPopulated);
         this.update("/reorder", ["user", "admin"], proyectsController.reorderProyects);
         this.create("/", ["user", "admin"], proyectsController.createProyect);

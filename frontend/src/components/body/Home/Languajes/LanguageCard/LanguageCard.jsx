@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { FaPen } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import "./LanguageCard.css";
+import { useLanguage } from "../../../../../context/LanguageContext";
 
 function LanguageCard({ language, onDelete, isDraggable }) {
     const { user } = useContext(UserContext);
@@ -15,6 +16,7 @@ function LanguageCard({ language, onDelete, isDraggable }) {
     const [visible, setVisible] = useState(false);
     const ref = useRef(null);
     const animationRef = useRef(null);
+    const { language: currentLanguage } = useLanguage();
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -62,7 +64,6 @@ function LanguageCard({ language, onDelete, isDraggable }) {
         if (animationRef.current) clearInterval(animationRef.current);
         setProgress(0);
     };
-
     const isAdmin = user?.role === "admin";
 
     return (
@@ -94,7 +95,7 @@ function LanguageCard({ language, onDelete, isDraggable }) {
                         >
                             <img
                                 src={language.thumbnails || "/img/imagen-no-disponible.png"}
-                                alt={language.title}
+                                alt={language.title?.[currentLanguage] || ""}
                                 style={{
                                     width: "84%",
                                     height: "84%",
@@ -109,7 +110,7 @@ function LanguageCard({ language, onDelete, isDraggable }) {
             </div>
 
             <div className="languageListBodyMiddle">
-                <LanguageField label="" value={language.title} />
+                <LanguageField label="" value={language.title?.[currentLanguage] || ""} />
                 <LanguageField label="" value={`${language.percent}%`} />
             </div>
 

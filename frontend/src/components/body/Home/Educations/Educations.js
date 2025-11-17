@@ -45,6 +45,24 @@ export const fetchCreateEducation = async (data) => {
     }
 };
 
+export const fetchEducationsByLang = async (language = {}) => {
+    try {
+        const queryString = new URLSearchParams(language).toString();
+        const url = `educations/filter?${queryString}`;
+        const data = await getData(url);
+
+        if (!data) {
+            console.error("Error in fetchEducationsByLang or no data received!");
+            alert("Error in fetchEducationsByLang or no data received!");
+        }
+
+        return data;
+    } catch (error) {
+        console.error("Error fetching educations by Language:", error.message);
+        return { error: { message: error.message } };
+    }
+};
+
 export const fetchUpdateEducation = async (eid, data) => {
     try {
         const url = `educations/${eid}`;

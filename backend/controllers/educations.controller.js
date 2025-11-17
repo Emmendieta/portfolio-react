@@ -30,7 +30,14 @@ class EducationsController {
     };
 
     getEducationByFilter = async (req, res) => {
-        //Falta buscar por filtro!
+        try {
+            const filter = req.query || {};
+            const educations = await this.eService.readByFilter(filter);
+            res.json200(educations);
+        } catch (error) {
+            console.error(error);
+            res.json500("Internal Server Error!(C)");
+        }
     };
 
     getAllEducations = async (req, res) => {
@@ -58,7 +65,7 @@ class EducationsController {
             if (!Array.isArray(data) || data.length === 0) { return res.json400("Data must be a non-empty array!(C)"); };
             // Extraemos solo los IDs y validamos
             const orderedIds = data.map(item => item._id).filter(id => id);
-            if (orderedIds.length !== data.length) {  return res.json400("Some items are missing a valid id!(C)"); };
+            if (orderedIds.length !== data.length) { return res.json400("Some items are missing a valid id!(C)"); };
             for (const id of orderedIds) {
                 if (!isValidObjectId(id)) { return res.json400(`Invalid Education ID: ${id}`); }
             };
@@ -88,7 +95,12 @@ class EducationsController {
     };
 
     verifyEducationTitleTypeAndName = async (title, typeEducation, institutionName, eid = null) => {
-        const exitingEducation = await this.eService.readOneByFilter({ title, typeEducation, institutionName });
+        const query = {
+            typeEducation,
+            'title.en': title?.en || title,
+            'institutionName.en': institutionName?.en || institutionName
+        };
+        const exitingEducation = await this.eService.readOneByFilter({ query });
         if (!exitingEducation) { return 0; };
         if (eid && exitingEducation._id.toString() === eid.toString()) { return 0; }
         return 1;

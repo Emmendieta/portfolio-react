@@ -30,7 +30,14 @@ class WorksController {
     };
 
     getWorkByFilter = async (req, res) => {
-        //Falta Buscar por filtro!
+        try {
+            const filter = req.query || {};
+            const works = await this.wService.readByFilter(filter);
+            return res.json200(works);
+        } catch (error) {
+            console.error(error);
+            res.json500("Internal Server Error!(C)");
+        }
     };
 
     getAllWorks = async (req, res) => {
@@ -94,7 +101,12 @@ class WorksController {
     };
 
     verifyWorkJobDateStartCompany = async (jobTitle, dateStart, company, wid = null) => {
-        const verify = await this.wService.readOneByFilter({ jobTitle, dateStart, company });
+        const query = {
+            dateStart,
+            'jobTitle.en': jobTitle?.en || jobTitle,
+            'company.en': company?.en || company
+        };
+        const verify = await this.wService.readOneByFilter({ query });
         if (!verify) { return 0; }
         if (wid && verify._id.toString() === wid.toString()) { return 0; }
         else return 1;

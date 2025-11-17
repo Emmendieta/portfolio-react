@@ -6,13 +6,13 @@ class ProyectsDTO {
         if (PERSISTENCE !== "mongo") {
             this._id = crypto.randomBytes(12).toString("hex");
         };
-        this.title = data.title;
+        this.title = typeof data.title === "string" ? { en: data.title } : data.title;
         this.dateStart = data.dateStart;
         this.dateEnd = data.dateEnd;
         this.linkProyect = data.linkProyect;
-        this.company = data.company;
+        this.company = typeof data.company === "string" ? { en: data.company } : data.company;
         this.linkCompany = data.linkCompany;
-        this.description = data.description;
+        this.description = typeof data.description === "string" ? { en: data.description } : data.description;
         this.languages = data.languages || [""];
         this.categories = data.categories || [""],
         this.thumbnails = data.thumbnails || [""];

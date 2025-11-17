@@ -25,7 +25,14 @@ class PeopleController {
     };
 
     getPersonByFilter = async (req, res) => {
-        //Falta Buscar persona por filtro!
+        try {
+            const filter = req.query || {};
+            const people = await this.pService.readByFilter(filter);
+            return res.json200(people);
+        } catch (error) {
+            console.error(error);
+            res.json500("Internal Server Error!(C)");
+        }
     };
 
     getAllPeople = async (req, res) => {

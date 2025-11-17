@@ -5,11 +5,13 @@ import { Link } from "react-router-dom";
 import { FaPen } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import GeneralFieldsDark from "../../GeneralFieldsDark/GeneralFieldsDark";
+import { useLanguage } from "../../../../../context/LanguageContext";
+import { LANG_CONST } from "../../../../constants/selectConstLang.js";
 
 function EducationCard({ education, onDelete, isDraggable }) {
     const { user } = useContext(UserContext);
     const isAdmin = user?.role === "admin";
-
+    const { language } = useLanguage();
     const cardRef = useRef(null);
     const [visible, setVisible] = useState(false);
 
@@ -37,6 +39,8 @@ function EducationCard({ education, onDelete, isDraggable }) {
         };
     }, []);
 
+    const TEXT = LANG_CONST[language];
+
     return (
         <li
             key={education._id}
@@ -51,23 +55,23 @@ function EducationCard({ education, onDelete, isDraggable }) {
                 <a href={education.linkInstitution} target="_blank" rel="noopener noreferrer">
                     <img
                         src={education.iconInstitution || "/img/imagen-no-disponible.png"}
-                        alt={education.institutionName}
+                        alt={education.institutionName?.[language] || ""}
                         className="educationIcon"
                         onError={(event) => event.currentTarget.src = "/img/imagen-no-disponible.png"}
                     />
                 </a>
             </div>
             <div className="educationDivBodyTop">
-                <GeneralFieldsDark label="Institution:" value={education.institutionName} />
-                <GeneralFieldsDark label="Link Institution:" value={education.linkInstitution} />
-                <GeneralFieldsDark label="Title:" value={education.title} />
-                <GeneralFieldsDark label="Link Certificate:" value={education.linkCertificate} />
-                <GeneralFieldsDark label="Date Started:" value={education.dateStart?.slice(0, 10)} />
-                <GeneralFieldsDark label="Date Ended:" value={education.dateEnd?.slice(0, 10)} />
-                <GeneralFieldsDark label="Type of Education:" value={education.typeEducation} />
+                <GeneralFieldsDark label={TEXT.INSTITUTION} value={education.institutionName?.[language] || ""} language={language}/>
+                <GeneralFieldsDark label={TEXT.LINK_INSTITUTION}  value={education.linkInstitution} language={language} />
+                <GeneralFieldsDark label={TEXT.TITLE}  value={education.title?.[language] || ""} language={language}/>
+                <GeneralFieldsDark label={TEXT.LINK_CERTIFICATE}  value={education.linkCertificate} language={language} />
+                <GeneralFieldsDark label={TEXT.DATE_START}  value={education.dateStart?.slice(0, 10)} language={language} />
+                <GeneralFieldsDark label={TEXT.DATE_END}  value={education.dateEnd?.slice(0, 10)} language={language} />
+                <GeneralFieldsDark label={TEXT.TYPE_EDUCATION}  value={education.typeEducation} language={language} />
             </div>
             <div className="educationDivBodyBottom">
-                <GeneralFieldsDark label="Description:" value={education.description} isTextArea />
+                <GeneralFieldsDark label={TEXT.DESCRIPTION}  value={education.description?.[language] || ""} isTextArea language={language} />
             </div>
 
             {isAdmin && (

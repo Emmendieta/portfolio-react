@@ -1,17 +1,33 @@
 import "./GeneralFields.css";
+import { LANG_CONST } from "../../../constants/selectConstLang.js";
 
-function GeneralFields({ label, value, isTextArea = false, id = "" }) {
+function GeneralFields({ label, value, isTextArea = false, id = "", language }) {
 
-    const clickHere = "Click Here";
-    const isLink = typeof value === "string" && (value.startsWith("http://") || value.startsWith("https://") || value.startsWith("www."));
+    const TEXT = LANG_CONST[language];
+
+    // Comprobamos si es un link
+    const isLink =
+        typeof value === "string" &&
+        (value.startsWith("http://") || value.startsWith("https://") || value.startsWith("www."));
+
+    // Si value es un objeto (como {en: "Title", es: "Título"}), extraemos el idioma
+    const displayValue =
+        value && typeof value === "object" ? value[language] || "-" : value;
+
     if (isTextArea) {
         return (
             <div className="fieldDiv" id={id}>
                 <h3 className="fieldLabel">{label}</h3>
-                <textarea className="fieldTextArea" value={value || "-"} readOnly rows={9} />
+                <textarea
+                    className="fieldTextArea"
+                    value={displayValue || "-"}
+                    readOnly
+                    rows={9}
+                />
             </div>
         );
-    };
+    }
+
     return (
         <div className="fieldDiv" id={id}>
             <h3 className="fieldLabel">
@@ -23,12 +39,15 @@ function GeneralFields({ label, value, isTextArea = false, id = "" }) {
                         rel="noopener noreferrer"
                         className="fieldLinkDark"
                     >
-                        {clickHere}
+                        {TEXT.CLICK_HERE}
                     </a>
-                ) : (value || "-")}
+                ) : (
+                    displayValue || "-"
+                )}
             </h3>
         </div>
     );
-};
+}
 
 export default GeneralFields;
+

@@ -29,7 +29,14 @@ class CategoriesController {
     };
 
     getCategoryByFilter = async (req, res) => {
-        //FALTA EL DEL FILTRO
+        try {
+            const filter = req.query || {};
+            const categories = await this.cService.readByFilter(filter);
+            return res.json200(categories);
+        } catch (error) {
+            console.error(error);
+            res.json500("Internal Server Error!(C)");
+        }
     };
 
     getAllCategories = async (req, res) => {
@@ -100,7 +107,10 @@ class CategoriesController {
     };
 
     verifyCategoryTitle = async (title, cid = null) => {
-        const existingCategory = await this.cService.readOneByFilter({ title });
+        const query = {
+            'title.en':  title?.en || title,
+        };
+        const existingCategory = await this.cService.readOneByFilter({ query });
         if (!existingCategory) return 0;
         if (cid && existingCategory._id.toString() === cid.toString()) {
             return 0;

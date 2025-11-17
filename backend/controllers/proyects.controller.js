@@ -29,7 +29,14 @@ class ProyectsController {
     };
 
     getProyectByFilter = async (req, res) => {
-        //Falta Buscar por Filtro!
+        try {
+            const filter = req.query || {};
+            const proyects = await this.pService.readByFilter(filter);
+            return res.json200(proyects);
+        } catch (error) {
+            console.error(error);
+            res.json500("Internal Server Error!(C)");
+        }
     };
 
     getAllProyectsPopulated = async (req, res) => {
@@ -111,7 +118,11 @@ class ProyectsController {
     };
 
     verifyInfoProyect = async (title, company, pyid = null) => {
-        const verify = await this.pService.readOneByFilter({ title, company });
+        const query = {
+            'title.en': title?.en || title,
+            'company.en': company?.en || company
+        };
+        const verify = await this.pService.readOneByFilter({ query });
         if (!verify) { return 0; };
         if (pyid && verify._id.toString() === pyid.toString()) { return 0; }
         else { return 1; };

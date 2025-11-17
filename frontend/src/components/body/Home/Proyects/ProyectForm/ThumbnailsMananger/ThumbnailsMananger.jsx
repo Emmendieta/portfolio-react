@@ -1,10 +1,14 @@
 import { useState } from "react";
 import "./ThumbnailsMananger.css";
 import { useConfirmSweet } from "../../../../../../context/SweetAlert2Context";
+import { useLanguage } from "../../../../../../context/LanguageContext";
+import { LANG_CONST } from "../../../../../constants/selectConstLang.js";
 
 function ThumbnailsMananger({ thumbnails, setThumbnails, title }) {
     const [inputUrl, setInputUrl] = useState("");
     const { errorSweet } = useConfirmSweet();
+    const { language } = useLanguage(); 
+    const TEXT = LANG_CONST[language];
 
     const isValidUrl = (url) => {
         try {
@@ -21,7 +25,7 @@ function ThumbnailsMananger({ thumbnails, setThumbnails, title }) {
             setThumbnails([...thumbnails, trimmedUrl]);
             setInputUrl("");
         } else {
-            await errorSweet("Invalid or duplicate URL!");
+            await errorSweet(TEXT.ERROR_SWEET_TEXT_THUMBNAILS_DUPLICATE_URL);
         }
     };
 
@@ -36,7 +40,7 @@ function ThumbnailsMananger({ thumbnails, setThumbnails, title }) {
                 <input
                     type="text"
                     value={inputUrl}
-                    placeholder="Type here the URL of the Image"
+                    placeholder={TEXT.THUMBNAILS_INPUT_PLACEHOLDER_URL}
                     onChange={(event) => setInputUrl(event.target.value)}
                 />
                 <button
@@ -45,7 +49,7 @@ function ThumbnailsMananger({ thumbnails, setThumbnails, title }) {
                     id="btnAddImagePryect"
                     onClick={handleAddThumbnail}
                 >
-                    Add Image
+                    {TEXT.ADD_IMAGE}
                 </button>
             </div>
 
@@ -67,7 +71,7 @@ function ThumbnailsMananger({ thumbnails, setThumbnails, title }) {
                                 onClick={() => handleRemoveThumbnail(url)}
                                 id="btnRemoveImgProyect"
                             >
-                                Remove
+                                {TEXT.REMOVE}
                             </button>
                         </div>
                     ))}

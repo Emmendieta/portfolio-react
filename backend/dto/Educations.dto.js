@@ -13,8 +13,8 @@ class EducationsDTO {
         if (PERSISTENCE !== "mongo") {
             this._id = crypto.randomBytes(12).toString("hex");
         };
-        this.institutionName = data.institutionName;
-        this.title = data.title;
+        this.institutionName = typeof data.institutionName === "string" ? { en: data.institutionName } : data.institutionName;
+        this.title = typeof data.title === "string" ? { en: data.title } : data.title;
         this.dateStart = data.dateStart;
         this.dateEnd = data.dateEnd;
         this.linkInstitution = data.linkInstitution;
@@ -22,7 +22,7 @@ class EducationsDTO {
         this.certificate = data.certificate;
         this.linkCertificate = data.linkCertificate;
         this.finished = data.finished;
-        this.description = data.description;
+        this.description = typeof data.description === "string" ? { en: data.description } : data.description;
         this.order = data.order;
         if (VALID_EDUCATION_TYPES.includes(data.typeEducation)) {
             this.typeEducation = data.typeEducation;

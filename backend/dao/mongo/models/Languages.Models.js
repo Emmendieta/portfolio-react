@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const languageSchema  = new mongoose.Schema(
     {
-        title: { type: String, required: true },
+        title: { type: Map, of: String, required: true },
         percent: { type: Number, required: true },
         thumbnails: { type: String },
         type: {

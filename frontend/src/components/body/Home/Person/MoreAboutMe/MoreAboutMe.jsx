@@ -5,6 +5,8 @@ import { useConfirmSweet } from "../../../../../context/SweetAlert2Context";
 import { useLoading } from "../../../../../context/LoadingContext";
 import GeneralFieldsDark from "../../GeneralFieldsDark/GeneralFieldsDark";
 import "./MoreAboutMe.css";
+import { useLanguage } from "../../../../../context/LanguageContext";
+import { LANG_CONST } from "../../../../constants/selectConstLang.js";
 
 function MoreAboutMe() {
 
@@ -15,35 +17,39 @@ function MoreAboutMe() {
     const [loading, setLoading] = useState(true);
     const { startLoading, stopLoading } = useLoading();
     const { successSweet, errorSweet } = useConfirmSweet();
+    const { language } = useLanguage();
+
+    const jobTitles = person?.jobTitles?.[language] || person?.jobTitles?.[Object.keys(person.jobTitles)[0]] || "-";
+    const about = person?.about?.[language] || person?.about?.[Object.keys(person.about)[0]] || "-";
 
     useEffect(() => {
         const loadPerson = async () => {
             try {
+                const TEXT = LANG_CONST[language];
                 startLoading();
                 await new Promise(res => setTimeout(res, 500)); //Simulo para que aparezca el sweet
                 if (!person) {
-                    await errorSweet("Error loading person!");
+                    await errorSweet(TEXT.ERROR_SWEET_TEXT_PERSON_LOADING);
                     setLoading(false);
                     navigate("*");
                 }
             } catch (error) {
-                console.error("Error loading Person:", error);
-                await errorSweet("Error loading Person: " + error.message);
+                console.error(TEXT.ERROR_SWEET_TEXT_PERSON_LOADING, error);
+                await errorSweet(TEXT.ERROR_SWEET_TEXT_PERSON_LOADING + error.message);
             } finally {
                 setLoading(false);
                 stopLoading();
             }
         };
-
         loadPerson();
-
         if (person && person.thumbnails.length > 0) {
             const carouselElement = document.getElementById('carouselExampleSlidesOnly');
             const carousel = new window.bootstrap.Carousel(carouselElement);;
             carousel.cycle();
         };
-
     }, [person]);
+
+    const TEXT = LANG_CONST[language];
 
     return (
         <div id="moreAbout">
@@ -59,15 +65,15 @@ function MoreAboutMe() {
                 </div>
             </div>
             <div id="moreAboutMiddleInfo">
-                <GeneralFieldsDark label="First Name: " value={person.firstName} />
-                <GeneralFieldsDark label="Last Name: " value={person.lastName} />
-                <GeneralFieldsDark label="Birthday: " value={person.birthday.slice(0, 10)} />
-                <GeneralFieldsDark label="Jobs Titles: " value={person.jobTitles} />
-                <GeneralFieldsDark label="Location: " value={person.city + " - " + person.province + " - " + person.country} />
-                <GeneralFieldsDark label="About Me:" value={person.about} isTextArea />
+                <GeneralFieldsDark label={TEXT.FIRST_NAME} value={person.firstName} />
+                <GeneralFieldsDark label={TEXT.LAST_NAME} value={person.lastName} />
+                <GeneralFieldsDark label={TEXT.BIRTHDAY} value={person.birthday.slice(0, 10)} />
+                <GeneralFieldsDark label={TEXT.JOB_TITLE} value={jobTitles} />
+                <GeneralFieldsDark label={TEXT.LOCATION} value={person.city + " - " + person.province + " - " + person.country} />
+                <GeneralFieldsDark label={TEXT.ABOUT_ME} value={about} isTextArea />
             </div>
             <div id="moreAboutMapContainer">
-                <h3 id="mapTitle">My Location</h3>
+                <h3 id="mapTitle">{TEXT.MY_LOCATION}</h3>
                 <div id="mapWrapper">
                     <iframe
                         title="Google Map"
@@ -85,10 +91,10 @@ function MoreAboutMe() {
             </div>
             <div id="moreAboutBottom">
                 <Link className="moreAboutBottomLink" to="/">
-                    <button className="btn btn-outline-success">Home</button>
+                    <button className="btn btn-outline-success">{TEXT.HOME}</button>
                 </Link>
                 <Link className="moreAboutBottomLink" to="/contact-me">
-                    <button className="btn btn-outline-success">Contact Me!</button>
+                    <button className="btn btn-outline-success">{TEXT.CONTACT_ME_BTN}</button>
                 </Link>
             </div>
         </div>

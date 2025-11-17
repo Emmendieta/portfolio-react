@@ -1,8 +1,12 @@
+import { useLanguage } from "../../../../../context/LanguageContext";
 import { useConfirmSweet } from "../../../../../context/SweetAlert2Context";
 import "./CategorySelect.css";
+import { LANG_CONST } from "../../../../constants/selectConstLang.js";
 
 function CategorySelect({ allCategories, selectedCategories, setSelectedCategories }) {
     const { errorSweet } = useConfirmSweet();
+    const { language } = useLanguage();
+    const TEXT = LANG_CONST[language];
 
     const handleSelect = (event) => {
         const selectedId = event.target.value;
@@ -19,9 +23,9 @@ function CategorySelect({ allCategories, selectedCategories, setSelectedCategori
 
     const handleRemove = async (catId) => {
         const catToRemove = selectedCategories.find(cat => cat._id === catId);
-        if (catToRemove?.title === "All") {
+        if (catToRemove?.title?.[language] === "All") {
             //SWEET ALERT:
-            await errorSweet("Error: This Category must be all the time!");
+            await errorSweet(TEXT.ERROR_SWEET_TEXT_CATEGORY_ALL);
             return;
         };
 
@@ -31,11 +35,11 @@ function CategorySelect({ allCategories, selectedCategories, setSelectedCategori
     return (
         <div className="divFiledsGeneralCategories">
             <div className="divFieldsGeneralCategoriesTop">
-                <h3>Categories:</h3>
+                <h3>{TEXT.CATEGORIES}</h3>
                 <select onChange={handleSelect} defaultValue="">
-                    <option value="">Select a Category</option>
+                    <option value="">{TEXT.SELECT_CATEGORY}</option>
                     {allCategories.filter(cat => !selectedCategories.some(sel => sel._id === cat._id)).map(cat => (
-                        <option key={cat._id} value={cat._id}>{cat.title}</option>
+                        <option key={cat._id} value={cat._id}>{cat.title?.[language]}</option>
                     ))}
                 </select>
             </div>
@@ -50,10 +54,10 @@ function CategorySelect({ allCategories, selectedCategories, setSelectedCategori
                                     alt={cat.title}
                                     onError={(event) => (event.currentTarget.src = "/img/imagen-no-disponible.png")}
                                 />
-                                <span>{cat.title}</span>
+                                <span>{cat.title?.[language]}</span>
                             </div>
                             {cat.title !== "All" && (
-                                <button className="btn btn-outline-danger" type="button" onClick={() => handleRemove(cat._id)}>Remove</button>
+                                <button className="btn btn-outline-danger" type="button" onClick={() => handleRemove(cat._id)}>{TEXT.REMOVE}</button>
                             )}
                         </div>
                     ))}

@@ -24,7 +24,7 @@ export const getData = async (baseUrl) => {
         };
 
         const url = `${BACKEND_URL}/${baseUrl}`;
-        
+
         const response = await fetch(url, opts);
 
         return await response.json();
@@ -64,6 +64,30 @@ export const getDataById = async (baseUrl, id) => {
         console.error(error.message);
         //SWEET ALERT:
         alert("Error getting data by Id!");
+    }
+};
+
+export const getDataByLanguage = async (baseUrl,) => {
+    try {
+        if (!baseUrl) {
+            //LOGGER:
+            console.error("Error gettin the url to process the data!");
+            //SWEET ALERT:
+            alert("URL is neeeded!");
+            return;
+        }; const opts = {
+            method: GET,
+            headers: baseHeaders,
+            credentials: credentials
+        };
+        const url = `${BACKEND_URL}/${baseUrl}`;
+        const response = await fetch(url, opts);
+        return await response.json();
+    } catch (error) {
+        //LOGGER:
+        console.error(error.message);
+        //SWEET ALERT:
+        alert("Error getting data by Language!");
     }
 };
 
@@ -190,7 +214,7 @@ export const updateData = async (baseUrl, data = {}) => {
 
 export const bulkUpdateData = async (baseUrl, dataArray = []) => {
     try {
-        if(!baseUrl) {
+        if (!baseUrl) {
             console.error("Error in bulk update: missing URL!");
             alert("Missing URL!");
             return;

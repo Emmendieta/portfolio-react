@@ -7,6 +7,8 @@ import { useLoading } from "../../../../context/LoadingContext";
 import { useConfirmSweet } from "../../../../context/SweetAlert2Context";
 import { fetchCreateSendMessage } from "./ContactMeLogic";
 import ReCAPTCHA from "react-google-recaptcha";
+import { LANG_CONST } from "../../../constants/selectConstLang.js";
+import { useLanguage } from "../../../../context/LanguageContext.jsx";
 
 function ContactMe() {
     const { user } = useContext(UserContext);
@@ -14,6 +16,7 @@ function ContactMe() {
     const [loading, setLoading] = useState(true);
     const { startLoading, stopLoading } = useLoading();
     const { successSweet, errorSweet } = useConfirmSweet();
+    const { language } = useLanguage();
 
     const [form, setForm] = useState({
         name: "",
@@ -21,6 +24,7 @@ function ContactMe() {
         message: ""
     });
 
+    const TEXT = LANG_CONST[language];
     const [recaptchaValue, setRecaptchaValue] = useState(null);
 
     const handleChange = (event) => {
@@ -34,18 +38,18 @@ function ContactMe() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (!recaptchaValue) {
-            await errorSweet("Please verify that you are not a robot!");
+            await errorSweet(TEXT.NO_ROBOT);
             return;
         }
         startLoading();
         try {
             const result = await fetchCreateSendMessage({ ...form, recaptcha: recaptchaValue });
 
-            if (result?.error) { await errorSweet("Error sending Email!"); }
-            else { await successSweet("Email Sent!"); }
+            if (result?.error) { await errorSweet(TEXT.ERROR_SENDING_MAIL); }
+            else { await successSweet(TEXT.MAIL_SEND); }
         } catch (error) {
-            console.error("Error: ", error);
-            await errorSweet("Error sending Email");
+            console.error(TEXT.ERROR, error);
+            await errorSweet(TEXT.ERROR_SENDING_MAIL);
         } finally {
             stopLoading();
         }
@@ -54,21 +58,21 @@ function ContactMe() {
     return (
         <div id="contactMe">
             <div id="contactMeTop">
-                <h3>Contact Me:</h3>
+                <h3>{TEXT.CONTACT_ME}</h3>
             </div>
             <div id="contactMeMiddle">
                 <form id="contactForm" onSubmit={handleSubmit}>
-                    <ContactField label="Name:" name="name" value={form.name} placeholder="Type here your complete name" onChange={handleChange} />
-                    <ContactField label="Email:" type="email" name="email" value={form.email} placeholder="Type here your Email" onChange={handleChange} />
-                    <ContactField label="Message:" as="textarea" name="message" value={form.message} placeholder="Type here your Message" onChange={handleChange} rows={10} id="contactFieldTextArea" />
+                    <ContactField label={TEXT.NAME + ":"} name="name" value={form.name} placeholder={TEXT.PLACEHOLDER_CONTACT_NAME} onChange={handleChange} />
+                    <ContactField label={TEXT.EMAIL} type="email" name="email" value={form.email} placeholder={TEXT.PLACEHOLDER_CONTACT_EMAIL} onChange={handleChange} />
+                    <ContactField label={TEXT.MESSAGE} as="textarea" name="message" value={form.message} placeholder={TEXT.PLACEHOLDER_CONTACT_MESSAGE} onChange={handleChange} rows={10} id="contactFieldTextArea" />
                     <div style={{ margin: "20px 0" }} id="contactCaptcha">
                         <ReCAPTCHA sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY} onChange={handleRecaptcha} />
                     </div>
                     <div id="contactMeBottom">
                         <Link to={"/"}>
-                            <button className="btn btn-outline-success">Home</button>
+                            <button className="btn btn-outline-success">{TEXT.HOME}</button>
                         </Link>
-                            <button className="btn btn-outline-success" type="submit">Send</button>
+                            <button className="btn btn-outline-success" type="submit">{TEXT.SEND}</button>
                     </div>
                 </form>
             </div>

@@ -1,8 +1,9 @@
 import "./GeneralFieldsDark.css";
+import { LANG_CONST } from "../../../constants/selectConstLang.js";
 
-function GeneralFieldsDark({ label, value, isTextArea = false, id = "" }) {
+function GeneralFieldsDark({ label, value, isTextArea = false, id = "", language }) {
 
-    const clickHere = "Click Here";
+    const TEXT = LANG_CONST[language];
     const isLink = typeof value === "string" && (value.startsWith("http://") || value.startsWith("https://") || value.startsWith("www."));
     if (isTextArea) {
         return (
@@ -24,7 +25,7 @@ function GeneralFieldsDark({ label, value, isTextArea = false, id = "" }) {
                         rel="noopener noreferrer"
                         className="fieldLinkDark"
                     >
-                        {clickHere}
+                        {TEXT.CLICK_HERE}
                     </a>
                 ) : (value || "-")
                 }

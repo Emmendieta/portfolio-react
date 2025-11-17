@@ -1,10 +1,15 @@
 import { useState } from "react";
 import "./ThumbnailsManagerPerson.css";
 import { useConfirmSweet } from "../../../../../context/SweetAlert2Context";
+import { LANG_CONST } from "../../../../constants/selectConstLang.js";
+import { useLanguage } from "../../../../../context/LanguageContext";
 
 function ThumbnailsManagerPerson({ thumbnails, setThumbnails, title = "Images" }) {
     const [inputUrl, setInputUrl] = useState("");
     const { errorSweet } = useConfirmSweet();
+    const { language } = useLanguage();
+
+    const TEXT = LANG_CONST[language];
 
     const isValidUrl = (url) => {
         try {
@@ -21,7 +26,7 @@ function ThumbnailsManagerPerson({ thumbnails, setThumbnails, title = "Images" }
             setThumbnails([...thumbnails, trimmedUrl]);
             setInputUrl("");
         } else {
-            await errorSweet("Invalid or duplicate URL!")
+            await errorSweet(TEXT.ERROR_SWEET_TEXT_THUMBNAILS_DUPLICATE_URL)
         }
     };
 
@@ -38,8 +43,8 @@ function ThumbnailsManagerPerson({ thumbnails, setThumbnails, title = "Images" }
         <div className="thumbnailsManager">
             <h3>{title}</h3>
             <div className="thumbnailsInputContainer">
-                <input type="text" value={inputUrl} placeholder="Type here the URL of the Image" onChange={(event) => setInputUrl(event.target.value)} />
-                <button type="button" className="btn btn-outline-success" id="btnAddImageThumbnails" onClick={handleAddThumbnail}>Add Image</button>
+                <input type="text" value={inputUrl} placeholder={TEXT.THUMBNAILS_INPUT_PLACEHOLDER_URL} onChange={(event) => setInputUrl(event.target.value)} />
+                <button type="button" className="btn btn-outline-success" id="btnAddImageThumbnails" onClick={handleAddThumbnail}>{TEXT.ADD_IMAGE}</button>
             </div>
 
             {thumbnails.length > 0 && (
@@ -54,16 +59,16 @@ function ThumbnailsManagerPerson({ thumbnails, setThumbnails, title = "Images" }
                                     id="imgThumbnail"
                                 />
                             ) : (
-                                <p>Invalid image</p>
+                                <p>{TEXT.INVALID_IMAGE}</p>
                             )}
-                            <button id="btnRemoveImgThumbnail" type="button" className="btn btn-outline-danger" onClick={() => handleRemoveThumbnail(url)}>Remove</button>
+                            <button id="btnRemoveImgThumbnail" type="button" className="btn btn-outline-danger" onClick={() => handleRemoveThumbnail(url)}>{TEXT.REMOVE}</button>
 
                             {index !== 0 && (
-                                <button type="button" className="btn btn-outline-primary" onClick={() => handleSetAsMain(url)} > Set as Main</button>
+                                <button type="button" className="btn btn-outline-primary" onClick={() => handleSetAsMain(url)} >{TEXT.SET_MAIN}</button>
                             )}
 
                             {index === 0 && (
-                                <span className="badge bg-success mt-2">Main Image</span>
+                                <span className="badge bg-success mt-2">{TEXT.MAIN_IMAGE}</span>
                             )}
                         </div>
                     ))}

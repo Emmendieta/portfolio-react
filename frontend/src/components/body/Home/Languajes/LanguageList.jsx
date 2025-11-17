@@ -9,6 +9,8 @@ import { useLoading } from "../../../../context/LoadingContext";
 import "../../../GlobalLoader.css";
 import { useConfirmSweet } from "../../../../context/SweetAlert2Context";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
+import { useLanguage } from "../../../../context/LanguageContext";
+import { LANG_CONST } from "../../../constants/selectConstLang.js";
 
 function LanguagesList() {
     const { user } = useContext(UserContext);
@@ -16,6 +18,7 @@ function LanguagesList() {
     const [loading, setLoading] = useState(true);
     const { startLoading, stopLoading } = useLoading();
     const { confirmSweet, successSweet, errorSweet } = useConfirmSweet();
+    const { language: currentLanguage } = useLanguage();
 
     useEffect(() => {
         const loadLanguages = async () => {
@@ -30,36 +33,38 @@ function LanguagesList() {
                 const sorted = languagesData.response.sort((a, b) => a.order - b.order);//Ordered:
                 setLanguages(sorted || []);
             } catch (error) {
-                await errorSweet("Error loading Languages: " + error.message);
-                console.error("Error loading Languages:", error);
+                await errorSweet(TEXT.ERROR_SWEET_TEXT_LANGUAGES_LOADING + error.message);
+                console.error(TEXT.ERROR_SWEET_TEXT_LANGUAGES_LOADING, error);
             } finally {
                 setLoading(false);
                 stopLoading();
             }
         };
         loadLanguages();
-    }, []);
+    }, [currentLanguage]);
+
+    const TEXT = LANG_CONST[currentLanguage];
 
     const handleDelete = async (lid) => {
         const confirmDelete = await confirmSweet({
-            title: "Delete Language:",
-            text: "Are you sure you want to delete this Language?",
-            confirmButtonText: "Yes",
-            cancelButtonText: "No"
+            title: TEXT.CONFIRM_SWEET_TITLE_DELETE_LANGUAGE,
+            text: TEXT.CONFIRM_SWEET_TEXT_DELETE_LANGUAGE,
+            confirmButtonText: TEXT.YES,
+            cancelButtonText: TEXT.NO
         });
         if (!confirmDelete) return;
         try {
             const result = await fetchDeleteLanguage(lid);
             if (result.error) {
-                await errorSweet("Error deleting the Language: " + result.error.message);
+                await errorSweet(TEXT.ERROR_SWEET_TEXT_LANGUAGE_DELETING + result.error.message);
             } else {
-                await successSweet("Language Deleted!");
+                await successSweet(TEXT.SUCCESS_SWEET_LANGUAGE_DELETED);
                 setLanguages(prev => prev.filter(language => language._id !== lid));
             }
         } catch (error) {
             //LOGGER:
-            console.error("Error deleting Language: ", error.message);
-            await errorSweet("Error deleting Language: " + error.message);
+            console.error(TEXT.ERROR_SWEET_TEXT_LANGUAGE_DELETING, error.message);
+            await errorSweet(TEXT.ERROR_SWEET_TEXT_LANGUAGE_DELETING + error.message);
         }
     };
 
@@ -85,11 +90,11 @@ function LanguagesList() {
     try {
         const payload = globallySorted.map(l => ({ _id: l._id, order: l.order }));// Enviamos al backend solo los campos necesarios
         const res = await fetchUpdateLanguagesOrder(payload);
-        if (res?.error) { await errorSweet("Error saving order: " + res.error.message); } 
-        else { await successSweet("Order updated!"); }
+        if (res?.error) { await errorSweet(TEXT.ERROR_SWEET_ORDER_SAVE + res.error.message); } 
+        else { await successSweet(TEXT.SUCCESS_SWEET_ORDER); }
     } catch (error) {
-        console.error(" Error updating order:", error);
-        await errorSweet("Error updating order: " + error.message);
+        console.error(TEXT.ERROR_SWEET_ORDER_UPDATE, error);
+        await errorSweet(TEXT.ERROR_SWEET_ORDER_UPDATE + error.message);
     }
 };
     if (!languages || languages.length === 0) return <p>No Languages data available.</p>;
@@ -99,7 +104,7 @@ function LanguagesList() {
     return (
         <div id="langaugesDiv">
             <div id="languagesDivTitle">
-                <h3 id="languagesDivH3Title">Skills:</h3>
+                <h3 id="languagesDivH3Title">{TEXT.SKILLS}</h3>
                 {user?.role === "admin" && (
                     <div className="addingControlGeneral">
                         <Link to="/languages/form/new" className="btn btn-outline-success" id="addBtnLanguage">
@@ -114,7 +119,7 @@ function LanguagesList() {
                         {/* 🧠 Hard Skills */}
                         {hardSkills.length > 0 && (
                             <div className="languageCategory">
-                                <h4 className="languageCategoryTitle">Hard Skills:</h4>
+                                <h4 className="languageCategoryTitle">{TEXT.HARD_SKILLS + ":"}</h4>
                                 <Droppable droppableId="Hard" direction="horizontal">
                                     {(provided) => (
                                         <ul className="languageList" {...provided.droppableProps} ref={provided.innerRef}
@@ -136,7 +141,7 @@ function LanguagesList() {
                         )}
                         {softSkills.length > 0 && (
                             <div className="languageCategory">
-                                <h4 className="languageCategoryTitle">Soft Skills:</h4>
+                                <h4 className="languageCategoryTitle">{TEXT.SOFT_SKILLS + ":"}</h4>
                                 <Droppable droppableId="Soft" direction="horizontal">
                                     {(provided) => (
                                         <ul className="languageList" {...provided.droppableProps} ref={provided.innerRef} >
@@ -161,7 +166,7 @@ function LanguagesList() {
                 <div id="languageDivContainer">
                     {hardSkills.length > 0 && (
                         <div className="languageCategory">
-                            <h4 className="languageCategoryTitle">Hard Skills:</h4>
+                            <h4 className="languageCategoryTitle">{TEXT.HARD_SKILLS + ":"}</h4>
                             <ul className="languageList">
                                 {hardSkills.map(language => (
                                     <LanguageCard key={language._id} language={language} onDelete={handleDelete} isDraggable={false} />
@@ -171,7 +176,7 @@ function LanguagesList() {
                     )}
                     {softSkills.length > 0 && (
                         <div className="languageCategory">
-                            <h4 className="languageCategoryTitle">Soft Skills:</h4>
+                            <h4 className="languageCategoryTitle">{TEXT.SOFT_SKILLS + ":"}</h4>
                             <ul className="languageList">
                                 {softSkills.map(language => (
                                     <LanguageCard key={language._id} language={language} onDelete={handleDelete} isDraggable={false} />
