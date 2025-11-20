@@ -39,6 +39,29 @@
     font-size: large;
 }
 
+.softSkillBar {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    width: 120px;
+    padding: 5px 0;
+}
+
+.barSegment {
+    flex: 1;
+    height: 12px;
+    background-color: #27496bff;
+    border-radius: 4px;
+    opacity: 0.3;
+    transition: opacity 0.4s ease, background-color 0.4s ease;
+}
+
+.barSegment.active {
+    background-color: #3c9b75ff;
+    opacity: 1;
+}
+
+
 /* ---- Mobile ---- */
 
 @media(max-width:576px) {

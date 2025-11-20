@@ -9,6 +9,8 @@ import { FaPen } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import "./LanguageCard.css";
 import { useLanguage } from "../../../../../context/LanguageContext";
+import { useConfirmSweet } from "../../../../../context/SweetAlert2Context";
+import { LANG_CONST } from "../../../../constants/selectConstLang.js";
 
 function LanguageCard({ language, onDelete, isDraggable }) {
     const { user } = useContext(UserContext);
@@ -16,7 +18,23 @@ function LanguageCard({ language, onDelete, isDraggable }) {
     const [visible, setVisible] = useState(false);
     const ref = useRef(null);
     const animationRef = useRef(null);
+    const { errorSweet } = useConfirmSweet();
     const { language: currentLanguage } = useLanguage();
+    const TEXT = LANG_CONST[currentLanguage];
+    const typesLeves = {
+        "Beginner": { en: "Beginner", es: "Principiante" },
+        "Medium": { en: "Medium", es: "Intermedio" },
+        "Advanced": { en: "Advanced", es: "Avanzado" },
+        "Expert": { en: "Expert", es: "Experto" }
+    };
+    const getLevel = () => {
+        const percent = language.percent;
+        if (percent > 0 && percent <= 25) return typesLeves.Beginner[currentLanguage];
+        if (percent > 25 && percent <= 50) return typesLeves.Medium[currentLanguage];
+        if (percent > 50 && percent <= 75) return typesLeves.Advanced[currentLanguage];
+        if (percent > 75 && percent <= 100) return typesLeves.Expert[currentLanguage];
+        return "-";
+    };
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -65,85 +83,122 @@ function LanguageCard({ language, onDelete, isDraggable }) {
         setProgress(0);
     };
     const isAdmin = user?.role === "admin";
+    const isSoft = language.type == "Soft";
 
-    return (
+    return  (
         <li
             className={`languageListLi ${visible ? "fade-in" : ""}`}
             ref={ref}
             data-id={language._id}
             style={{ cursor: isDraggable ? "grab" : "default" }}
         >
-            <div className="languageListBodyTop">
-                <div style={{ width: 100, height: 100 }}>
-                    <CircularProgressbarWithChildren
-                        value={progress}
-                        styles={buildStyles({
-                            pathColor: "#3c9b75ff",
-                            trailColor: "#27496bff",
-                            strokeLinecap: "round",
-                            pathTransitionDuration: 0.15,
-                        })}
-                    >
-                        <div
-                            style={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                width: "100%",
-                                height: "100%",
-                            }}
+
+            {/* ---------------- HARD SKILL = Imagen arriba ---------------- */}
+            {!isSoft && (
+                <div className="languageListBodyTop">
+                    <div style={{ width: 100, height: 100 }}>
+                        <CircularProgressbarWithChildren
+                            value={progress}
+                            styles={buildStyles({
+                                pathColor: "#3c9b75ff",
+                                trailColor: "#27496bff",
+                                strokeLinecap: "round",
+                            })}
                         >
-                            <img
-                                src={language.thumbnails || "/img/imagen-no-disponible.png"}
-                                alt={language.title?.[currentLanguage] || ""}
+                            <div
                                 style={{
-                                    width: "84%",
-                                    height: "84%",
-                                    borderRadius: "50%",
-                                    objectFit: "cover",
+                                    width: "100%",
+                                    height: "100%",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center"
                                 }}
-                                onError={(e) => (e.currentTarget.src = "/img/imagen-no-disponible.png")}
-                            />
-                        </div>
-                    </CircularProgressbarWithChildren>
+                            >
+                                <img
+                                    src={language.thumbnails || "/img/imagen-no-disponible.png"}
+                                    alt={language.title?.[currentLanguage]}
+                                    style={{
+                                        width: "84%",
+                                        height: "84%",
+                                        borderRadius: "50%",
+                                        objectFit: "cover"
+                                    }}
+                                    onError={e =>
+                                        (e.currentTarget.src = "/img/imagen-no-disponible.png")
+                                    }
+                                />
+                            </div>
+                        </CircularProgressbarWithChildren>
+                    </div>
                 </div>
-            </div>
+            )}
 
+            {/* ----------- TÍTULO + (Porcentaje o Nivel) ----------- */}
             <div className="languageListBodyMiddle">
-                <LanguageField label="" value={language.title?.[currentLanguage] || ""} />
-                <LanguageField label="" value={`${language.percent}%`} />
-            </div>
+                <LanguageField value={language.title?.[currentLanguage] || ""} />
 
-            <div className={`editionsControlsLanguage ${isAdmin ? "admin-visible" : "admin-hidden"}`}>
-                {isAdmin && (
-                    <>
-                        <Link
-                            to={`/languages/form/${language._id}`}
-                            id="languageEdit"
-                            className="btn btn-outline-primary btn-sm"
-                        >
-                            <FaPen />
-                        </Link>
-                        <button
-                            className="btn btn-outline-danger btn-sm"
-                            id="languageDelete"
-                            onClick={() => onDelete(language._id)}
-                        >
-                            <FaRegTrashCan />
-                        </button>
-                    </>
+                {!isSoft ? (
+                    <LanguageField value={`${language.percent}%`} />
+                ) : (
+                    <LanguageField value={getLevel()} />
                 )}
             </div>
+
+            {/* ---------------- TIPO DE VISUALIZACIÓN ---------------- */}
+            <div className="languageListBodyBottom">
+                {/* Hard: circular (mantenido EXACTO) */}
+                {!isSoft && (
+                    <div style={{ width: 120, height: 120 }}>
+                        {/* Circle ya está arriba con imagen, evitamos duplicado */}
+                    </div>
+                )}
+
+                {/* Soft: barra segmentada */}
+                {isSoft && <SoftSkillBar percent={progress} />}
+            </div>
+
+            {/* ---------------- CONTROLES ADMIN ---------------- */}
+            {isAdmin && (
+                <div className="editionsControlsLanguage admin-visible">
+                    <Link
+                        to={`/languages/form/${language._id}`}
+                        className="btn btn-outline-primary btn-sm"
+                    >
+                        <FaPen />
+                    </Link>
+                    <button
+                        className="btn btn-outline-danger btn-sm"
+                        onClick={() => onDelete(language._id)}
+                    >
+                        <FaRegTrashCan />
+                    </button>
+                </div>
+            )}
         </li>
     );
 }
 
-function LanguageField({ label, value }) {
+/* ---------------- Soft Skill Bar ---------------- */
+function SoftSkillBar({ percent }) {
+    const steps = [25, 50, 75, 100];
+
+    return (
+        <div className="softSkillBar">
+            {steps.map((step, i) => (
+                <div
+                    key={i}
+                    className={`barSegment ${percent >= step ? "active" : ""}`}
+                />
+            ))}
+        </div>
+    );
+}
+
+/* ---------------- Campo de texto ---------------- */
+function LanguageField({ value }) {
     return (
         <div className="languageDivDiv">
-            <h3 className="languageDivH3">
-                {label} {value || "-"}
-            </h3>
+            <h3 className="languageDivH3">{value || "-"}</h3>
         </div>
     );
 }

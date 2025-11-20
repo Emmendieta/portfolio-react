@@ -282,7 +282,10 @@ export const ERROR_SWEET_TEXT_LANGUAGE_SAVING = `Error saving ${LANGUAGE}`;
 //SWEET ALERT SUCCESS:
 export const SUCCESS_SWEET_LANGUAGE_SAVED = `${LANGUAGE} Saved!`;
 
+/* ----- LANGUAGES CARD ----- */
 
+//SWEET ALERT ERROR:
+export const ERROR_SWETT_TEXT_LANGUAGE_PERCENT = `Error: The percent can't null, 0 or above 100!`;
 /* ----- EDUCATIONS LIST ----- */
 
 export const NO_EDUCATIONS = `No ${EDUCATIONS} data available.`;

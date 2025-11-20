@@ -273,6 +273,12 @@ export const SUCCESS_SWEET_LANGUAGE_DELETED = `${LANGUAGE} Eliminado!`;
 export const PLACEHOLDER_LANGUAGE_NAME = `Escriba aquí el nombre del ${LANGUAGE}`;
 export const PLACEHOLDER_LANGUAGE_PERCENT = `Escriba aquí el porcentaje de conocimiento`;
 
+/* ----- LANGUAGES CARD ----- */
+
+//SWEET ALERT ERROR:
+export const ERROR_SWETT_TEXT_LANGUAGE_PERCENT = `Error: El porcentage no puede ser nulo, 0 o superior a 100!`;
+
+
 //SWEET ALERT ERROR:
 export const ERROR_SWEET_TEXT_LANGUAGE_LOADING_ID = `Error al cargar el ${LANGUAGE} por Id`;
 export const ERROR_SWEET_TEXT_INVALID_LANGUAGE = `Por favor, seleccione un tipo valido de ${LANGUAGE}!`;
