@@ -5,7 +5,8 @@ const VALID_EDUCATION_TYPES = [
     "High School",
     "University",
     "Course",
-    "Congress"
+    "Conference",
+    "Other"
 ];
 
 class EducationsDTO {
