@@ -1,4 +1,4 @@
-import { getData } from "../../../helpers/crud.js";
+import { generatePDFData, getData } from "../../../helpers/crud.js";
 
 export const fetchData = async () => {
     try {
@@ -19,45 +19,11 @@ export const fetchData = async () => {
     };
 };
 
-/* export const exportPDF = async (contentId) => {
-    try {
-        const url = "pdf/export/pdf"; // Tu endpoint en el backend
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/${url}?id=${contentId}`, {
-            method: "GET",
-            credentials: "include",
-        });
-
-        if (!response.ok) throw new Error("Error generating PDF");
-
-        const pdfBlob = await response.blob();
-        const link = document.createElement("a");
-        link.href = window.URL.createObjectURL(pdfBlob);
-        link.setAttribute("download", "Curriculum.pdf");
-/*         document.body.appendChild(link);
-        link.click();
-        link.remove(); */
-                /*link.download = "Curriculum.pdf";
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-    } catch (error) {
-        console.error("Error exporting PDF:", error);
-        alert("Error exporting PDF");
-    }
-}; */
-
 export const exportPDF = async (lang) => {
     try {
-        const response = await fetch(
-            `${process.env.REACT_APP_BACKEND_URL}/pdf/export/pdf?lang=${lang}`,
-            {
-                method: "GET",
-                credentials: "include"
-            }
-        );
-
+        const baseUrl = `/pdf/export/pdf?lang=${lang}`
+        const response = await generatePDFData(baseUrl);
         if (!response.ok) throw new Error("Error generating PDF");
-
         const blob = await response.blob();
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
