@@ -295,14 +295,6 @@ export const generatePDFData = async (baseUrl) => {
         let response = await fetch(url, opts);
         return response;
 
-        /*        const response = await fetch(
-            `${process.env.REACT_APP_BACKEND_URL}/pdf/export/pdf?lang=${lang}`,
-            {
-                method: "GET",
-                credentials: "include"
-            }
-        );*/
-
     } catch (error) {
         //LOGGER:
         console.error(error.message);
