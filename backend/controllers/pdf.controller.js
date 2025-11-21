@@ -397,7 +397,7 @@ class PDFController {
                                 ${hardSkills.length ? `
                                 <section>
                                     <h3 class="pdfLanguesTypes">${TEXT.HARD_SKILLS}</h3>
-                                    ${hardSkills.map(lang => `<div><h3>${TEXT.LANGUAGE2}: ${lang.title?.get(language) || ""}</h3></div>`).join("")}
+                                    ${hardSkills.map(lang => `<div><h3>${TEXT.LANGUAGE}: ${lang.title?.get(language) || ""}</h3></div>`).join("")}
                                 </section>` : ""}
                                 ${otherSoftSkills.length ? `
                                 <section>
