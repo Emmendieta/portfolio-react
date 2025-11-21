@@ -29,7 +29,7 @@ export const exportPDF = async (lang) => {
         const a = document.createElement("a");
 
         a.href = url;
-        a.download = "Curriculum.pdf";
+        a.download = "Curriculum-Mendieta-Emiliano-Manuel.pdf";
         a.click();
 
         URL.revokeObjectURL(url);
