@@ -396,13 +396,13 @@ class PDFController {
                                 <section id="pdfLanguagesSec"><h2>${TEXT.ABILITIES}</h2></section>
                                 ${hardSkills.length ? `
                                 <section>
-                                    <h3 class="pdfLanguesTypes">${TEXT.HARD_SKILLS}:</h3>
-                                    ${hardSkills.map(lang => `<div><h3>${lang.title?.get(language) || ""}</h3></div>`).join("")}
+                                    <h3 class="pdfLanguesTypes">${TEXT.HARD_SKILLS}</h3>
+                                    ${hardSkills.map(lang => `<div><h3>${TEXT.LANGUAGE2}: ${lang.title?.get(language) || ""}</h3></div>`).join("")}
                                 </section>` : ""}
                                 ${otherSoftSkills.length ? `
                                 <section>
                                     <h3 class="pdfLanguesTypes">${TEXT.SOFT_SKILLS}:</h3>
-                                    ${otherSoftSkills.map(lang => `<div><h3>${TEXT.TITLE}: ${lang.title?.get(language) || ""}</h3></div>`).join("")}
+                                    ${otherSoftSkills.map(lang => `<div><h3>${TEXT.LANGUAGE2}: ${lang.title?.get(language) || ""}</h3></div>`).join("")}
                                 </section>` : ""}
                                 ${driverLicenses.length ? `
                                 <section id="pdfLanguagesOtherSec">

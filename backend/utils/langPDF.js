@@ -19,6 +19,8 @@ export const LANG_PDF = {
         SOFT_SKILLS: "Habilidades Blandas",
         OTHERS: "Otros: ",
         TITLE: "Título: ",
+        LANGUAGE: "Lenguage",
+        LANGUAGE2: "Idioma",
         TYPE_LABELS: {
             "Primary School": { es: "Escuela primaria", en: "Primary School" },
             "High School": { es: "Secundario", en: "High School" },
@@ -49,6 +51,8 @@ export const LANG_PDF = {
         SOFT_SKILLS: "Soft Skills",
         OTHERS: "Others: ",
         TITLE: "Title: ",
+        LANGUAGE: "Language",
+        LANGUAGE2: "Language",
         TYPE_LABELS: {
             "Primary School": { en: "Primary School", es: "Escuela primaria" },
             "High School": { en: "High School", es: "Secundario" },
