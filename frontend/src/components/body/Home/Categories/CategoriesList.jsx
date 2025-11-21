@@ -32,7 +32,7 @@ function CategoriesList({ onCategorySelect, selectedCategory }) {
                     await errorSweet(categoriesData.error.message);
                     setLoading(false);
                     return;
-                }
+                };
 
                 const categories = categoriesData.response;
                 //Reorder:

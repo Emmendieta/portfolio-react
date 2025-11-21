@@ -38,7 +38,7 @@ export const EXAMPLE_EMAIL = "example@example.com";
 export const COMPANY = "Company: ";
 export const LINK_COMPANY = "Link Company: ";
 export const DATE_START = "Date Started: ";
-export const DATE_END = "Date End: ";
+export const DATE_END = "Date Ended: ";
 export const DESCRIPTION = "Description: ";
 export const CLICK_HERE = "Click Here";
 export const PREVIEW_IMAGE = "Preview of Image:";
@@ -65,6 +65,7 @@ export const PERCENT = "Percent: ";
 export const EDUCATION = "Education";
 export const EDUCATIONS = "Educations";
 export const INSTITUTION = "Institution: ";
+export const DEGREE = "Degree: ";
 export const LINK_INSTITUTION = "Link Institution: ";
 export const LINK_CERTIFICATE = "Link Certificate: ";
 export const TYPE_EDUCATION = "Type of Education: ";
@@ -83,15 +84,22 @@ export const MORE_ABOUT_ME = "More About Me...";
 export const LOCATION = "Location: ";
 export const MY_LOCATION = "My Location";
 export const CONTACT_ME_BTN = "Contact Me!";
-
+export const DATE_BIRTHDAY = "Date of Birth: ";
+export const CURRICULUM_VITAE = "Curriculum Vitae";
+export const PROFESIONAL_EXPERIENCE = "Professional Experience: ";
+export const START = "Started: ";
+export const END = "Ended: ";
+export const OTHERS = "Others: ";
+export const LOADING_PDF = "Loading PDF...";
+export const ACADEMIC_FORMATION = "Academic Formation: ";
+export const ABILITIES = "Abilities: ";
+export const EXPORT_PDF = "Export PDF";
 
 //SWEET ALERT ERROR:
 export const ERROR_SWEET_ORDER_SAVE = `Error saving order: `;
 export const ERROR_SWEET_ORDER_UPDATE = `Error updating order: `;
 //SWEET ALERT SUCCESS:
 export const SUCCESS_SWEET_ORDER = `Order updated!`;
-
-
 
 /* ----- CONTACTS ----- */
 
@@ -161,7 +169,6 @@ export const ERROR_SWEET_TEXT_READING_PERSON = `User or person data not found!`;
 export const THUMBNAILS_INPUT_PLACEHOLDER_URL = `Type here the URL of the Image`;
 //SWEET ALERT ERROR:
 export const ERROR_SWEET_TEXT_THUMBNAILS_DUPLICATE_URL = `Invalid or duplicate URL!`;
-
 
 /* ----- UPDATE USER ----- */
 
@@ -337,3 +344,8 @@ export const ERROR_SWEET_TEXT_PERSON_NO_DATA = `No ${PERSON} data found!`;
 export const ERROR_SWEET_TEXT_PERSON_LOADING = `Error loading ${PERSON}: `;
 
 /* ----- MORE ABOUT ME ----- */
+
+/* ----- CURRICULUM VIEW ----- */
+
+//SWEET ALERT ERROR:
+export const ERROR_SWEET_TEXT_LOADING_DATA = `Error loading information for the PDF!`;

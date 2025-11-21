@@ -65,6 +65,7 @@ export const PERCENT = "Porcentaje: ";
 export const EDUCATION = "Educación";
 export const EDUCATIONS = "Educaciones";
 export const INSTITUTION = "Institución: ";
+export const DEGREE = "Título: ";
 export const LINK_INSTITUTION = "Link de la Institución: ";
 export const LINK_CERTIFICATE = "Link del Certificado: ";
 export const TYPE_EDUCATION = "Tipo de Educación: ";
@@ -83,13 +84,22 @@ export const MORE_ABOUT_ME = "Más Acerca de Mí...";
 export const LOCATION = "Ubicación: ";
 export const MY_LOCATION = "Mi Ubicación";
 export const CONTACT_ME_BTN = "Contactarme!";
+export const DATE_BIRTHDAY = "Fecha de Nacimiento: ";
+export const CURRICULUM_VITAE = "Curriculum Vitae";
+export const PROFESIONAL_EXPERIENCE = "Experiencia Profesional: ";
+export const START = "Incio: ";
+export const END = "Fin: ";
+export const OTHERS = "Otros: ";
+export const LOADING_PDF = "Cargando PDF...";
+export const ACADEMIC_FORMATION = "Formación Académica: ";
+export const ABILITIES = "Habilidades: ";
+export const EXPORT_PDF = "Exportar PDF";
 
 //SWEET ALERT ERROR:
 export const ERROR_SWEET_ORDER_SAVE = `Error al guardar el orden: `;
 export const ERROR_SWEET_ORDER_UPDATE = `Error al acutalizar el orden: `;
 //SWEET ALERT SUCCESS:
 export const SUCCESS_SWEET_ORDER = `Orden actualizado!`;
-
 
 /* ----- CONTACTS ----- */
 
@@ -278,7 +288,6 @@ export const PLACEHOLDER_LANGUAGE_PERCENT = `Escriba aquí el porcentaje de cono
 //SWEET ALERT ERROR:
 export const ERROR_SWETT_TEXT_LANGUAGE_PERCENT = `Error: El porcentage no puede ser nulo, 0 o superior a 100!`;
 
-
 //SWEET ALERT ERROR:
 export const ERROR_SWEET_TEXT_LANGUAGE_LOADING_ID = `Error al cargar el ${LANGUAGE} por Id`;
 export const ERROR_SWEET_TEXT_INVALID_LANGUAGE = `Por favor, seleccione un tipo valido de ${LANGUAGE}!`;
@@ -335,3 +344,8 @@ export const NO_PERSON = `Sin información disponible de la ${PERSON}.`;
 //SWEET ALERT ERROR:
 export const ERROR_SWEET_TEXT_PERSON_NO_DATA = `No se encontró información de la ${PERSON}!`;
 export const ERROR_SWEET_TEXT_PERSON_LOADING = `Error al cargar la ${PERSON}: `;
+
+/* ----- CURRICULUM VIEW ----- */
+
+//SWEET ALERT ERROR:
+export const ERROR_SWEET_TEXT_LOADING_DATA = `Error al cargar la información para el PDF!`;

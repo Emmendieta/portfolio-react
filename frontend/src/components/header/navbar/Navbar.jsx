@@ -44,13 +44,11 @@ function Navbar() {
                     <h4 id='signatureH4'>{TEXT.EMILIANO_MENDIETA}</h4>
                 </div>
                 <div className="navbarRight">
+                    <Link to="/pdf/export-view" className="btn btn-outline-success" id="btnUsers">{TEXT.CURRICULUM_VITAE}</Link>
                     {!loadingUser && (
                         user ? (
                             <>
                                 <Link to="/profile" className="btn btn-outline-success" id="btnProfile">{TEXT.PROFILE}</Link>
-                                {user.role === "admin" && (
-                                    <Link to="/users" className="btn btn-outline-success" id="btnUsers">{TEXT.USERS}</Link>
-                                )}
                                 <button className="btn btn-outline-danger" onClick={handleSignOut} id="btnSignout">{TEXT.SIGNOUT}</button>
                             </>
                         ) : (<Link to="/login" className="btn btn-outline-success">{TEXT.LOGIN}</Link>)
@@ -58,7 +56,7 @@ function Navbar() {
                 </div>
             </div>
         </nav>
-    )
+    );
 };
 
 export default Navbar;

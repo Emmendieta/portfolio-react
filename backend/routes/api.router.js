@@ -9,6 +9,7 @@ import languagesRouter from "./api/languages.router.js";
 import worksRouter from "./api/works.router.js";
 import proyectsRouter from "./api/proyects.router.js";
 import emailRouter from "./api/email.router.js";
+import pdfRouter from "./api/pdf.router.js";
 
 class ApiRouter extends RouterHelper {
     constructor() {
@@ -27,6 +28,7 @@ class ApiRouter extends RouterHelper {
         this.use("/works", worksRouter);
         this.use("/proyects", proyectsRouter);
         this.use("/email", emailRouter);
+        this.use("/pdf", pdfRouter);
     };
 };
 

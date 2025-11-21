@@ -17,6 +17,7 @@ import NotFound from "./components/body/Home/NotFound/NotFound";
 import Forbidden from "./components/body/Home/Forbidden/Forbidden";
 import MoreAboutMe from "./components/body/Home/Person/MoreAboutMe/MoreAboutMe";
 import ContactMe from "./components/body/Home/ContactMe/ContactMe";
+import PDFExportView from "./components/body/PDF/pdf";
 
 function AppRoutes() {
   const { loadingUser } = useContext(UserContext);
@@ -43,6 +44,7 @@ function AppRoutes() {
         <Route path="/more-about-me" element={<MoreAboutMe />} />
         <Route path="/forbidden" element={<Forbidden />} />
         <Route path="/contact-me" element={<ContactMe />} />
+        <Route path="/pdf/export-view" element={<PDFExportView />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
