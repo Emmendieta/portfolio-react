@@ -132,7 +132,7 @@ const PDFExportView = () => {
                                     <h2>{typeEducationLabels[type]?.[language || type]}</h2>
                                     {educations.map((edu) => (
                                         <div key={edu._id}>
-                                            <h3>{TEXT.INSTITUTION} {edu.institutionName?.[language] || ""}</h3>
+                                            <h3>◘ {TEXT.INSTITUTION} {edu.institutionName?.[language] || ""}</h3>
                                             <h3>{TEXT.DEGREE} {edu.title?.[language] || ""}</h3>
                                             <h3>{TEXT.START} {formatDate(edu.dateStart)} - {TEXT.END} {formatDate(edu.dateEnd)}</h3>
                                         </div>
@@ -150,7 +150,7 @@ const PDFExportView = () => {
                     <section>
                         {sortedWorks.map((work) => (
                             <div key={work._id}>
-                                <h3>{TEXT.COMPANY} {work.company?.[language] || ""}</h3>
+                                <h3>♦ {TEXT.COMPANY} {work.company?.[language] || ""}</h3>
                                 <h3>{TEXT.JOB_TITLE} {work.jobTitle?.[language] || ""}</h3>
                                 <h3>{TEXT.START} {formatDate(work.dateStart)} - {TEXT.END} {formatDate(work.dateEnd)}</h3>
                             </div>
@@ -167,7 +167,7 @@ const PDFExportView = () => {
                             <h3 className="pdfLanguesTypes">{TEXT.HARD_SKILLS + ":"}</h3>
                             {hardSkills.map(lang => (
                                 <div key={lang._id}>
-                                    <h3>{lang.title?.[language] || ""}</h3>
+                                    <h3>• {lang.title?.[language] || ""}</h3>
                                 </div>
                             ))}
                         </section>
@@ -177,7 +177,7 @@ const PDFExportView = () => {
                             <h3 className="pdfLanguesTypes">{TEXT.SOFT_SKILLS + ":"}</h3>
                             {otherSoftSkills.map(lang => (
                                 <div key={lang._id}>
-                                    <h3>{TEXT.TITLE + ": "} {lang.title?.[language] || ""}</h3>
+                                    <h3>• {TEXT.TITLE + ": "} {lang.title?.[language] || ""}</h3>
                                 </div>
                             ))}
                         </section>
@@ -187,7 +187,7 @@ const PDFExportView = () => {
                             <h3 className="pdfLanguesTypesOther">{TEXT.OTHERS}</h3>
                             {driverLicenses.map(lang => (
                                 <div key={lang._id}>
-                                    <h3>{lang.title?.[language] || ""}</h3>
+                                    <h3>• {lang.title?.[language] || ""}</h3>
                                 </div>
                             ))}
                         </section>

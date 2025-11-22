@@ -370,7 +370,7 @@ class PDFController {
                                     <h2>${TEXT.TYPE_LABELS[type][language]}</h2>
                                     ${groupedEducations[type].map(edu => `
                                     <div>
-                                        <h3>${TEXT.INSTITUTION} ${edu.institutionName?.get(language) || ""}</h3>
+                                        <h3>◘ ${TEXT.INSTITUTION} ${edu.institutionName?.get(language) || ""}</h3>
                                         <h3>${TEXT.DEGREE} ${edu.title?.get(language) || ""}</h3>
                                         <h3>${TEXT.START} ${this.formatDate(edu.dateStart)} - ${TEXT.END} ${this.formatDate(edu.dateEnd)}</h3>
                                     </div>
@@ -384,7 +384,7 @@ class PDFController {
                                 <section id="pdfWorksSec"><h2>${TEXT.PROFESSIONAL_EXPERIENCE}</h2></section>
                                 ${sortedWorks.map(work => `
                                 <div>
-                                    <h3>${TEXT.COMPANY} ${work.company?.get(language) || ""}</h3>
+                                    <h3>♦ ${TEXT.COMPANY} ${work.company?.get(language) || ""}</h3>
                                     <h3>${TEXT.JOB_TITLE} ${work.jobTitle?.get(language) || ""}</h3>
                                     <h3>${TEXT.START} ${this.formatDate(work.dateStart)} - ${TEXT.END} ${this.formatDate(work.dateEnd)}</h3>
                                 </div>
@@ -397,17 +397,17 @@ class PDFController {
                                 ${hardSkills.length ? `
                                 <section>
                                     <h3 class="pdfLanguesTypes">${TEXT.HARD_SKILLS}</h3>
-                                    ${hardSkills.map(lang => `<div><h3>${TEXT.LANGUAGE}: ${lang.title?.get(language) || ""}</h3></div>`).join("")}
+                                    ${hardSkills.map(lang => `<div><h3>• ${TEXT.LANGUAGE}: ${lang.title?.get(language) || ""}</h3></div>`).join("")}
                                 </section>` : ""}
                                 ${otherSoftSkills.length ? `
                                 <section>
                                     <h3 class="pdfLanguesTypes">${TEXT.SOFT_SKILLS}:</h3>
-                                    ${otherSoftSkills.map(lang => `<div><h3>${TEXT.LANGUAGE2}: ${lang.title?.get(language) || ""}</h3></div>`).join("")}
+                                    ${otherSoftSkills.map(lang => `<div><h3>• ${TEXT.LANGUAGE2}: ${lang.title?.get(language) || ""}</h3></div>`).join("")}
                                 </section>` : ""}
                                 ${driverLicenses.length ? `
                                 <section id="pdfLanguagesOtherSec">
                                     <h3 class="pdfLanguesTypesOther">${TEXT.OTHERS}</h3>
-                                    ${driverLicenses.map(lang => `<div><h3>${lang.title?.get(language) || ""}</h3></div>`).join("")}
+                                    ${driverLicenses.map(lang => `<div><h3>• ${lang.title?.get(language) || ""}</h3></div>`).join("")}
                                 </section>` : ""}
                             </div>
 
