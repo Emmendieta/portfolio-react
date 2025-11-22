@@ -30,6 +30,7 @@
     max-width: 30px;
     max-height: 30px;
     margin: 0 2.5px 5px 0;
+    border-radius: 15px;
 }
 
 h5 {
