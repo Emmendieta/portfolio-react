@@ -8,7 +8,7 @@ class AuthController {
         const { _id } = req.user;
         const opts = {
             httpOnly: true,
-            secure: false, // ⚠️ Ponelo en true si usás HTTPS
+            secure: true, // ⚠️ Ponelo en true si usás HTTPS
             sameSite: "lax", // O "none" si usás HTTPS y querés compartir entre dominios ⚠️ Si usás sameSite: "none", secure debe estar en true y necesitás usar HTTPS. Para desarrollo local, mejor usar sameSite: "lax" y secure: false.
             maxAge: 24 * 60 * 60 * 1000
         };

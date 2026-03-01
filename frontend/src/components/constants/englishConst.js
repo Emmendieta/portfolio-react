@@ -180,7 +180,7 @@ export const LOGIN_PLACEHOLDER_PASSWORD = `Type your password`;
 //SWEET ALERT ERROR:
 export const ERROR_SWEET_TEXT_ALL_FIELDS = `You must complete all fields!`;
 export const ERROR_SWEET_TEXT_LOGIN_FAIL = `Login Failed or invalid credentials!`;
-export const ERROR_SWEET_TEXT_ERROR_OOPS = `Ooooppsss! An error has occurred. Error: `;
+export const ERROR_SWEET_TEXT_ERROR_OOPS = `Ooooppsss! An error has occurred!`;
 //SWEET ALERT SUCCESS:
 export const SUCCESS_SWEET_LOGIN = `Login Success!`;
 

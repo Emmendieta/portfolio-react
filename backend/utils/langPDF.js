@@ -1,7 +1,7 @@
 export const LANG_PDF = {
     es: {
         CURRICULUM_VITAE: "Currículum Vitae",
-        PERSONAL_INFORMATION: "Información Personal",
+        PERSONAL_INFORMATION: "Información Personal:",
         DNI: "DNI: ",
         LOCATION: "Localidad: ",
         DATE_BIRTHDAY: "Fecha de Nacimiento: ",
@@ -15,25 +15,25 @@ export const LANG_PDF = {
         COMPANY: "Empresa: ",
         JOB_TITLE: "Puesto: ",
         ABILITIES: "Habilidades: ",
-        HARD_SKILLS: "Habilidades Duras",
-        SOFT_SKILLS: "Habilidades Blandas",
+        HARD_SKILLS: "Competencias Técnicas:",
+        SOFT_SKILLS: "Competencias Interpersonales:",
         OTHERS: "Otros: ",
         TITLE: "Título: ",
         LANGUAGE: "Lenguage",
         LANGUAGE2: "Idioma",
         TYPE_LABELS: {
-            "Primary School": { es: "Escuela primaria", en: "Primary School" },
-            "High School": { es: "Secundario", en: "High School" },
-            "University": { es: "Universidad", en: "University" },
-            "Course": { es: "Curso", en: "Course" },
-            "Conference": { es: "Conferencia", en: "Conference" },
-            "Other": { es: "Otro", en: "Other" }
+            "Primary School": { es: "Escuela primaria:", en: "Primary School:" },
+            "High School": { es: "Secundario:", en: "High School:" },
+            "University": { es: "Universidades:", en: "Universities:" },
+            "Course": { es: "Cursos:", en: "Courses:" },
+            "Conference": { es: "Conferencia:", en: "Conference:" },
+            "Other": { es: "Otro:", en: "Other:" }
         }
     },
 
     en: {
         CURRICULUM_VITAE: "Curriculum Vitae",
-        PERSONAL_INFORMATION: "Personal Information",
+        PERSONAL_INFORMATION: "Personal Information:",
         DNI: "DNI: ",
         LOCATION: "Location: ",
         DATE_BIRTHDAY: "Date of Birth: ",
@@ -54,12 +54,12 @@ export const LANG_PDF = {
         LANGUAGE: "Language",
         LANGUAGE2: "Language",
         TYPE_LABELS: {
-            "Primary School": { en: "Primary School", es: "Escuela primaria" },
-            "High School": { en: "High School", es: "Secundario" },
-            "University": { en: "University", es: "Universidad" },
-            "Course": { en: "Course", es: "Curso" },
-            "Conference": { en: "Conference", es: "Conferencia" },
-            "Other": { en: "Other", es: "Otro" }
+            "Primary School": { en: "Primary School:", es: "Escuela primaria:" },
+            "High School": { en: "High School:", es: "Secundario:" },
+            "University": { en: "Universities:", es: "Universidades:" },
+            "Course": { en: "Coursse:", es: "Cursos:" },
+            "Conference": { en: "Conferences:", es: "Conferencias:" },
+            "Other": { en: "Others:", es: "Otros:" }
         }
     }
 };
