@@ -27,8 +27,8 @@ export const LANG_PDF = {
             "High School": { es: "Secundario:", en: "High School:" },
             "University": { es: "Universidades:", en: "Universities:" },
             "Course": { es: "Cursos:", en: "Courses:" },
-            "Conference": { es: "Conferencia:", en: "Conference:" },
-            "Other": { es: "Otro:", en: "Other:" }
+            "Conference": { es: "Conferencias:", en: "Conferences:" },
+            "Other": { es: "Otros:", en: "Others:" }
         }
     },
 
@@ -59,7 +59,7 @@ export const LANG_PDF = {
             "Primary School": { en: "Primary School:", es: "Escuela primaria:" },
             "High School": { en: "High School:", es: "Secundario:" },
             "University": { en: "Universities:", es: "Universidades:" },
-            "Course": { en: "Coursse:", es: "Cursos:" },
+            "Course": { en: "Courses:", es: "Cursos:" },
             "Conference": { en: "Conferences:", es: "Conferencias:" },
             "Other": { en: "Others:", es: "Otros:" }
         }
