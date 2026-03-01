@@ -351,6 +351,7 @@ class PDFController {
                                 <section id="pdfPersonSec"><h2>${TEXT.PERSONAL_INFORMATION}</h2></section>
                                 <section id="pdfPersonSecInfo">
                                 <div>
+                                    <h3>${TEXT.FULL_NAME} ${person?.lastName || ""} ${person?.firstName || ""}</h3>S
                                     <h3>${TEXT.LOCATION} ${person?.city || ""} - ${person?.province || ""} - ${person?.country || ""}</h3>
                                     <h3>${TEXT.DATE_BIRTHDAY} ${person?.birthday ? this.formatDate(person.birthday) : ""}</h3>
                                     <h3>${TEXT.EMAIL} ${users?.email || ""}</h3>
@@ -400,7 +401,7 @@ class PDFController {
                                 </section>` : ""}
                                 ${otherSoftSkills.length ? `
                                 <section>
-                                    <h3 class="pdfLanguesTypes">${TEXT.SOFT_SKILLS}:</h3>
+                                    <h3 class="pdfLanguesTypes">${TEXT.SOFT_SKILLS}</h3>
                                     ${otherSoftSkills.map(lang => `<div><h3>• ${TEXT.LANGUAGE2}: ${lang.title?.get(language) || ""}</h3></div>`).join("")}
                                 </section>` : ""}
                                 ${driverLicenses.length ? `

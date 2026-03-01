@@ -1,5 +1,6 @@
 export const LANG_PDF = {
     es: {
+        FULL_NAME: "Nombre completo",
         CURRICULUM_VITAE: "Currículum Vitae",
         PERSONAL_INFORMATION: "Información Personal:",
         DNI: "DNI: ",
@@ -32,6 +33,7 @@ export const LANG_PDF = {
     },
 
     en: {
+        FULL_NAME: "Full name",
         CURRICULUM_VITAE: "Curriculum Vitae",
         PERSONAL_INFORMATION: "Personal Information:",
         DNI: "DNI: ",
