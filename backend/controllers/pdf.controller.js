@@ -8,6 +8,7 @@ import usersService from "../services/users.service.js";
 import worksService from "../services/works.service.js";
 import puppeteer from "puppeteer";
 import { LANG_PDF } from "../utils/langPDF.js";
+import QRCode from "qrcode";
 
 import fetch from "node-fetch";
 
@@ -113,6 +114,15 @@ class PDFController {
         }
     };
 
+    generateQR = async (url) => {
+        try {
+            return await QRCode.toDataURL(url, { width: 150 });
+        } catch (error) {
+            console.error("Error generating QR code: ", error);
+            return "";
+        }
+    };
+
     generatePDF = async (req, res) => {
         try {
             const language = req.query.lang || "en";
@@ -162,9 +172,9 @@ class PDFController {
                 return dateB - dateA;
             });
 
-            const personImage = person?.thumbnails?.[0]
-                ? await this.toBase64(person.thumbnails[0])
-                : "/img/imagen-no-disponible.png";
+            const personImage = person?.thumbnails?.[0] ? await this.toBase64(person.thumbnails[0]) : "/img/imagen-no-disponible.png";
+
+            const qrCodeImage = await this.generateQR("https://www.emmendieta.com/");
 
             // Generar HTML
             const html = `
@@ -205,6 +215,18 @@ class PDFController {
                                 font-weight: bolder;
                                 font-size: 2.5rem;
                                 text-transform: uppercase;
+                            }
+                            
+                            #pdfTitleSecMiddle { 
+                                position:relative; 
+                                text-align:center;
+                                margin-bottom:10px; 
+                            }
+                            
+                            .pdfQR {
+                                width: 150px;
+                                height: 150px;
+                                margin-top: 15px;
                             }
 
                             #pdfTitleSecMiddle h1 {
@@ -341,9 +363,18 @@ class PDFController {
                             <div id="pdfContent">
 
                             <!-- PERSON -->
-                            <div id="pdfDivTitle">
+                            <!-- <div id="pdfDivTitle">
                                 <section id="pdfTitleSecTop"><h1>${person?.firstName || ""} ${person?.lastName || ""}</h1></section>
                                 <section id="pdfTitleSecMiddle"><h1>${TEXT.CURRICULUM_VITAE}</h1></section>
+                                <section id="pdfTitleSecBottom"></section>
+                            </div>  -->
+
+                            <div id="pdfDivTitle">
+                                <section id="pdfTitleSecTop"><h1>${person?.firstName || ""} ${person?.lastName || ""}</h1></section>
+                                <section id="pdfTitleSecMiddle">
+                                    <h1>${TEXT.CURRICULUM_VITAE}</h1>
+                                    <img src="${qrCodeImage}" class="pdfQR" />
+                                </section>
                                 <section id="pdfTitleSecBottom"></section>
                             </div>
 
@@ -410,7 +441,6 @@ class PDFController {
                                     ${driverLicenses.map(lang => `<div><h3>• ${lang.title?.get(language) || ""}</h3></div>`).join("")}
                                 </section>` : ""}
                             </div>
-
                             </div>
                         </body>
                         </html>
