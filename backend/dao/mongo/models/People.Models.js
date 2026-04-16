@@ -10,6 +10,7 @@ const peopleSchema = new mongoose.Schema(
         jobTitles: { type: Map, of: String },
         about: { type: Map, of: String, required: true },
         city: { type: String },
+        phone: { type: Number },
         province: { type: String },
         country: { type: String },
         thumbnails: [{ type: String }],

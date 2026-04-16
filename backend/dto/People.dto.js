@@ -12,6 +12,7 @@ class PeopleDTO {
         this.cuil = data.cuil;
         this.birthday = data.birthday;
         this.jobTitles = data.jobTitles;
+        this.phone = data.phone;
         this.about = typeof data.about === "string" ? { en: data.about } : data.about;
         this.city = data.city;
         this.province = data.province;

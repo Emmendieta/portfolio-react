@@ -40,7 +40,8 @@ class PDFController {
     };
 
     getProyects = async () => {
-        const proyects = await this.proService.readAll();
+        const populateFields =["languages", "categories"];
+        const proyects = await this.proService.readAllAndPopulate(populateFields);
         return proyects || [];
     };
 
@@ -77,12 +78,15 @@ class PDFController {
                     this.getWorks(),
                     this.getCategories()
                 ]);
+
+                console.log("PROYECTOS", proyects);
             return { person, users, educations, languages, proyects, socialMedias, works, categories };
         } catch (error) {
             console.error("Error in getAll: ", error);
             throw error;
         }
     };
+    
 
     getAllEndpoint = async (req, res) => {
         try {
@@ -127,7 +131,7 @@ class PDFController {
         try {
             const language = req.query.lang || "en";
             const TEXT = LANG_PDF[language] || LANG_PDF["en"];
-            const { person, users, educations, languages, works } = await this.getAll();
+            const { person, users, educations, languages, works, proyects } = await this.getAll();
 
             const EDUCATION_ORDER = {
                 "Course": 1,
@@ -172,12 +176,842 @@ class PDFController {
                 return dateB - dateA;
             });
 
+            //Para separar en dos columnas los trabajos:
+            const mid = Math.ceil(sortedWorks.length / 2);
+            const leftWorks = sortedWorks.slice(0, mid);   // más nuevos
+            const rightWorks = sortedWorks.slice(mid);     // más viejos
+
             const personImage = person?.thumbnails?.[0] ? await this.toBase64(person.thumbnails[0]) : "/img/imagen-no-disponible.png";
 
             const qrCodeImage = await this.generateQR("https://www.emmendieta.com/");
 
-            // Generar HTML
+
             const html = `
+            <html>
+<head>
+<style>
+
+/* RESET */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.page-section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+/* ================= HEADER ================= */
+
+#header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 30px;
+    padding-right: 30px;
+    height: 20%;
+
+    background: linear-gradient(
+        to right,
+        #929292 0%,
+        #bdbdbd 25%,
+        #ffffff 50%,
+        #bdbdbd 75%,
+        #929292 100%
+    );
+}
+
+#header section {
+    flex: 1;
+    height: 100%;
+}
+
+/* IZQUIERDA */
+#hdNameWork {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* nombre */
+#hdName h1 {
+    text-align: center;
+    margin-bottom: 5px;
+    font-size: 22px;
+    color: #2c3e50;
+}
+
+/* titulo */
+#hdWorkTitle h3 {
+    margin-top: 10px;
+    text-align: center;
+    font-weight: normal;
+    color: white;
+    font-size: 14px;
+}
+
+/* CENTRO */
+#hdImage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+#hdImg {
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+}
+
+/* DERECHA */
+#hdPersonalInfo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* contenedor interno para centrar bloque pero texto a la izquierda */
+#hdPersonalInfoBox {
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* textos */
+#hdPersonalInfoBox h3 {
+    font-weight: normal;
+    font-size: 12px;
+    text-align: left;
+    margin-top: 5px;
+    color: #2c3e50;
+}
+
+/* ------------------ WORKS ------------------ */
+
+#worksContainer {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 0 30px;
+}
+
+#pdfWorks {
+    margin-top: 20px;
+}
+
+#pdfWorksSec {
+    margin: 20px 30px 20px 30px; /* arriba | derecha | abajo | izquierda */
+}
+
+#pdfWorksSec h2 {
+    margin: 0;
+}
+
+/* COLUMNAS */
+.column {
+    width: 50%;
+    list-style: none;
+    padding: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 🔥 ESTO ES LA CLAVE */
+}
+
+/* ITEMS */
+.column li {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 15px;
+}
+
+/* PUNTO */
+.column li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 10px;
+    height: 10px;
+    background: black;
+    border-radius: 50%;
+}
+
+/* LINEA */
+.column li::after {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 18px;
+    width: 2px;
+    height: calc(100% + 10px);
+    background: #999;
+}
+
+/* ÚLTIMO ITEM SIN LINEA */
+.column li:last-child::after {
+    display: none;
+}
+
+/* TEXTO */
+.jobTitle {
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+
+.date {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* ------------------ EDUCATIONS ------------------- */
+
+#pdfEducations {
+    margin-top: 20px;
+}
+
+/* 🔥 MISMO MARGEN QUE WORKS */
+#pdfEducationsSec {
+    margin: 20px 30px 20px 30px;
+}
+
+#pdfEducationsSec h2 {
+    margin: 0;
+}
+
+/* Tipo */
+.educationType {
+    margin: 10px 30px;
+    font-weight: bold;
+}
+
+/* LISTA (igual lógica que column pero 1 sola) */
+.educationColumn {
+    list-style: none;
+    padding: 0 30px; /* 🔥 mismo padding lateral */
+    min-height: 40px;
+}
+
+/* ITEM */
+.educationColumn li {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 15px;
+    min-height: 60px; /* 🔥 CLAVE */
+}
+
+/* 🔥 PUNTO (MISMA POSICIÓN QUE WORKS) */
+.educationColumn li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 8px; /* 🔥 igual que works */
+    width: 10px;
+    height: 10px;
+    background: black;
+    border-radius: 50%;
+}
+
+/* 🔥 LINEA (MISMO COLOR QUE WORKS) */
+.educationColumn li::after {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 18px;
+    width: 2px;
+    height: 40px; /* 🔥 altura fija */
+    background: #999;
+}
+
+/* 🔥 ÚLTIMO ITEM */
+.educationColumn li:last-child::after {
+    display: none;
+}
+
+/* TEXTO */
+.educationTitle {
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+
+.educationDate {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* -------------------------- SKILLS ------------------------- */
+
+#pdfSkills {
+    margin-top: 20px;
+}
+
+/* TITULO */
+#pdfSkillsSec {
+    margin: 20px 30px;
+}
+
+.skillsSection {
+    margin-top: 25px;  /* 🔥 separación entre bloques */
+}
+
+.skillsTitle {
+    margin: 10px 30px;
+    font-weight: bold;
+}
+
+/* GRID GENERAL */
+.skillsGrid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* 🔥 centra si sobra espacio */
+    gap: 20px;
+    padding: 0 30px;
+}
+
+/* HARD SKILLS (2 por fila) */
+.hardGrid .skillItem {
+    width: 45%; /* 🔥 2 por fila */
+}
+
+.skillsGrid.softGrid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0 30px;
+    gap: 25px 50px; /* 🔥 más espacio (vertical | horizontal) */
+}
+
+/* SOFT SKILLS (3 por fila) */
+.softSkillItem {
+    width: calc(33.33% - 50px); /* 🔥 compensa el gap horizontal */
+    text-align: center;
+}
+
+/* NOMBRE */
+.skillName {
+    font-size: 0.95rem;
+    margin-bottom: 5px;
+}
+
+/* -------- HARD BAR -------- */
+.skillBar {
+    width: 100%;
+    height: 8px;
+    background: #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.skillBarFill {
+    height: 100%;
+    background: #1e5631; /* 🔥 verde oscuro */
+}
+
+/* -------- SOFT BARS -------- */
+.softBars {
+    display: flex;
+    gap: 5px;
+}
+
+.softBar {
+    flex: 1;
+    height: 8px;
+    background: #ddd;
+    border-radius: 3px;
+}
+
+.softBar.active {
+    background: #1e5631; /* 🔥 verde oscuro */
+}
+
+.skillsGrid.licenseGrid {
+    display: flex;
+    justify-content: center;
+    padding: 0 30px;
+    
+}
+
+.licenseItem {
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+/* -------------------------- PROYECTS ------------------------- */
+
+#pdfProjects {
+    margin-top: 20px;
+}
+
+/* HEADER SECTION */
+#pdfProjectsSec {
+    margin: 20px 30px 20px 30px;
+}
+
+#pdfProjectsSec h2 {
+    margin: 0;
+}
+
+/* LISTA */
+#projectsContainer {
+    list-style: none;
+    padding: 0 30px;
+}
+
+/* ITEM PRINCIPAL */
+.projectItem {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 25px; /* 🔥 MÁS ESPACIO ENTRE PROYECTOS */
+    min-height: 60px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 6px; /* 🔥 ESPACIO ENTRE TODOS LOS ELEMENTOS INTERNOS */
+}
+
+/* 🔥 PUNTO (igual education) */
+.projectItem::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 10px;
+    height: 10px;
+    background: black;
+    border-radius: 50%;
+}
+
+/* 🔥 LINEA (igual education) */
+.projectItem::after {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 18px;
+    width: 2px;
+    height: 40px;
+    background: #999;
+}
+
+/* 🔥 ÚLTIMO ITEM */
+.projectItem:last-child::after {
+    display: none;
+}
+
+/* TITLE */
+.projectTitle {
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+/* COMPANY */
+.projectCompany {
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+}
+
+/* DATE */
+.projectDate {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 6px;
+}
+
+/* DESCRIPTION */
+.projectDescription {
+    font-size: 0.9rem;
+    margin-bottom: 10px; /* 🔥 más aire acá */
+}
+
+/* META BLOCKS */
+.projectMeta {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* 🔥 separación entre languages y categories */
+}
+
+/* SUB BLOCK (Languages / Categories) */
+.projectBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 6px; /* 🔥 título vs tags */
+}
+
+/* TITLES */
+.projectBlockTitle {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #444;
+}
+
+/* TAGS CONTAINER */
+.projectLanguages,
+.projectCategories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px; /* 🔥 entre tags */
+}
+
+/* TAG */
+.tag {
+    font-size: 0.75rem;
+    background: #e0e0e0;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* -------------------------- QR ------------------------- */
+
+.qrContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    margin-top: 40px;   /* separación del contenido */
+    margin-bottom: 80px; /* evita choque con footer */
+}
+
+.pdfQR {
+    width: 180px;
+    height: 180px;
+}
+
+/* -------------------------- FOOTER ------------------------- */
+
+#footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    height: 40px;
+
+    background: linear-gradient(
+        to right,
+        #bdbdbd 0%,
+        #e0e0e0 50%,
+        #bdbdbd 100%
+    );
+
+    z-index: 9999;
+}
+
+</style>
+</head>
+
+<body>
+<div id="pdfContent">
+
+    <!-- HEADER -->
+    <header id="header">
+
+        <!-- IZQUIERDA -->
+        <section id="hdNameWork">
+            <div id="hdName">
+                <h1>${person?.firstName || ""} ${person?.lastName || ""}</h1>
+            </div>
+            <div id="hdWorkTitle">
+                <h3>${person?.jobTitles.get(language)}</h3>
+            </div>
+        </section>
+
+        <!-- CENTRO -->
+        <section id="hdImage">
+            <img src="${personImage}" id="hdImg">
+        </section>
+
+        <!-- DERECHA -->
+        <section id="hdPersonalInfo">
+            <div id="hdPersonalInfoBox">
+                <h3>Dirección Personal: Brown 274 ${person?.city || ""}-${person?.province || ""}-${person?.country || ""}</h3>
+                <h3>Dirección Especial: Brown 274 ${person?.city || ""}-${person?.province || ""}-${person?.country || ""}</h3>
+                <h3>${TEXT.DATE_BIRTHDAY} ${person?.birthday ? this.formatDate(person.birthday) : ""}</h3>
+                <h3>${TEXT.EMAIL} ${users?.email || ""}</h3>
+                <h3>Teléfono: +549280238041</h3>
+                <h3>${TEXT.DNI} ${person?.dni || ""}</h3>
+            </div>
+        </section>
+
+    </header>
+
+    <main>
+<!-- WORKS -->
+<div id="pdfWorks">
+    <section id="pdfWorksSec">
+        <h2>${TEXT.PROFESSIONAL_EXPERIENCE}</h2>
+    </section>
+
+    <div id="worksContainer">
+
+        <!-- IZQUIERDA -->
+        <ul class="column">
+            ${leftWorks.map(work => `
+                <li>
+                    <h3 class="jobTitle">
+                        ${work.jobTitle?.get(language) || ""}
+                    </h3>
+                    <p>${work.company?.get(language) || ""}</p>
+                    <p class="date">
+                        ${this.formatDate(work.dateStart)} - ${this.formatDate(work.dateEnd)}
+                    </p>
+                </li>
+            `).join("")}
+        </ul>
+
+        <!-- DERECHA -->
+        <ul class="column">
+            ${rightWorks.map(work => `
+                <li>
+                    <h3 class="jobTitle">
+                        ${work.jobTitle?.get(language) || ""}
+                    </h3>
+                    <p>${work.company?.get(language) || ""}</p>
+                    <p class="date">
+                        ${this.formatDate(work.dateStart)} - ${this.formatDate(work.dateEnd)}
+                    </p>
+                </li>
+            `).join("")}
+        </ul>
+
+    </div>
+
+<!-- EDUCATIONS -->
+<div id="pdfEducations" class="page-section">
+
+    <section id="pdfEducationsSec">
+        <h2>${TEXT.ACADEMIC_FORMATION}</h2>
+    </section>
+
+    ${Object.keys(groupedEducations).map(type => `
+        <section class="educationGroup">
+
+            <h3 class="educationType">
+                ${TEXT.TYPE_LABELS[type][language]}
+            </h3>
+
+            <ul class="educationColumn">
+                ${groupedEducations[type].map(edu => `
+                    <li>
+                        <div class="educationContent">
+                            <div class="educationTitle">
+                                ${edu.title?.get(language) || ""}
+                            </div>
+
+                            <div>
+                                ${edu.institutionName?.get(language) || ""}
+                            </div>
+
+                            <div class="educationDate">
+                                ${this.formatDate(edu.dateStart)} - ${this.formatDate(edu.dateEnd)}
+                            </div>
+                        </div>
+                    </li>
+                `).join("")}
+            </ul>
+
+        </section>
+    `).join("")}
+
+</div>
+
+<!-- SKILLS -->
+<div id="pdfSkills" class="page-section">
+
+    <section id="pdfSkillsSec">
+        <h2>${TEXT.ABILITIES}</h2>
+    </section>
+
+    <!-- HARD SKILLS -->
+    ${hardSkills.length ? `
+    <section class="skillsSection">
+        <h3 class="skillsTitle">${TEXT.HARD_SKILLS}</h3>
+
+        <div class="skillsGrid hardGrid">
+            ${hardSkills.map(skill => `
+                <div class="skillItem">
+                    <div class="skillName">
+                        ${skill.title?.get(language) || ""}
+                    </div>
+
+                    <div class="skillBar">
+                        <div 
+                            class="skillBarFill" 
+                            style="width: ${skill.percent || 0}%">
+                        </div>
+                    </div>
+                </div>
+            `).join("")}
+        </div>
+    </section>
+    ` : ""}
+
+    <!-- SOFT SKILLS -->
+    ${otherSoftSkills.length ? `
+    <section class="skillsSection">
+        <h3 class="skillsTitle">${TEXT.SOFT_SKILLS}</h3>
+
+        <div class="skillsGrid softGrid">
+            ${otherSoftSkills.map(skill => {
+                const percent = skill.percent || 0;
+                let level = 1;
+                if (percent > 25) level = 2;
+                if (percent > 50) level = 3;
+                if (percent > 75) level = 4;
+
+                return `
+                <div class="softSkillItem">
+                    <div class="skillName">
+                        ${skill.title?.get(language) || ""}
+                    </div>
+
+                    <div class="softBars">
+                        ${[1,2,3,4].map(i => `
+                            <div class="softBar ${i <= level ? "active" : ""}"></div>
+                        `).join("")}
+                    </div>
+                </div>
+                `;
+            }).join("")}
+        </div>
+    </section>
+    ` : ""}
+
+    <!-- OTHERS -->
+${driverLicenses.length ? `
+<section class="skillsSection">
+    <h3 class="skillsTitle">${TEXT.OTHERS}</h3>
+
+    <div class="skillsGrid licenseGrid">
+        ${driverLicenses.map(skill => `
+            <div class="licenseItem">
+                ${skill.title?.get(language) || ""}
+            </div>
+        `).join("")}
+    </div>
+</section>
+` : ""}
+
+</div>
+
+
+<!-- PROJECTS -->
+<div id="pdfProjects" class="page-section">
+
+    <section id="pdfProjectsSec">
+        <h2>${TEXT.PROYECTS}</h2>
+    </section>
+
+    <div id="projectsContainer">
+
+        ${proyects.map(project => `
+            <div class="projectItem">
+
+                <!-- TITLE -->
+                <h3 class="projectTitle">
+                    ${project.title?.get(language) || ""}
+                </h3>
+
+                <!-- COMPANY -->
+                <p class="projectCompany">
+                    ${project.company?.get(language) || ""}
+                </p>
+
+                <!-- DATE -->
+                <p class="projectDate">
+                    ${this.formatDate(project.dateStart)} - ${this.formatDate(project.dateEnd)}
+                </p>
+
+                <!-- DESCRIPTION -->
+                <p class="projectDescription">
+                    ${project.description?.get(language) || ""}
+                </p>
+
+                <!-- META -->
+                <div class="projectMeta">
+
+                    <!-- LANGUAGES -->
+                    <div class="projectBlock">
+
+                        <h4 class="projectBlockTitle">
+                            ${TEXT.HARD_SKILLS || "Languages"}
+                        </h4>
+
+                        <div class="projectLanguages">
+                            ${project.languages?.map(lang => `
+                                <span class="tag">
+                                    ${lang.title?.get(language) || ""}
+                                </span>
+                            `).join("")}
+                        </div>
+
+                    </div>
+
+                    <!-- CATEGORIES -->
+                    <div class="projectBlock">
+
+                        <h4 class="projectBlockTitle">
+                            ${TEXT.CATEGORIES || "Categories"}
+                        </h4>
+
+                        <div class="projectCategories">
+                            ${project.categories?.map(cat => `
+                                <span class="tag">
+                                    ${cat.title?.get(language) || ""}
+                                </span>
+                            `).join("")}
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        `).join("")}
+
+    </div>
+
+</div>
+
+<div class="qrContainer">
+    <img src="${qrCodeImage}" class="pdfQR" />
+</div>
+
+
+</div>
+
+    </main>
+
+    <footer id="footer"></footer>
+
+</div>
+</body>
+</html>
+            `
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            // *********** VERSION ORIGINAL!!!! ***********
+            // Generar HTML
+            const html2 = `
                     <html>
                         <head>
                             <style>
@@ -445,7 +1279,8 @@ class PDFController {
                         </body>
                         </html>
             `
-            const browser = await puppeteer.launch({ headless: true,
+            const browser = await puppeteer.launch({
+                headless: true,
                 args: ['--no-sandbox', '--disable-setuid-sandbox']
             });
             const page = await browser.newPage();
