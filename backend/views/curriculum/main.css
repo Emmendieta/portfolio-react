@@ -89,14 +89,73 @@
 
 /* --------------- EDUCATIONS --------------- */
 
+
+/* --------------- EDUCATIONS --------------- */
+
+/* Evitar que el título "ACADEMIC_FORMATION" se quede solo en una página */
+.academicFormationTitle {
+    page-break-before: avoid;
+}
+
+/* Evitar que el grupo de educación se divida entre páginas */
 .educationGroup {
     break-inside: avoid;
     page-break-inside: avoid;
     padding-top: 10px;
 }
 
-#academicFormationTitle {
-    page-break-before: avoid; 
+/* Aplicar márgenes específicos a la lista de educaciones */
+.pdfListSecTitleEdu, .educationSecTitle {
+    margin: 15px 30px;
+}
+
+/* Evitar que los li se dividan entre páginas */
+.pdfListLiEdu {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    display: flex;
+    flex-direction: column;
+    padding-left: 25px;
+    margin-bottom: 10px;
+}
+
+.pdfListLiEdu::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    background: black;
+    border-radius: 50%;
+}
+
+/* Aplicar márgenes específicos para el último y primer li en la página */
+
+.pdfListLiEdu:last-child {
+    margin-bottom: 60px; /* Margen inferior para el último elemento de la página */
+    page-break-after: auto; /* Solo se romperá si el espacio es insuficiente */
+}
+
+.pdfListLiEdu:first-child {
+    margin-top: 30px; /* Margen superior para el primer elemento de la página */
+}
+
+/* Asegurarse de que los márgenes no se acumulen en los márgenes entre páginas */
+.pdfListUl {
+    list-style: none;
+    margin: 0;
+    padding-left: 30px;
+}
+
+.pdfListSecUlEdu {
+    margin-left: 60px;
+}
+
+/* Evitar que los elementos de texto como títulos y párrafos se dividan entre páginas */
+.title, .pdfListLiEdu p {
+    margin-top: 3px;
+    margin-bottom: 3px;
 }
 
 /* --------------- PROYECTS --------------- */

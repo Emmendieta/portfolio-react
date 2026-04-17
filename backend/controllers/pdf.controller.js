@@ -270,32 +270,31 @@ class PDFController {
                 </div>
 
                 <!-- EDUCATIONS -->
-                <div id ="pdfList">
-                    <section id="pdfListSecTitle">
-                        <h2>${TEXT.ACADEMIC_FORMATION}</h2>
+                <div id="pdfListEdu">
+                    <section class="pdfListSecTitleEdu">
+                        <h2 class="academicFormationTitle">${TEXT.ACADEMIC_FORMATION}</h2>
                     </section>
-                    <section id="pdfListSecUl">
+                    <section class="pdfListSecUlEdu">
                         ${EDUCATION_ORDER.filter(type => groupedEducations[type]).map(type => `
                             <div class="educationGroup">
                                 <!-- TITLE -->
                                 <section class="educationSecTitle">
-                                    <h2 class="educationType"> ${TEXT.TYPE_LABELS?.[type]?.[language] || type} </h2>
+                                    <h2 class="educationType">${TEXT.TYPE_LABELS?.[type]?.[language] || type}</h2>
                                 </section>
                                 <!-- LIST -->
                                 <section class="pdfListSecUl">
                                     <ul class="pdfListUl">
                                         ${groupedEducations[type].map(edu => `
-                                            <li class="pdfListLi">
-                                                <h3 class="title"> ${edu.title?.get?.(language) || ""} </h3>
-                                                <p> ${edu.institutionName?.get?.(language) || ""} </p>
-                                                <p class="date"> ${this.formatDate(edu.dateStart)} - ${this.formatDate(edu.dateEnd)} </p>
+                                            <li class="pdfListLiEdu">
+                                                <h3 class="title">${edu.title?.get?.(language) || ""}</h3>
+                                                <p>${edu.institutionName?.get?.(language) || ""}</p>
+                                                <p class="date">${this.formatDate(edu.dateStart)} - ${this.formatDate(edu.dateEnd)}</p>
                                             </li>
                                         `).join("")}
                                     </ul>
                                 </section>
                             </div>
-                        `).join("")
-                        }
+                        `).join("")}
                     </section>
                 </div>
 
@@ -438,3 +437,50 @@ class PDFController {
 const pdfController = new PDFController();
 
 export default pdfController;
+
+/* EDUCATION ANTES DE LA NUEVOS IDS */
+/* 
+                <!-- EDUCATIONS -->
+                <div id ="pdfList">
+                    <section id="pdfListSecTitleEdu">
+                        <h2 id="academicFormationTitle">${TEXT.ACADEMIC_FORMATION}</h2>
+                    </section>
+                    <section id="pdfListSecUl">
+                        ${EDUCATION_ORDER.filter(type => groupedEducations[type]).map(type => `
+                            <div class="educationGroup">
+                                <!-- TITLE -->
+                                <section class="educationSecTitle">
+                                    <h2 class="educationType"> ${TEXT.TYPE_LABELS?.[type]?.[language] || type} </h2>
+                                </section>
+                                <!-- LIST -->
+                                <section class="pdfListSecUl">
+                                    <ul class="pdfListUl">
+                                        ${groupedEducations[type].map(edu => `
+                                            <li class="pdfListLi">
+                                                <h3 class="title"> ${edu.title?.get?.(language) || ""} </h3>
+                                                <p> ${edu.institutionName?.get?.(language) || ""} </p>
+                                                <p class="date"> ${this.formatDate(edu.dateStart)} - ${this.formatDate(edu.dateEnd)} </p>
+                                            </li>
+                                        `).join("")}
+                                    </ul>
+                                </section>
+                            </div>
+                        `).join("")
+                        }
+                    </section>
+                </div> 
+                
+                
+
+                ESTILOS
+.educationGroup {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    padding-top: 10px;
+}
+
+#academicFormationTitle {
+    page-break-before: avoid; 
+}
+    
+*/
