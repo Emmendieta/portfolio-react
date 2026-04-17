@@ -1,0 +1,81 @@
+#header {
+    display: flex;
+    width: 100%;
+    height: 180px;
+    background: linear-gradient(to right,
+        #929292 0%,
+        #bdbdbd 25%,
+        #ffffff 50%,
+        #bdbdbd 75%,
+        #929292 100%);
+}
+
+#header section {
+    width: 33.33%;
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* LEFT */
+
+#hdNameWork, #hdWorkTitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 20px;
+}
+
+#hdName h1 {
+    text-align: center;
+    font-size: large;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+#hdWorkTitle h3 {
+    text-align: center;
+    font-size: medium;
+    font-weight: normal;
+    color: white;
+}
+
+/* CENTER */
+
+#hdImage {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#hdImg {
+    height: 100%; 
+    width: auto;    
+    object-fit: cover;
+}
+
+/* RIGHT*/
+
+#hdPersonalInfo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#hdPersonalInfoBox {
+    display: flex;
+    flex-direction: column;
+    width: 85%;
+}
+
+#hdPersonalInfoBox h3 {
+    font-weight: normal;
+    font-size: 12px;
+    text-align: left;
+    margin-top: 5px;
+}
