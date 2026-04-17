@@ -40,7 +40,7 @@ class PDFController {
     };
 
     getProyects = async () => {
-        const populateFields =["languages", "categories"];
+        const populateFields = ["languages", "categories"];
         const proyects = await this.proService.readAllAndPopulate(populateFields);
         return proyects || [];
     };
@@ -79,14 +79,14 @@ class PDFController {
                     this.getCategories()
                 ]);
 
-                console.log("PROYECTOS", proyects);
+            console.log("PROYECTOS", proyects);
             return { person, users, educations, languages, proyects, socialMedias, works, categories };
         } catch (error) {
             console.error("Error in getAll: ", error);
             throw error;
         }
     };
-    
+
 
     getAllEndpoint = async (req, res) => {
         try {
@@ -133,18 +133,31 @@ class PDFController {
             const TEXT = LANG_PDF[language] || LANG_PDF["en"];
             const { person, users, educations, languages, works, proyects } = await this.getAll();
 
-            const EDUCATION_ORDER = {
+/*             const EDUCATION_ORDER = {
                 "Course": 1,
                 "University": 2,
                 "High School": 3,
                 "Primary School": 4,
                 "Conference": 5,
                 "Other": 6
-            };
+            }; */
+
+            const EDUCATION_ORDER = [
+    "Course",
+    "University",
+    "High School",
+    "Primary School",
+    "Conference",
+    "Other"
+];
 
             // Ordenar educaciones
-            const sortedEducations = [...(educations || [])].sort(
+            /* const sortedEducations = [...(educations || [])].sort(
                 (a, b) => (EDUCATION_ORDER[a.typeEducation] || 99) - (EDUCATION_ORDER[b.typeEducation] || 99)
+            ); */
+
+            const sortedEducations = [...(educations || [])].sort((a, b) =>
+                new Date(b.dateStart) - new Date(a.dateStart)
             );
 
             // Agrupar educaciones por tipo
@@ -170,11 +183,9 @@ class PDFController {
             });
 
             // Ordenar trabajos
-            const sortedWorks = [...(works || [])].sort((a, b) => {
-                const dateA = new Date(a.dateEnd || a.dateStart);
-                const dateB = new Date(b.dateEnd || b.dateStart);
-                return dateB - dateA;
-            });
+            const sortedWorks = [...(works || [])].sort((a, b) =>
+                new Date(b.dateStart) - new Date(a.dateStart)
+            );
 
             //Para separar en dos columnas los trabajos:
             const mid = Math.ceil(sortedWorks.length / 2);
@@ -202,6 +213,14 @@ class PDFController {
 .page-section {
     break-inside: avoid;
     page-break-inside: avoid;
+}
+
+body {
+    padding-bottom: 60px;
+}
+
+main {
+  margin-bottom: 80px; /* o más según altura del footer */
 }
 
 /* ================= HEADER ================= */
@@ -292,50 +311,44 @@ class PDFController {
     color: #2c3e50;
 }
 
-/* ------------------ WORKS ------------------ */
-
-#worksContainer {
-    display: flex;
-    justify-content: space-between;
-    gap: 40px;
-    padding: 0 30px;
-}
-
 #pdfWorks {
     margin-top: 20px;
 }
 
+/* HEADER */
 #pdfWorksSec {
-    margin: 20px 30px 20px 30px; /* arriba | derecha | abajo | izquierda */
+    margin: 20px 40px 10px 40px; /* más aire lateral real */
 }
 
 #pdfWorksSec h2 {
     margin: 0;
 }
 
-/* COLUMNAS */
-.column {
-    width: 50%;
-    list-style: none;
-    padding: 0;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* 🔥 ESTO ES LA CLAVE */
+/* CONTENEDOR */
+#worksContainer {
+    padding: 0 40px; /* 🔥 clave: margen real de contenido */
 }
 
-/* ITEMS */
+/* LISTA */
+.column {
+    width: 100%;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* ITEM */
 .column li {
     position: relative;
-    padding-left: 25px;
-    margin-bottom: 15px;
+    padding-left: 30px; /* 🔥 más espacio para no quedar pegado */
+    margin-bottom: 18px;
 }
 
 /* PUNTO */
 .column li::before {
     content: "";
     position: absolute;
-    left: 0;
+    left: 8px; /* 🔥 antes estaba muy al borde */
     top: 8px;
     width: 10px;
     height: 10px;
@@ -347,14 +360,14 @@ class PDFController {
 .column li::after {
     content: "";
     position: absolute;
-    left: 4px;
+    left: 12px;
     top: 18px;
     width: 2px;
     height: calc(100% + 10px);
     background: #999;
 }
 
-/* ÚLTIMO ITEM SIN LINEA */
+/* ÚLTIMO ITEM */
 .column li:last-child::after {
     display: none;
 }
@@ -369,7 +382,7 @@ class PDFController {
     font-size: 0.9rem;
     color: #555;
 }
-
+    
 /* ------------------ EDUCATIONS ------------------- */
 
 #pdfEducations {
@@ -701,6 +714,11 @@ class PDFController {
     z-index: 9999;
 }
 
+#mainId {
+    padding-bottom: 90px;
+    margin-bottom: 90px;
+}
+
 </style>
 </head>
 
@@ -739,49 +757,31 @@ class PDFController {
 
     </header>
 
-    <main>
+    <main id="mainId">
 <!-- WORKS -->
 <div id="pdfWorks">
     <section id="pdfWorksSec">
         <h2>${TEXT.PROFESSIONAL_EXPERIENCE}</h2>
     </section>
 
-    <div id="worksContainer">
+    <ul class="column">
+        ${sortedWorks.map(work => `
+            <li>
+                <h3 class="jobTitle">
+                    ${work.jobTitle?.get(language) || ""}
+                </h3>
+                <p>${work.company?.get(language) || ""}</p>
+                <p class="date">
+                    ${this.formatDate(work.dateStart)} - ${this.formatDate(work.dateEnd)}
+                </p>
+            </li>
+        `).join("")}
+    </ul>
 
-        <!-- IZQUIERDA -->
-        <ul class="column">
-            ${leftWorks.map(work => `
-                <li>
-                    <h3 class="jobTitle">
-                        ${work.jobTitle?.get(language) || ""}
-                    </h3>
-                    <p>${work.company?.get(language) || ""}</p>
-                    <p class="date">
-                        ${this.formatDate(work.dateStart)} - ${this.formatDate(work.dateEnd)}
-                    </p>
-                </li>
-            `).join("")}
-        </ul>
+</div>
 
-        <!-- DERECHA -->
-        <ul class="column">
-            ${rightWorks.map(work => `
-                <li>
-                    <h3 class="jobTitle">
-                        ${work.jobTitle?.get(language) || ""}
-                    </h3>
-                    <p>${work.company?.get(language) || ""}</p>
-                    <p class="date">
-                        ${this.formatDate(work.dateStart)} - ${this.formatDate(work.dateEnd)}
-                    </p>
-                </li>
-            `).join("")}
-        </ul>
-
-    </div>
-
-<!-- EDUCATIONS -->
-<div id="pdfEducations" class="page-section">
+<!-- EDUCATIONS VIEJO -->
+<!-- <div id="pdfEducations" class="page-section">
 
     <section id="pdfEducationsSec">
         <h2>${TEXT.ACADEMIC_FORMATION}</h2>
@@ -817,7 +817,41 @@ class PDFController {
         </section>
     `).join("")}
 
-</div>
+</div> -->
+
+
+<!-- EDUCATIONS -->
+${EDUCATION_ORDER
+    .filter(type => groupedEducations[type])
+    .map(type => `
+        <section class="educationGroup">
+
+            <h3 class="educationType">
+                ${TEXT.TYPE_LABELS[type][language]}
+            </h3>
+
+            <ul class="educationColumn">
+                ${groupedEducations[type].map(edu => `
+                    <li>
+                        <div class="educationContent">
+                            <div class="educationTitle">
+                                ${edu.title?.get(language) || ""}
+                            </div>
+
+                            <div>
+                                ${edu.institutionName?.get(language) || ""}
+                            </div>
+
+                            <div class="educationDate">
+                                ${this.formatDate(edu.dateStart)} - ${this.formatDate(edu.dateEnd)}
+                            </div>
+                        </div>
+                    </li>
+                `).join("")}
+            </ul>
+
+        </section>
+    `).join("")}
 
 <!-- SKILLS -->
 <div id="pdfSkills" class="page-section">
@@ -870,7 +904,7 @@ class PDFController {
                     </div>
 
                     <div class="softBars">
-                        ${[1,2,3,4].map(i => `
+                        ${[1, 2, 3, 4].map(i => `
                             <div class="softBar ${i <= level ? "active" : ""}"></div>
                         `).join("")}
                     </div>
@@ -986,7 +1020,7 @@ ${driverLicenses.length ? `
 
     </main>
 
-    <footer id="footer"></footer>
+   <!-- <footer id="footer"></footer> -->
 
 </div>
 </body>
@@ -1285,7 +1319,14 @@ ${driverLicenses.length ? `
             });
             const page = await browser.newPage();
             await page.setContent(html, { waitUntil: "networkidle0" });
-            const pdfBuffer = await page.pdf({ format: "A4", printBackground: true });
+            //const pdfBuffer = await page.pdf({ format: "A4", printBackground: true });
+            const pdfBuffer = await page.pdf({
+    format: "A4",
+    printBackground: true,
+    margin: {
+        bottom: "60px",
+    }
+});
             await browser.close();
 
             // Enviar PDF al frontend
