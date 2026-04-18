@@ -1,0 +1,103 @@
+/* --------------- SKILLS --------------- */
+
+#pdfSkills {
+    padding-top: 30px;
+    margin-bottom: 30px;
+}
+
+/* TITULO PRINCIPAL */
+#pdfListSecTitleSkills {
+    margin: 7px 30px;
+}
+
+#pdfListSecTitleSkills h2 {
+    font-weight: bold;
+    text-decoration: underline;
+    font-size: larger;
+}
+
+/* BLOQUES */
+.skillsSection {
+    margin-top: 15px;
+    break-inside: avoid;
+}
+
+/* TITULOS INTERNOS */
+.skillsTitle {
+    margin: 10px 30px;
+    font-weight: bold;
+}
+
+/* GRID BASE */
+.skillsGrid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 0 30px;
+    box-sizing: border-box;
+}
+
+/* -------- HARD SKILLS -------- */
+.hardGrid .skillItem {
+    width: 45%;
+}
+
+/* -------- SOFT SKILLS -------- */
+.softGrid {
+    gap: 25px 50px;
+}
+
+.softSkillItem {
+    width: calc(33.33% - 50px);
+    text-align: center;
+}
+
+/* NOMBRE */
+.skillName {
+    font-size: 0.95rem;
+    margin-bottom: 5px;
+}
+
+/* -------- HARD BAR -------- */
+.skillBar {
+    width: 100%;
+    height: 8px;
+    background: #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.skillBarFill {
+    height: 100%;
+    background: #1e5631;
+}
+
+/* -------- SOFT BARS -------- */
+.softBars {
+    display: flex;
+    gap: 5px;
+}
+
+.softBar {
+    flex: 1;
+    height: 8px;
+    background: #ddd;
+    border-radius: 3px;
+}
+
+.softBar.active {
+    background: #1e5631;
+}
+
+/* -------- LICENSES -------- */
+.skillsGrid.licenseGrid {
+    display: flex;
+    justify-content: center;
+    padding: 0 30px;
+}
+
+.licenseItem {
+    font-size: 0.95rem;
+    text-align: center;
+}

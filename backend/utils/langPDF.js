@@ -24,6 +24,7 @@ export const LANG_PDF = {
         TITLE: "Título: ",
         LANGUAGE: "Lenguage",
         LANGUAGE2: "Idioma",
+        PORTFOLIO: "Porfolio:",
         TYPE_LABELS: {
             "Primary School": { es: "Escuela primaria:", en: "Primary School:" },
             "High School": { es: "Secundario:", en: "High School:" },
@@ -59,6 +60,7 @@ export const LANG_PDF = {
         TITLE: "Title: ",
         LANGUAGE: "Language",
         LANGUAGE2: "Language",
+        PORTFOLIO: "Porfolio:",
         TYPE_LABELS: {
             "Primary School": { en: "Primary School:", es: "Escuela primaria:" },
             "High School": { en: "High School:", es: "Secundario:" },

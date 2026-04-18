@@ -1,0 +1,73 @@
+/* --------------- WORKS --------------- */
+
+#pdfList {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#pdfListSecTitle, #pdfListSecTitleEdu {
+    margin: 15px 30px;
+}
+
+#pdfListSecTitle h2, #pdfListSecTitleEdu h2 {
+    font-weight: bold;
+    text-decoration: underline;
+    font-size: larger;
+}
+
+.pdfListSecUl {
+    margin-left: 60px;
+}
+
+.pdfListUl {
+    list-style: none;
+    margin: 0;
+    padding-left: 30px;
+}
+
+.pdfListLi {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding-left: 25px;
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+/* PUNTO CENTRADO DE LA LISTA */
+
+.pdfListLi::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    background: black;
+    border-radius: 50%;
+}
+
+.pdfListLi:last-child {
+    page-break-after: auto; /* Solo se romperá si el espacio es insuficiente */
+    margin-bottom: 0;
+}
+
+/* LINEA CENTRADO EN EL PUNTO DE LA LISTA */
+
+.pdfListLi::after {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 16px;
+    bottom: 0;
+    width: 2px;
+    background: #999;
+}
+
+.title,
+.pdfListLi p {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}

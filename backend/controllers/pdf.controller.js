@@ -147,6 +147,10 @@ class PDFController {
             //CSSs:
             const headerCSS = this.getCSS("header.css");
             const mainCSS = this.getCSS("main.css");
+            const worksCSS = this.getCSS("works.css");
+            const educationsCSS = this.getCSS("educations.css");
+            const skillsCSS = this.getCSS("skills.css");
+            const proyectsCSS = this.getCSS("proyects.css");
             const footerCSS = this.getCSS("footer.css");
 
             const EDUCATION_ORDER = [
@@ -217,6 +221,10 @@ class PDFController {
         <style>
             ${headerCSS}
             ${mainCSS}
+            ${worksCSS}
+            ${educationsCSS}
+            ${skillsCSS}
+            ${proyectsCSS}
             ${footerCSS}
         </style>
     </head>
@@ -256,7 +264,7 @@ class PDFController {
                     <section id="pdfListSecTitle">
                         <h2>${TEXT.PROFESSIONAL_EXPERIENCE}</h2>
                     </section>
-                    <section id="pdfListSecUl">
+                    <section class="pdfListSecUl">
                         <ul class="pdfListUl">
                             ${sortedWorks.map(work => `
                                 <li class="pdfListLi">
@@ -271,24 +279,24 @@ class PDFController {
 
                 <!-- EDUCATIONS -->
                 <div id="pdfListEdu">
-                    <section class="pdfListSecTitleEdu">
-                        <h2 class="academicFormationTitle">${TEXT.ACADEMIC_FORMATION}</h2>
+                    <section id="pdfListSecTitleEdu">
+                        <h2 class="academicFormationTitleEdu">${TEXT.ACADEMIC_FORMATION}</h2>
                     </section>
-                    <section class="pdfListSecUlEdu">
+                    <section class="pdfListSecUlEduContainer">
                         ${EDUCATION_ORDER.filter(type => groupedEducations[type]).map(type => `
-                            <div class="educationGroup">
+                            <div class="educationGroupEdu">
                                 <!-- TITLE -->
-                                <section class="educationSecTitle">
-                                    <h2 class="educationType">${TEXT.TYPE_LABELS?.[type]?.[language] || type}</h2>
+                                <section class="educationSecTitleEdu">
+                                    <h2 class="educationTypeEdu">${TEXT.TYPE_LABELS?.[type]?.[language] || type}</h2>
                                 </section>
                                 <!-- LIST -->
-                                <section class="pdfListSecUl">
-                                    <ul class="pdfListUl">
+                                <section class="pdfListSecUlEdu">
+                                    <ul class="pdfListUlEdu">
                                         ${groupedEducations[type].map(edu => `
                                             <li class="pdfListLiEdu">
-                                                <h3 class="title">${edu.title?.get?.(language) || ""}</h3>
-                                                <p>${edu.institutionName?.get?.(language) || ""}</p>
-                                                <p class="date">${this.formatDate(edu.dateStart)} - ${this.formatDate(edu.dateEnd)}</p>
+                                                <h3 class="titleEdu">${edu.title?.get?.(language) || ""}</h3>
+                                                <p class="institutionNameEdu">${edu.institutionName?.get?.(language) || ""}</p>
+                                                <p class="dateEdu">${this.formatDate(edu.dateStart)} - ${this.formatDate(edu.dateEnd)}</p>
                                             </li>
                                         `).join("")}
                                     </ul>
@@ -300,7 +308,7 @@ class PDFController {
 
                 <!-- SKILLS -->
                 <div id="pdfSkills" class="page-section">
-                    <section id="pdfListSecTitle">
+                    <section id="pdfListSecTitleSkills">
                         <h2>${TEXT.ABILITIES}</h2>
                     </section>
                     ${hardSkills.length ? `
@@ -362,16 +370,16 @@ class PDFController {
 
                 <!-- PROJECTS -->
                 <div id="pdfProjects" class="page-section">
-                    <section id="pdfListSecTitle">
+                    <section id="pdfListSecTitleProyects">
                         <h2>${TEXT.PROYECTS}</h2>
-                    </section>
+                    </section>                                            
                     <div id="projectsContainer">
                         ${proyects.map(project => `
-                            <div id="pdfListSecUl">
+                            <div class="projectItem">
                                 <h3>${project.title?.get(language) || ""}:</h3>
-                                <p>${project.company?.get(language) || ""} </p>
+                                <p>${project.company?.get(language) || ""}</p>
                                 <p>${this.formatDate(project.dateStart)} - ${this.formatDate(project.dateEnd)}</p>
-                                <p class="pDescription">${project.description?.get(language) || ""}</p>
+                                <p class="pDescription">${project.description?.get(language) || ""}</p>                       
                                 <div class="projectMeta">
                                     <div class="projectBlock">
                                         <h4 class="projectBlockTitle">${TEXT.HARD_SKILLS || "Languages"}</h4>
@@ -380,7 +388,7 @@ class PDFController {
                                                 <span class="tag">${lang.title?.get(language) || ""}</span>
                                             `).join("")}
                                         </div>
-                                    </div>
+                                    </div>                                           
                                     <div class="projectBlock">
                                         <h4 class="projectBlockTitle">${TEXT.CATEGORIES || "Categories"}</h4>
                                         <div class="projectCategories">
@@ -392,16 +400,14 @@ class PDFController {
                                 </div>
                             </div>
                         `).join("")}
+                    </div>                                            
                 </div>
-            </div>                
 
-            <!-- QR -->
-            <div class="qrContainer">
-                <img src="${qrCodeImage}" class="pdfQR" />
-            </div>
-
-            <footer id="footer"></footer>
-
+                <!-- QR -->
+                <div class="qrContainer">
+                    <h1 id="titlePortfolioQr">${TEXT.PORTFOLIO}</h1>
+                    <img src="${qrCodeImage}" class="pdfQR" />
+                </div>
             </main>
     </body>
 </html>
@@ -416,7 +422,10 @@ class PDFController {
             //const pdfBuffer = await page.pdf({ format: "A4", printBackground: true });
             const pdfBuffer = await page.pdf({
                 format: "A4",
-                printBackground: true
+                printBackground: true,
+                margin: {
+                    bottom: "30px"
+                }
             });
             await browser.close();
 
@@ -437,50 +446,3 @@ class PDFController {
 const pdfController = new PDFController();
 
 export default pdfController;
-
-/* EDUCATION ANTES DE LA NUEVOS IDS */
-/* 
-                <!-- EDUCATIONS -->
-                <div id ="pdfList">
-                    <section id="pdfListSecTitleEdu">
-                        <h2 id="academicFormationTitle">${TEXT.ACADEMIC_FORMATION}</h2>
-                    </section>
-                    <section id="pdfListSecUl">
-                        ${EDUCATION_ORDER.filter(type => groupedEducations[type]).map(type => `
-                            <div class="educationGroup">
-                                <!-- TITLE -->
-                                <section class="educationSecTitle">
-                                    <h2 class="educationType"> ${TEXT.TYPE_LABELS?.[type]?.[language] || type} </h2>
-                                </section>
-                                <!-- LIST -->
-                                <section class="pdfListSecUl">
-                                    <ul class="pdfListUl">
-                                        ${groupedEducations[type].map(edu => `
-                                            <li class="pdfListLi">
-                                                <h3 class="title"> ${edu.title?.get?.(language) || ""} </h3>
-                                                <p> ${edu.institutionName?.get?.(language) || ""} </p>
-                                                <p class="date"> ${this.formatDate(edu.dateStart)} - ${this.formatDate(edu.dateEnd)} </p>
-                                            </li>
-                                        `).join("")}
-                                    </ul>
-                                </section>
-                            </div>
-                        `).join("")
-                        }
-                    </section>
-                </div> 
-                
-                
-
-                ESTILOS
-.educationGroup {
-    break-inside: avoid;
-    page-break-inside: avoid;
-    padding-top: 10px;
-}
-
-#academicFormationTitle {
-    page-break-before: avoid; 
-}
-    
-*/

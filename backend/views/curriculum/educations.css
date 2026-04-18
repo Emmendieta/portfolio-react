@@ -1,0 +1,89 @@
+/* --------------- EDUCATIONS --------------- */
+
+/* CONTENEDOR GENERAL */
+#pdfListEdu {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* TITULO */
+#pdfListSecTitleEdu {
+    margin: 15px 30px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+#pdfListSecTitleEdu h2 {
+    font-weight: bold;
+    text-decoration: underline;
+    font-size: larger;
+}
+
+/* TITULO DE CADA TIPO DE EDUCATION */
+.educationTypeEdu {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: large;
+}
+
+/* CONTENEDOR LISTA */
+.pdfListSecUlEduContainer {
+    margin-left: 60px;
+    padding-bottom: 30px;
+}
+
+/* LISTA */
+.pdfListUlEdu {
+    list-style: none;
+    margin: 0;
+    padding-left: 30px;
+}
+
+/* ---------------- LI ---------------- */
+/* LI DE LISTA  */
+.pdfListLiEdu {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding-left: 25px;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: 10px;
+}
+
+/* BULLET COMO WORKS */
+.pdfListLiEdu::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    background: black;
+    border-radius: 50%;
+}
+
+/* LINEA VERTICAL EN LI */
+.pdfListLiEdu::after {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 16px;
+    bottom: 0;
+    width: 2px;
+    background: #999;
+}
+
+/* ESPACIO INTERNO LI Y TITULO */
+.titleEdu,
+.pdfListLiEdu p {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+/* ULTIMO ITEM DE LI */
+.pdfListLiEdu:last-child {
+    margin-bottom: 0;
+}

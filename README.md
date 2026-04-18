@@ -782,3 +782,49 @@ a little readme
 
 
 ### FIN MAIN CSS VIEJO
+
+
+#HTML NUEVO
+
+
+<!-- PROJECTS -->
+                <div id="pdfProjects" class="page-section">
+                    <section id="pdfListSecTitleProyects">
+                        <h2>${TEXT.PROYECTS}</h2>
+                    </section>
+                    <div id="projectsContainer">
+                        ${proyects.map(project => `
+                            <div class="projectItem">
+                                <h3>${project.title?.get(language) || ""}:</h3>
+                                <p>${project.company?.get(language) || ""} </p>
+                                <p>${this.formatDate(project.dateStart)} - ${this.formatDate(project.dateEnd)}</p>
+                                <p class="pDescription">${project.description?.get(language) || ""}</p>
+                                <div class="projectMeta">
+                                    <div class="projectBlock">
+                                        <h4 class="projectBlockTitle">${TEXT.HARD_SKILLS || "Languages"}</h4>
+                                        <div class="projectLanguages">
+                                            ${project.languages?.map(lang => `
+                                                <span class="tag">${lang.title?.get(language) || ""}</span>
+                                            `).join("")}
+                                        </div>
+                                    </div>
+                                    <div class="projectBlock">
+                                        <h4 class="projectBlockTitle">${TEXT.CATEGORIES || "Categories"}</h4>
+                                        <div class="projectCategories">
+                                            ${project.categories?.map(cat => `
+                                                <span class="tag">${cat.title?.get(language) || ""}</span>
+                                            `).join("")}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join("")}
+                    </div>
+                </div>
+
+                
+
+            <!-- QR -->
+            <div class="qrContainer">
+                <img src="${qrCodeImage}" class="pdfQR" />
+            </div>
