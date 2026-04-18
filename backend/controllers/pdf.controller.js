@@ -276,7 +276,7 @@ class PDFController {
                                 <li class="pdfListLi">
                                     <h3 class="title">${work.jobTitle?.get(language) || ""} </h3>
                                     <p>${work.company?.get(language) || ""}</p>
-                                    <p class="date"> ${this.formatDate(work.dateStart)} -  ${work.dateEnd ? this.formatDate(work.dateEnd) :TEXT.CONTINUE} </p>
+                                    <p class="date"> ${this.formatDate(work.dateStart)} -  ${work.dateEnd ? this.formatDate(work.dateEnd) :TEXT.CONTINUES} </p>
                                 </li>
                             `).join("")}
                         </ul>
