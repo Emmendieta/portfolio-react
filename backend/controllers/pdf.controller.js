@@ -54,7 +54,8 @@ class PDFController {
 
     getProyects = async () => {
         const populateFields = ["languages", "categories"];
-        const proyects = await this.proService.readAllAndPopulate(populateFields);
+        let proyects = await this.proService.readAllAndPopulate(populateFields);
+        proyects = proyects.sort((a, b) => new Date(b.dateStart) - new Date(a.dateStart)) || [];
         return proyects || [];
     };
 
@@ -189,9 +190,14 @@ class PDFController {
             });
 
             // Ordenar trabajos
-            const sortedWorks = [...(works || [])].sort((a, b) =>
-                new Date(b.dateStart) - new Date(a.dateStart)
-            );
+            const sortedWorks = [...(works || [])].sort((a, b) => {
+                // Si uno de los trabajos no tiene fecha final, debe ir primero
+                if (!a.dateEnd && b.dateEnd) return -1;  // A (sin fecha final) debe ir antes de B
+                if (a.dateEnd && !b.dateEnd) return 1;   // B (sin fecha final) debe ir antes de A
+
+                // Si ambos tienen fecha final, se ordenan de los más nuevos a los más viejos
+                return new Date(b.dateStart) - new Date(a.dateStart);
+            });
 
             //Para separar en dos columnas los trabajos:
             const mid = Math.ceil(sortedWorks.length / 2);
@@ -270,7 +276,7 @@ class PDFController {
                                 <li class="pdfListLi">
                                     <h3 class="title">${work.jobTitle?.get(language) || ""} </h3>
                                     <p>${work.company?.get(language) || ""}</p>
-                                    <p class="date"> ${this.formatDate(work.dateStart)} - ${this.formatDate(work.dateEnd)} </p>
+                                    <p class="date"> ${this.formatDate(work.dateStart)} -  ${work.dateEnd ? this.formatDate(work.dateEnd) :TEXT.CONTINUE} </p>
                                 </li>
                             `).join("")}
                         </ul>
@@ -296,7 +302,7 @@ class PDFController {
                                             <li class="pdfListLiEdu">
                                                 <h3 class="titleEdu">${edu.title?.get?.(language) || ""}</h3>
                                                 <p class="institutionNameEdu">${edu.institutionName?.get?.(language) || ""}</p>
-                                                <p class="dateEdu">${this.formatDate(edu.dateStart)} - ${this.formatDate(edu.dateEnd)}</p>
+                                                <p class="dateEdu">${this.formatDate(edu.dateStart)} - ${edu.dateEnd ? this.formatDate(edu.dateEnd) : TEXT.INCOMPLETE}</p>
                                             </li>
                                         `).join("")}
                                     </ul>
@@ -333,12 +339,12 @@ class PDFController {
                         <h3 class="skillsTitle">${TEXT.SOFT_SKILLS}</h3>
                         <div class="skillsGrid softGrid">
                             ${otherSoftSkills.map(skill => {
-                                    const percent = skill.percent || 0;
-                                    let level = 1;
-                                    if (percent > 25) level = 2;
-                                    if (percent > 50) level = 3;
-                                    if (percent > 75) level = 4;
-                                    return `
+                const percent = skill.percent || 0;
+                let level = 1;
+                if (percent > 25) level = 2;
+                if (percent > 50) level = 3;
+                if (percent > 75) level = 4;
+                return `
                                 <div class="softSkillItem">
                                     <div class="skillName">
                                         ${skill.title?.get(language) || ""}
@@ -350,7 +356,7 @@ class PDFController {
                                     </div>
                                 </div>
                                 `;
-                                }).join("")}
+            }).join("")}
                         </div>
                     </section>
                     ` : ""}
@@ -378,7 +384,7 @@ class PDFController {
                             <div class="projectItem">
                                 <h3>${project.title?.get(language) || ""}:</h3>
                                 <p>${project.company?.get(language) || ""}</p>
-                                <p>${this.formatDate(project.dateStart)} - ${this.formatDate(project.dateEnd)}</p>
+                                <p>${this.formatDate(project.dateStart)} - ${project.dateEnd ? this.formatDate(project.dateEnd) : TEXT.CONTINUES}</p>
                                 <p class="pDescription">${project.description?.get(language) || ""}</p>                       
                                 <div class="projectMeta">
                                     <div class="projectBlock">
