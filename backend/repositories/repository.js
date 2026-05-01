@@ -26,6 +26,7 @@ class Repository {
     readOneByFilter = async (filter) => await this.manager.readOneByFilter(filter);
     readByFilter = async (filter) => await this.manager.readByFilter(filter);
     updateById = async (id, data) => await this.manager.updateById(id, data);
+    updateMany = async (filter, data) => await this.manager.updateMany(filter, data);
     //Reordenar el orden de los elementos (drag and drop):
     updateOrder = async (orderedIds) => await this.manager.bulkUpdateOrder(orderedIds);
     readLastByOrder = async () => await this.manager.readLastByOrder();

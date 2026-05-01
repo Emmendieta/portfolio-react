@@ -39,3 +39,21 @@ export const exportPDF = async (lang) => {
         alert("Error exporting PDF");
     }
 };
+
+export const exportPDFWithDNI = async(lang) => {
+    try {
+        const baseUrl = `/pdf/export/pdfDNI?lang?${lang}`;
+        const response = await generatePDFData(baseUrl);
+        if(!response.ok) throw new Error("Error generating PDF with DNI");
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `Curriculum-Mendieta-Emiliano-Manuel-${lang}.pdf`;
+        a.click();
+        URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error("Error exporting PDF with DNI: ", error);
+        alert("Error exporting PDF")
+    }
+};

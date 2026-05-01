@@ -10,6 +10,7 @@ class PDFRouter extends RouterHelper {
     init = () => {
         this.read("/export/data", ["public"], pdfController.getAllEndpoint);
         this.read("/export/pdf", ["public"], pdfController.generatePDF);
+        this.read("/export/pdfDNI", ["public"], pdfController.generatePDFWithDNI);
     };
 };
 

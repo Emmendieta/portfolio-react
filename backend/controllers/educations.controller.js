@@ -6,16 +6,16 @@ class EducationsController {
         this.eService = educationsService;
     };
 
-    createEducation = async (req, res) => {
+        createEducation = async (req, res) => {
         const data = req.body;
         if (!data || !data.institutionName || !data.title || !data.dateStart || !data.typeEducation || !data.description) {
             res.json400("Missing Information!(C)");
         };
         const verifyEducation = await this.verifyEducationTitleTypeAndName(data.title, data.typeEducation, data.institutionName);
         if (verifyEducation === 1) { return res.json400("Error: Alredy exist an Education with the same Name of the Institucion, de Type of Education and the Title!(C)"); };
-        const lastEducation = await this.eService.readLastByOrder();
-        const nextOrder = lastEducation ? lastEducation.order + 1 : 0;
-        data.order = nextOrder;
+        //Actualizo el orden
+        await this.eService.updateMany({}, {$inc: { order: 1} });
+        data.order = 0;
         const education = await this.eService.createOne(data);
         if (!education) { return res.json400("Couldn't create the Education!(C)"); };
         res.json201(education);

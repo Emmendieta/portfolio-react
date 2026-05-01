@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react"
-import { fetchData, exportPDF } from "../PDF/pdfLogic.js";
+import { useContext, useEffect, useState } from "react"
+import { fetchData, exportPDF, exportPDFWithDNI } from "../PDF/pdfLogic.js";
 import { useConfirmSweet } from "../../../context/SweetAlert2Context";
 import { useLanguage } from "../../../context/LanguageContext";
 import { LANG_CONST } from "../../constants/selectConstLang.js";
 import "./pdf.css";
+import { UserContext } from "../../../context/UserContext.jsx";
 
 //GENERAR UN QR PARA IR A LA PAGINA PERSONAL!!!
 const PDFExportView = () => {
+    const { user } = useContext(UserContext);
     const [data, setData] = useState(null);
     const { errorSweet } = useConfirmSweet();
     const { language } = useLanguage();
@@ -196,6 +198,9 @@ const PDFExportView = () => {
             </div>
             <div id="pdfDivButton">
                 <button className="btn btn-outline-success" onClick={() => exportPDF(language)}>{TEXT.EXPORT_PDF}</button>
+                { user && (
+                    <button className="btn btn-outline-success" onClick={() => exportPDFWithDNI(language)}>{TEXT.EXPORT_PDF_DNI}</button>
+                )}
             </div>
         </div>
     );

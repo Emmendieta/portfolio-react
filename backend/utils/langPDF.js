@@ -27,6 +27,9 @@ export const LANG_PDF = {
         PORTFOLIO: "Porfolio:",
         CONTINUES: "Continua",
         INCOMPLETE: "Incompleto",
+        PERSONAL_ADDRESS: "Dirección Personal",
+        POSTAL_ADDRESS: "Dirección Postal",
+        PHONE: "Teléfono",
         TYPE_LABELS: {
             "Primary School": { es: "Escuela primaria:", en: "Primary School:" },
             "High School": { es: "Secundario:", en: "High School:" },
@@ -65,6 +68,9 @@ export const LANG_PDF = {
         PORTFOLIO: "Porfolio:",
         CONTINUES: "Continues",
         INCOMPLETE: "Incomplete",
+        PERSONAL_ADDRESS: "Personal Address",
+        POSTAL_ADDRESS: "Postal Address",
+        PHONE: "Phone",
         TYPE_LABELS: {
             "Primary School": { en: "Primary School:", es: "Escuela primaria:" },
             "High School": { en: "High School:", es: "Secundario:" },

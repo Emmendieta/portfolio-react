@@ -94,6 +94,7 @@ export const LOADING_PDF = "Loading PDF...";
 export const ACADEMIC_FORMATION = "Academic Formation: ";
 export const ABILITIES = "Abilities: ";
 export const EXPORT_PDF = "Export PDF";
+export const EXPORT_PDF_DNI = "Export PDF with DNI";
 
 //SWEET ALERT ERROR:
 export const ERROR_SWEET_ORDER_SAVE = `Error saving order: `;

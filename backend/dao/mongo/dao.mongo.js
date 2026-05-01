@@ -36,6 +36,7 @@ class DaoMongo {
     readByFilter = async (filter) => await this.model.find(filter);
     readOneByFilter = async (filter) => await this.model.findOne(filter);
     updateById = async (id, data) => await this.model.findByIdAndUpdate(id, data, { new: true });
+    updateMany = async(filter, data) => await this.model.updateMany(filter, data);
     //Reordenada con el drag and drop
     bulkUpdateOrder = async (orderedIds) => {
         if (!Array.isArray(orderedIds)) throw new Error("OrderedIds must be an array");
