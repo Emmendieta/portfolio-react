@@ -252,7 +252,7 @@ class PDFController {
                                         </section>
                                         <section id="hdPersonalInfo">
                                             <div id="hdPersonalInfoBox">
-                                                <h3>${TEXT.PERSONAL_ADDRESS}: Brown 274 ${person?.city || ""} - ${person?.province || ""} - ${person?.country || ""}</h3>
+                                                <h3>${TEXT.PERSONAL_ADDRESS}: ${person?.city || ""} - ${person?.province || ""} - ${person?.country || ""}</h3>
                                                 <h3>${TEXT.DATE_BIRTHDAY} ${person?.birthday ? this.formatDate(person.birthday) : ""}</h3>
                                                 <h3>${TEXT.EMAIL} ${users?.email || ""}</h3>
                                                 <h3>${TEXT.PHONE}: +${person?.phone || ""}</h3>

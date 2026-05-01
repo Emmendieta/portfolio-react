@@ -64,7 +64,7 @@ function EducationCard({ education, onDelete, isDraggable }) {
             <div className="educationDivBodyTop">
                 <GeneralFieldsDark label={TEXT.INSTITUTION} value={education.institutionName?.[language] || ""} language={language}/>
                 <GeneralFieldsDark label={TEXT.LINK_INSTITUTION}  value={education.linkInstitution} language={language} />
-                <GeneralFieldsDark label={TEXT.TITLE}  value={education.title?.[language] || ""} language={language}/>
+                <GeneralFieldsDark label={TEXT.TITLE_EDU}  value={education.title?.[language] || ""} language={language}/>
                 <GeneralFieldsDark label={TEXT.LINK_CERTIFICATE}  value={education.linkCertificate} language={language} />
                 <GeneralFieldsDark label={TEXT.DATE_START}  value={education.dateStart?.slice(0, 10)} language={language} />
                 <GeneralFieldsDark label={TEXT.DATE_END}  value={education.dateEnd?.slice(0, 10)} language={language} />

@@ -5,6 +5,7 @@ export const YES = "Yes";
 export const NO = "No";
 export const NAME = "Name ";
 export const TITLE = "Title ";
+export const TITLE_EDU = 'Title: ';
 export const LINK = "Link ";
 export const GO_BACK = "Go Back";
 export const CREATE = "Create";
