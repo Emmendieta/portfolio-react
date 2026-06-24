@@ -96,6 +96,10 @@ export const ACADEMIC_FORMATION = "Academic Formation: ";
 export const ABILITIES = "Abilities: ";
 export const EXPORT_PDF = "Export PDF";
 export const EXPORT_PDF_DNI = "Export PDF with DNI";
+export const TERM_COND = "Terms and Conditions:";
+export const ACCEPT_COND = "You must accept the Terms and Conditions and the use of cookies and local storage before using this website.";
+export const ACCEPT = "Accept";
+export const REJECT = "Reject";
 
 //SWEET ALERT ERROR:
 export const ERROR_SWEET_ORDER_SAVE = `Error saving order: `;
