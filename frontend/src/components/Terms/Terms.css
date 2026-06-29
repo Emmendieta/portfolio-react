@@ -1,0 +1,34 @@
+.terms_container {
+    display: flex;
+    flex-direction: column;
+    margin: 40px;
+}
+
+.terms_sect {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+}
+
+.terms_h1 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.terms_h2 {
+    margin-bottom: 10px;
+}
+
+.terms_p {
+    text-align: justify;
+    margin-top: 10px;
+}
+
+#terms_ul {
+    list-style: disc;
+}
+
+.terms_li {
+    margin-bottom: 15px;
+    list-style: disc;
+}

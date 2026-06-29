@@ -18,6 +18,9 @@ import Forbidden from "./components/body/Home/Forbidden/Forbidden";
 import MoreAboutMe from "./components/body/Home/Person/MoreAboutMe/MoreAboutMe";
 import ContactMe from "./components/body/Home/ContactMe/ContactMe";
 import PDFExportView from "./components/body/PDF/pdf";
+import CookieTermGuard from "./context/CookieTermGuard/CookieTermGuard";
+import Terms from "./components/Terms/Terms";
+import Privacy from "./components/PrivacyPol/Privacy";
 
 function AppRoutes() {
   const { loadingUser } = useContext(UserContext);
@@ -45,6 +48,8 @@ function AppRoutes() {
         <Route path="/forbidden" element={<Forbidden />} />
         <Route path="/contact-me" element={<ContactMe />} />
         <Route path="/pdf/export-view" element={<PDFExportView />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="privacy-policy" element={<Privacy />}/>
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
@@ -55,7 +60,9 @@ function App() {
   return (
     <UserProvider>
       <BrowserRouter>
+      <CookieTermGuard>
         <AppRoutes />
+      </CookieTermGuard>
       </BrowserRouter>
     </UserProvider>
   );
